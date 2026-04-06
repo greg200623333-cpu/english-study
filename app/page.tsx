@@ -1,188 +1,234 @@
+'use client'
+
 import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Home() {
-  return (
-    <main className="min-h-screen grid-bg" style={{ background: '#0a0b0f' }}>
+  const [hoveredCard, setHoveredCard] = useState<'study' | 'pro' | null>(null)
 
+  return (
+    <main className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f1419 0%, #1a1d29 50%, #0a0d14 100%)' }}>
+      {/* 背景层 - 星空 */}
+      <div className="starfield" />
+
+      {/* 背景层 - 动态数字连接线 */}
+      <div className="digital-lines" />
+
+      {/* 背景层 - 网格 */}
+      <div className="absolute inset-0 grid-bg opacity-30" />
+
+      {/* 顶部导航 */}
       <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center btn-glow">
-              <span className="text-white font-bold text-sm relative z-10">英</span>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
+              <span className="text-white font-bold">英</span>
             </div>
-            <span className="font-bold text-white text-base md:text-lg tracking-tight">英语学习平台</span>
+            <span className="font-bold text-white text-lg">英语学习平台</span>
           </div>
-          <div className="flex items-center gap-3 md:gap-6">
-            <div className="hidden md:flex items-center gap-6">
-              <Link href="/quiz" className="text-slate-400 hover:text-white text-sm font-medium transition-colors">刷题</Link>
-              <Link href="/words" className="text-slate-400 hover:text-white text-sm font-medium transition-colors">单词</Link>
-              <Link href="/essay" className="text-slate-400 hover:text-white text-sm font-medium transition-colors">作文</Link>
-              <Link href="/login" className="text-slate-400 hover:text-white text-sm font-medium transition-colors">登录</Link>
-            </div>
-            <Link href="/login" className="md:hidden text-slate-400 hover:text-white text-sm font-medium transition-colors">登录</Link>
-            <Link href="/register" className="btn-glow px-4 md:px-5 py-2 rounded-xl text-white text-sm font-semibold">
+          <div className="flex items-center gap-6">
+            <Link href="/login" className="text-slate-400 hover:text-white text-sm transition-colors">登录</Link>
+            <Link href="/register" className="px-5 py-2 rounded-xl text-white text-sm font-semibold"
+              style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
               免费注册
             </Link>
           </div>
         </div>
       </nav>
 
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20"
-            style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
-          <div className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl opacity-15"
-            style={{ background: 'radial-gradient(circle, #06b6d4, transparent)' }} />
-          <div className="absolute bottom-1/4 left-1/2 w-64 h-64 rounded-full blur-3xl opacity-10"
-            style={{ background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
-        </div>
-
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[
-            { top: '15%', left: '8%', size: 60, delay: '0s', opacity: 0.15 },
-            { top: '25%', right: '6%', size: 40, delay: '1s', opacity: 0.1 },
-            { top: '60%', left: '5%', size: 30, delay: '2s', opacity: 0.12 },
-            { top: '70%', right: '8%', size: 50, delay: '0.5s', opacity: 0.08 },
-            { top: '40%', left: '15%', size: 20, delay: '3s', opacity: 0.2 },
-            { top: '50%', right: '15%', size: 25, delay: '1.5s', opacity: 0.15 },
-          ].map((p, i) => (
-            <div key={i} className="absolute rounded-full float"
-              style={{
-                top: p.top, left: (p as any).left, right: (p as any).right,
-                width: p.size, height: p.size,
-                background: i % 2 === 0
-                  ? 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(6,182,212,0.1))'
-                  : 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(139,92,246,0.1))',
-                border: '1px solid rgba(139,92,246,0.2)',
-                animationDelay: p.delay,
-                opacity: p.opacity,
-              }} />
-          ))}
-        </div>
-
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 md:px-8">
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6 md:mb-8"
+      {/* Hero 区域 */}
+      <section className="relative pt-32 pb-20 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8"
             style={{ border: '1px solid rgba(139,92,246,0.3)' }}>
-            <span className="glow-dot" />
-            <span className="text-xs md:text-sm font-medium" style={{ color: '#a78bfa' }}>四六级 · 考研英语 · AI 驱动</span>
+            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#a78bfa' }} />
+            <span className="text-sm" style={{ color: '#a78bfa' }}>AI 驱动 · 智能学习</span>
           </div>
 
-          <h1 className="text-4xl md:text-7xl font-extrabold mb-4 md:mb-6 leading-tight tracking-tight">
-            <span style={{ color: '#f1f5f9' }}>备考更高效</span>
+          <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
+            <span style={{ color: '#f1f5f9' }}>重新定义</span>
             <br />
-            <span className="gradient-text">AI 驱动英语学习</span>
+            <span className="gradient-text">英语学习方式</span>
           </h1>
 
-          <p className="text-base md:text-xl mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed" style={{ color: '#94a3b8' }}>
-            刷题、背单词、AI 批改作文，全面覆盖四六级与考研英语备考需求
-            <span className="hidden md:inline"><br />让每一分钟的学习都精准有效</span>
+          <p className="text-xl mb-12 max-w-2xl mx-auto" style={{ color: '#94a3b8' }}>
+            四六级 · 考研 · 专业英语，一站式 AI 学习平台
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-20 px-4 sm:px-0">
-            <Link href="/register"
-              className="btn-glow px-8 md:px-10 py-3 md:py-4 rounded-2xl text-white font-bold text-base md:text-lg text-center">
-              免费开始学习
-            </Link>
+          <div className="flex items-center justify-center gap-4 mb-20">
             <Link href="/dashboard"
-              className="glass px-8 md:px-10 py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg transition-all text-center"
-              style={{ color: '#e2e8f0', border: '1px solid rgba(255,255,255,0.1)' }}>
-              游客体验 →
+              className="px-8 py-4 rounded-2xl text-white font-bold text-lg transition-all hover:scale-105"
+              style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 10px 40px rgba(99,102,241,0.3)' }}>
+              开始学习 →
+            </Link>
+            <Link href="/portal"
+              className="px-8 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-105 glass"
+              style={{ color: '#f1f5f9', border: '1px solid rgba(255,255,255,0.1)' }}>
+              专业模式
             </Link>
           </div>
+        </div>
+      </section>
 
-          <div className="flex justify-center gap-8 md:gap-16">
+      {/* 双模式卡片 */}
+      <section className="relative px-6 pb-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            {/* 学习模式 */}
+            <Link href="/dashboard"
+              className={`group relative glass-strong rounded-3xl p-10 transition-all duration-500 ${hoveredCard === 'pro' ? 'opacity-50 scale-95' : 'hover:scale-105'}`}
+              style={{ border: '1px solid rgba(99,102,241,0.3)' }}
+              onMouseEnter={() => setHoveredCard('study')}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'radial-gradient(circle at top, rgba(99,102,241,0.15), transparent)' }} />
+
+              <div className="relative z-10">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
+                  style={{ background: 'rgba(99,102,241,0.2)', border: '1px solid rgba(99,102,241,0.3)' }}>
+                  <span className="text-4xl">📚</span>
+                </div>
+
+                <h3 className="text-3xl font-bold mb-3" style={{ color: '#f1f5f9' }}>学习模式</h3>
+                <p className="text-sm mb-8" style={{ color: '#a78bfa' }}>四六级 · 考研英语</p>
+
+                <div className="space-y-3 mb-8">
+                  {['真题刷题系统', '智能错题本', 'AI 作文批改', '词汇记忆曲线'].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#6366f1' }} />
+                      <span className="text-sm" style={{ color: '#cbd5e1' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: '#6366f1' }}>
+                  进入学习中心
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* 专业模式 */}
+            <Link href="/portal"
+              className={`group relative glass-strong rounded-3xl p-10 transition-all duration-500 ${hoveredCard === 'study' ? 'opacity-50 scale-95' : 'hover:scale-105'}`}
+              style={{ border: '1px solid rgba(168,85,247,0.3)' }}
+              onMouseEnter={() => setHoveredCard('pro')}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'radial-gradient(circle at top, rgba(168,85,247,0.15), transparent)' }} />
+
+              <div className="relative z-10">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
+                  style={{ background: 'rgba(168,85,247,0.2)', border: '1px solid rgba(168,85,247,0.3)' }}>
+                  <span className="text-4xl">💼</span>
+                </div>
+
+                <h3 className="text-3xl font-bold mb-3" style={{ color: '#f1f5f9' }}>专业模式</h3>
+                <p className="text-sm mb-8" style={{ color: '#c084fc' }}>计算机 · 建筑学</p>
+
+                <div className="space-y-3 mb-8">
+                  {['情景模拟对话', '智能文档解析', '专业术语库', 'AI 生成意境图'].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#a855f7' }} />
+                      <span className="text-sm" style={{ color: '#cbd5e1' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: '#a855f7' }}>
+                  进入专业领域
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+            </Link>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 特性展示 */}
+      <section className="relative px-6 pb-24">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16" style={{ color: '#f1f5f9' }}>
+            为什么选择我们
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { num: '1000+', label: '题库题目', color: '#a78bfa' },
-              { num: '500+', label: '核心词汇', color: '#22d3ee' },
-              { num: 'AI', label: '智能批改', color: '#34d399' },
-              { num: '3', label: '考试类型', color: '#f472b6' },
-            ].map(s => (
-              <div key={s.label} className="text-center">
-                <div className="text-3xl font-extrabold mb-1" style={{ color: s.color }}>{s.num}</div>
-                <div className="text-sm" style={{ color: '#64748b' }}>{s.label}</div>
+              { icon: '🤖', title: 'AI 智能辅导', desc: 'DeepSeek 驱动，个性化学习路径' },
+              { icon: '📊', title: '数据可视化', desc: '学习进度一目了然，精准定位薄弱点' },
+              { icon: '☁️', title: '云端同步', desc: '多设备无缝切换，随时随地学习' },
+            ].map((item, i) => (
+              <div key={i} className="glass-strong rounded-2xl p-8 text-center transition-all hover:scale-105"
+                style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="text-5xl mb-4">{item.icon}</div>
+                <h3 className="text-xl font-bold mb-3" style={{ color: '#f1f5f9' }}>{item.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
-        <div className="text-center mb-10 md:mb-16">
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-4"
-            style={{ border: '1px solid rgba(34,211,238,0.2)' }}>
-            <span className="text-xs font-medium" style={{ color: '#22d3ee' }}>CORE FEATURES</span>
-          </div>
-          <h2 className="text-2xl md:text-4xl font-bold mb-3" style={{ color: '#f1f5f9' }}>全面覆盖备考需求</h2>
-          <p className="text-sm md:text-base" style={{ color: '#64748b' }}>四大核心功能，助你高效备考</p>
-        </div>
+      {/* 学习流程 */}
+      <section className="relative px-6 pb-24">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-14" style={{ color: '#f1f5f9' }}>
+            四步开启高效备考
+          </h2>
+          <div className="relative">
+            {/* 连接线 */}
+            <div className="hidden md:block absolute top-10 left-0 right-0 h-px"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.5), rgba(6,182,212,0.5), transparent)', top: '2.5rem' }} />
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
-          {[
-            { icon: '📝', title: '刷题练习', desc: '四六级 & 考研真题模拟，即时解析', href: '/quiz', accent: '#8b5cf6', tag: 'QUIZ' },
-            { icon: '📚', title: '单词学习', desc: '核心词汇卡片翻转，记忆状态追踪', href: '/words', accent: '#22d3ee', tag: 'VOCAB' },
-            { icon: '✍️', title: 'AI 作文', desc: 'DeepSeek AI 即时评分，修改建议', href: '/essay', accent: '#34d399', tag: 'ESSAY' },
-            { icon: '📊', title: '学习进度', desc: '正确率、单词量数据全面追踪', href: '/dashboard', accent: '#f472b6', tag: 'STATS' },
-          ].map((item) => (
-            <Link key={item.title} href={item.href}
-              className="glass card-hover rounded-2xl p-4 md:p-6 group block"
-              style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div className="flex items-center justify-between mb-3 md:mb-5">
-                <div className="text-2xl md:text-4xl">{item.icon}</div>
-                <span className="text-xs font-bold px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg hidden sm:block"
-                  style={{ color: item.accent, background: `${item.accent}15`, border: `1px solid ${item.accent}30` }}>
-                  {item.tag}
-                </span>
-              </div>
-              <h3 className="font-bold text-sm md:text-lg mb-1 md:mb-2" style={{ color: '#f1f5f9' }}>{item.title}</h3>
-              <p className="text-xs md:text-sm leading-relaxed mb-2 md:mb-4" style={{ color: '#64748b' }}>{item.desc}</p>
-              <div className="text-xs md:text-sm font-medium opacity-60 group-hover:opacity-100 transition-opacity"
-                style={{ color: item.accent }}>开始使用 →</div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-4 md:px-8 pb-16 md:pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
-          {[
-            { icon: '🤖', title: 'DeepSeek AI 驱动', desc: '接入最新 DeepSeek 大模型，智能出题、作文批改全面 AI 化', accent: '#8b5cf6' },
-            { icon: '⚡', title: '实时反馈', desc: '答题即时解析，作文秒级批改，不让等待打断学习心流', accent: '#22d3ee' },
-            { icon: '📈', title: '进度可视化', desc: '学习数据全面追踪，正确率趋势、单词掌握度一目了然', accent: '#34d399' },
-          ].map(item => (
-            <div key={item.title} className="glass card-hover rounded-2xl p-5 md:p-6"
-              style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div className="text-2xl md:text-3xl mb-3 md:mb-4">{item.icon}</div>
-              <h3 className="font-bold text-base md:text-lg mb-2" style={{ color: '#f1f5f9' }}>{item.title}</h3>
-              <p className="text-xs md:text-sm leading-relaxed" style={{ color: '#64748b' }}>{item.desc}</p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              {[
+                { step: '01', icon: '📋', title: '能力评估', desc: 'AI 诊断薄弱项，制定专属计划' },
+                { step: '02', icon: '📚', title: '精准刷题', desc: '真题强化训练，动态调整难度' },
+                { step: '03', icon: '✍️', title: 'AI 批改', desc: '作文实时评分，即时改进建议' },
+                { step: '04', icon: '🏆', title: '突破提分', desc: '追踪进度，查漏补缺直到通关' },
+              ].map((item, i) => (
+                <div key={i} className="relative flex flex-col items-center text-center group">
+                  {/* 步骤圆圈 */}
+                  <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-5 relative transition-transform group-hover:scale-110"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(139,92,246,0.3)' }}>
+                    <span className="text-3xl">{item.icon}</span>
+                    <div className="absolute -top-3 -right-3 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black"
+                      style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: '#fff' }}>
+                      {item.step}
+                    </div>
+                  </div>
+                  <h4 className="font-bold text-base mb-2" style={{ color: '#f1f5f9' }}>{item.title}</h4>
+                  <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{item.desc}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-4 md:px-8 pb-16 md:pb-24">
-        <div className="relative rounded-2xl md:rounded-3xl overflow-hidden p-8 md:p-16 text-center"
-          style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.1))', border: '1px solid rgba(139,92,246,0.3)' }}>
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-20"
-              style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
-            <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-3xl opacity-15"
-              style={{ background: 'radial-gradient(circle, #06b6d4, transparent)' }} />
-          </div>
-          <div className="relative z-10">
-            <h2 className="text-2xl md:text-4xl font-extrabold mb-3 md:mb-4 gradient-text">立即开始你的备考之旅</h2>
-            <p className="mb-6 md:mb-8 text-sm md:text-lg" style={{ color: '#94a3b8' }}>免费注册，解锁全部功能，AI 助力高效备考</p>
-            <Link href="/register"
-              className="btn-glow inline-block px-8 md:px-12 py-3 md:py-4 rounded-2xl text-white font-bold text-base md:text-lg">
-              免费注册
-            </Link>
           </div>
         </div>
       </section>
 
-      <footer className="border-t py-6 md:py-8 text-center text-xs md:text-sm"
+      {/* CTA */}
+      <section className="relative px-6 pb-24">
+        <div className="max-w-4xl mx-auto text-center glass-strong rounded-3xl p-16"
+          style={{ border: '1px solid rgba(139,92,246,0.3)', background: 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1))' }}>
+          <h2 className="text-4xl font-black mb-4 gradient-text">开启你的学习之旅</h2>
+          <p className="text-lg mb-8" style={{ color: '#94a3b8' }}>免费注册，立即体验 AI 驱动的智能学习</p>
+          <Link href="/register"
+            className="inline-block px-12 py-4 rounded-2xl text-white font-bold text-lg transition-all hover:scale-105"
+            style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 10px 40px rgba(99,102,241,0.3)' }}>
+            免费注册
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative border-t py-8 text-center text-sm"
         style={{ borderColor: 'rgba(255,255,255,0.06)', color: '#475569' }}>
-        © 2025 英语学习平台 · 四六级 & 考研英语备考 · Powered by DeepSeek AI
+        © 2025 英语学习平台 · Powered by DeepSeek AI
       </footer>
     </main>
   )

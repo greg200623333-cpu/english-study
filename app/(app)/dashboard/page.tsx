@@ -63,11 +63,19 @@ export default function DashboardPage() {
 
   if (!user) return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-extrabold" style={{ color: '#f1f5f9' }}>学习概览</h1>
-        <p className="text-sm mt-1" style={{ color: '#64748b' }}>
-          游客模式 · <Link href="/login" style={{ color: '#a78bfa' }}>登录</Link> 后可保存学习进度
-        </p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold" style={{ color: '#f1f5f9' }}>学习概览</h1>
+          <p className="text-sm mt-1" style={{ color: '#64748b' }}>
+            游客模式 · <Link href="/login" style={{ color: '#a78bfa' }}>登录</Link> 后可保存学习进度
+          </p>
+        </div>
+        <Link href="/portal"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105"
+          style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', color: '#fff' }}>
+          <span>💻</span>
+          <span>专业模式</span>
+        </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
@@ -99,11 +107,19 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-extrabold" style={{ color: '#f1f5f9' }}>学习概览</h1>
           <p className="text-sm mt-1" style={{ color: '#64748b' }}>{user.email}</p>
         </div>
-        <Link href="/profile"
-          className="glass px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2"
-          style={{ color: '#94a3b8', border: '1px solid rgba(255,255,255,0.08)' }}>
-          👤 个人信息
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/portal"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105"
+            style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', color: '#fff' }}>
+            <span>💻</span>
+            <span>专业模式</span>
+          </Link>
+          <Link href="/profile"
+            className="glass px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2"
+            style={{ color: '#94a3b8', border: '1px solid rgba(255,255,255,0.08)' }}>
+            👤 个人信息
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

@@ -9,8 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "@supabase/ssr": "^0.10.0",
     "@supabase/supabase-js": "^2.101.1",
+    "axios": "^1.7.2",
+    "framer-motion": "^11.3.0",
     "next": "16.2.2",
     "openai": "^6.33.0",
     "react": "19.2.4",
