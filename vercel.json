@@ -4,8 +4,8 @@
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "env": {
-    "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
-    "DEEPSEEK_API_KEY": "@deepseek_api_key"
+    "NEXT_PUBLIC_SUPABASE_URL": "https://vqxpogacbgvukmxaheku.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxeHBvZ2FjYmd2dWtteGFoZWt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTQ1MzUsImV4cCI6MjA5MDk3MDUzNX0.RKpaJilhcsVtx6ZhdEG7EGeiFKa-aP5NG6nef5v-poo",
+    "DEEPSEEK_API_KEY": "sk-1e7d05ebfdd3466aa0296e479842d0c7"
   }
 }
