@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+function getClient() {
+  return new OpenAI({
+    apiKey: process.env.DEEPSEEK_API_KEY || '',
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 const categoryLabel: Record<string, string> = {
   cet4: '大学英语四级（CET-4）',
@@ -48,7 +50,7 @@ export async function POST(req: NextRequest) {
     if (!categoryLabel[category]) {
       return NextResponse.json({ error: '无效的题目类别' }, { status: 400 })
     }
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'deepseek-chat',
       messages: [{ role: 'user', content: buildPrompt(category, type, count) }],
       response_format: { type: 'json_object' },

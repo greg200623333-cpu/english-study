@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+function getClient() {
+  return new OpenAI({
+    apiKey: process.env.DEEPSEEK_API_KEY || '',
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 const categoryPrompt: Record<string, string> = {
   cet4: '大学英语四级（CET-4）',
@@ -32,7 +34,7 @@ ${content}
   "feedback": "<详细的中文批改意见，包括：\n1. 总体评价\n2. 内容与结构\n3. 语言与语法\n4. 亮点\n5. 改进建议>"
 }`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'deepseek-chat',
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },

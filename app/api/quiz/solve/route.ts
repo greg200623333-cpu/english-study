@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+function getClient() {
+  return new OpenAI({
+    apiKey: process.env.DEEPSEEK_API_KEY || '',
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,7 +30,7 @@ ${type === 'cloze' ? '5. **熟词僻义**：如有熟词僻义请重点说明' :
 
 请用清晰的结构输出，重点突出，帮助考生真正理解并掌握解题方法。`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'deepseek-chat',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.3,

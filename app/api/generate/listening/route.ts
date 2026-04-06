@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+function getClient() {
+  return new OpenAI({
+    apiKey: process.env.DEEPSEEK_API_KEY || '',
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,7 +41,7 @@ export async function POST(req: NextRequest) {
   ]
 }`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'deepseek-chat',
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
