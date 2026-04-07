@@ -4,11 +4,13 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type ExamType = 'cet4' | 'cet6' | 'kaoyan'
+export type WordTier = 'core' | 'full'
 
 export type WordAsset = {
   id: number
   word: string
   category: string
+  tier: WordTier
   difficultyWeight: number
   masteryLevel: number
   status: 'new' | 'learning' | 'known'
@@ -42,6 +44,8 @@ export type GdpHistoryPoint = {
 export type StudyModeSnapshot = {
   hasSeenBriefing: boolean
   selectedExam: ExamType | null
+  selectedWordTier: WordTier
+  hasChosenWordTier: boolean
   examLabel: string
   daysToExam: number
   administrativePower: number
@@ -112,6 +116,7 @@ export const LAW_DEFINITIONS: LawDefinition[] = [
 export type StudyModeState = StudyModeSnapshot & {
   wordAssets: WordAsset[]
   setHasSeenBriefing: (seen: boolean) => void
+  setWordTier: (tier: WordTier) => void
   initializeCampaign: (exam: ExamType) => { ok: boolean; reason?: string }
   hydrateProgress: (snapshot: Partial<StudyModeSnapshot>) => void
   syncVocabularyGDP: (gdp: number, points?: GdpHistoryPoint[]) => void
@@ -158,6 +163,8 @@ export function getStudyModeSnapshot(state: StudyModeState): StudyModeSnapshot {
   return {
     hasSeenBriefing: state.hasSeenBriefing,
     selectedExam: state.selectedExam,
+    selectedWordTier: state.selectedWordTier,
+    hasChosenWordTier: state.hasChosenWordTier,
     examLabel: state.examLabel,
     daysToExam: state.daysToExam,
     administrativePower: state.administrativePower,
@@ -178,6 +185,8 @@ export const useStudyModeStore = create<StudyModeState>()(
     (set, get) => ({
       hasSeenBriefing: false,
       selectedExam: null,
+      selectedWordTier: 'core',
+      hasChosenWordTier: false,
       examLabel: '',
       daysToExam: 0,
       administrativePower: 0,
@@ -192,11 +201,14 @@ export const useStudyModeStore = create<StudyModeState>()(
       wordAssets: [],
       lastBriefingAt: null,
       setHasSeenBriefing: (seen) => set({ hasSeenBriefing: seen, lastBriefingAt: seen ? new Date().toISOString() : null }),
+      setWordTier: (tier: WordTier) => set({ selectedWordTier: tier, hasChosenWordTier: true }),
       initializeCampaign: (exam) => {
         const profile = EXAM_PROFILES[exam]
         set((current) => ({
           selectedExam: exam,
           examLabel: profile.label,
+          selectedWordTier: current.selectedExam === exam ? current.selectedWordTier : 'core',
+          hasChosenWordTier: current.selectedExam === exam ? current.hasChosenWordTier : false,
           daysToExam: profile.daysToExam,
           vocabularyGDP: current.vocabularyGDP > 0 && current.selectedExam === exam ? current.vocabularyGDP : profile.initialGDP,
           administrativePower: profile.administrativePower,
@@ -239,6 +251,8 @@ export const useStudyModeStore = create<StudyModeState>()(
       partialize: (state) => ({
         hasSeenBriefing: state.hasSeenBriefing,
         selectedExam: state.selectedExam,
+        selectedWordTier: state.selectedWordTier,
+        hasChosenWordTier: state.hasChosenWordTier,
         examLabel: state.examLabel,
         daysToExam: state.daysToExam,
         administrativePower: state.administrativePower,

@@ -3,12 +3,24 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useStudyModeStore } from '@/stores/useStudyModeStore'
 import { applyRemoteStudyModeProfile, fetchStudyModeAnalytics, loadStudyModeProfile, type LawRoiRow, type TrendRow, type WinRateRow } from '@/lib/studyModePersistence'
+
+type TierCompletion = {
+  total: number
+  known: number
+  learning: number
+  completionRate: number
+}
 
 type DashboardStats = {
   totalQuiz: number
   accuracy: number
   wordStats: { known: number; learning: number; new: number }
+  completion: {
+    core: TierCompletion
+    full: TierCompletion
+  }
   avgScore: number
   recentEssays: { score: number | null; category: string; created_at: string }[]
   recentEvents: { id: number; event_type: string; source: string; created_at: string }[]
@@ -35,7 +47,27 @@ const eventLabel: Record<string, string> = {
   essay_completion: '完成政策输出',
 }
 
+function buildTierCompletion(wordIds: number[], statusMap: Map<number, 'new' | 'learning' | 'known'>): TierCompletion {
+  const total = wordIds.length
+  let known = 0
+  let learning = 0
+
+  wordIds.forEach((id) => {
+    const status = statusMap.get(id) ?? 'new'
+    if (status === 'known') known += 1
+    if (status === 'learning') learning += 1
+  })
+
+  return {
+    total,
+    known,
+    learning,
+    completionRate: total > 0 ? Math.round((known / total) * 100) : 0,
+  }
+}
+
 export default function DashboardPage() {
+  const selectedWordTier = useStudyModeStore((state) => state.selectedWordTier)
   const [user, setUser] = useState<{ id: string; email: string } | null | undefined>(undefined)
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [profile, setProfile] = useState<StudyProfile | null>(null)
@@ -46,8 +78,13 @@ export default function DashboardPage() {
   useEffect(() => {
     async function load() {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setUser(null); return }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) {
+        setUser(null)
+        return
+      }
       setUser({ id: user.id, email: user.email ?? '' })
 
       const remoteProfile = await loadStudyModeProfile(user.id).catch(() => null)
@@ -56,9 +93,15 @@ export default function DashboardPage() {
         setProfile(remoteProfile)
       }
 
-      const [quizRes, wordRes, essayRes, eventRes, analytics] = await Promise.all([
+      const selectedExam = remoteProfile?.selected_exam ?? null
+      const wordsQuery = selectedExam
+        ? supabase.from('words').select('id,tier,category').eq('category', selectedExam)
+        : supabase.from('words').select('id,tier,category')
+
+      const [quizRes, wordRes, wordsMetaRes, essayRes, eventRes, analytics] = await Promise.all([
         supabase.from('quiz_records').select('is_correct, created_at').eq('user_id', user.id),
-        supabase.from('word_records').select('status').eq('user_id', user.id),
+        supabase.from('word_records').select('word_id,status').eq('user_id', user.id),
+        wordsQuery,
         supabase.from('essays').select('score, category, created_at').eq('user_id', user.id),
         supabase.from('study_mode_events').select('id, event_type, source, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(6),
         fetchStudyModeAnalytics(user.id).catch(() => ({ trends: [], winRates: [], lawRoi: [] })),
@@ -66,6 +109,7 @@ export default function DashboardPage() {
 
       const quizRecords = quizRes.data ?? []
       const wordRecords = wordRes.data ?? []
+      const wordsMeta = wordsMetaRes.data ?? []
       const essayRecords = essayRes.data ?? []
       const recentEvents = eventRes.data ?? []
       const totalQuiz = quizRecords.length
@@ -76,18 +120,26 @@ export default function DashboardPage() {
         learning: wordRecords.filter((record) => record.status === 'learning').length,
         new: wordRecords.filter((record) => record.status === 'new').length,
       }
+      const statusMap = new Map(wordRecords.map((record) => [record.word_id, record.status as 'new' | 'learning' | 'known']))
+      const coreIds = wordsMeta.filter((word) => (word.tier ?? 'full') === 'core').map((word) => word.id)
+      const fullIds = wordsMeta.filter((word) => (word.tier ?? 'full') === 'full').map((word) => word.id)
+      const completion = {
+        core: buildTierCompletion(coreIds, statusMap),
+        full: buildTierCompletion(fullIds, statusMap),
+      }
       const avgScore = essayRecords.length > 0 ? Math.round(essayRecords.reduce((sum, essay) => sum + (essay.score ?? 0), 0) / essayRecords.length) : 0
       const recentEssays = essayRecords.slice(0, 5)
 
-      setStats({ totalQuiz, accuracy, wordStats, avgScore, recentEssays, recentEvents })
+      setStats({ totalQuiz, accuracy, wordStats, completion, avgScore, recentEssays, recentEvents })
       setTrends(analytics.trends)
       setWinRates(analytics.winRates.slice(0, 6))
       setLawRoi(analytics.lawRoi)
     }
-    load()
+    void load()
   }, [])
 
   const lawCount = useMemo(() => Object.values(profile?.laws ?? {}).filter(Boolean).length, [profile])
+  const currentTierLabel = selectedWordTier === 'core' ? '核心词汇' : '总词汇'
 
   if (user === undefined) {
     return <div className="space-y-4 animate-pulse"><div className="h-10 w-64 rounded-2xl bg-white/5" /><div className="grid gap-4 lg:grid-cols-4">{[...Array(4)].map((_, index) => <div key={index} className="h-32 rounded-[1.5rem] bg-white/5" />)}</div></div>
@@ -115,7 +167,18 @@ export default function DashboardPage() {
             <h1 className="mt-3 text-4xl font-black text-slate-50">最高指挥部总览</h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-400">这里是学习区默认首页。词汇 GDP、法案、作战训练、政策输出和赤字走势都在这里统一汇总。</p>
           </div>
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 px-5 py-4 text-right"><div className="text-sm text-slate-400">指挥官账号</div><div className="mt-2 text-lg font-bold text-slate-100">{user.email}</div><div className="mt-1 text-xs text-slate-500">战略方向可随时调整</div></div>
+          <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:items-end">
+            <div className="flex flex-wrap justify-end gap-3">
+              <Link href="/" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/25 hover:bg-cyan-300/10 hover:text-cyan-100">返回首页</Link>
+              <Link href="/portal" className="rounded-xl border border-amber-300/25 bg-amber-300/10 px-4 py-2.5 text-sm font-bold text-amber-100 shadow-[0_0_24px_rgba(251,191,36,0.12)] transition hover:border-amber-200/40 hover:bg-amber-300/15">进入专业模式</Link>
+            </div>
+            <div className="rounded-[1.5rem] border border-white/10 bg-white/5 px-5 py-4 text-right">
+              <div className="text-sm text-slate-400">指挥官账号</div>
+              <div className="mt-2 text-lg font-bold text-slate-100">{user.email}</div>
+              <div className="mt-1 text-xs text-slate-500">战略方向可随时调整</div>
+              <div className="mt-1 text-xs text-cyan-200">当前词库层级：{currentTierLabel}</div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-4">
@@ -134,18 +197,32 @@ export default function DashboardPage() {
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             {[
               { label: '当前主战方向', value: profile?.exam_label ?? '待签署动员令' },
+              { label: '当前词库层级', value: currentTierLabel },
               { label: '距离考试', value: `${profile?.days_to_exam ?? 0} 天` },
               { label: '题目执行率', value: `${stats?.accuracy ?? 0}%` },
-              { label: '作文平均分', value: `${stats?.avgScore ?? 0}` },
             ].map((item) => <div key={item.label} className="rounded-2xl border border-white/8 bg-white/5 p-4"><div className="text-sm text-slate-500">{item.label}</div><div className="mt-2 text-2xl font-black text-slate-100">{item.value}</div></div>)}
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
               ['掌握词汇', stats?.wordStats.known ?? 0, '#34d399'],
-              ['训练题量', stats?.totalQuiz ?? 0, '#8b5cf6'],
-              ['作文产出', stats?.recentEssays.length ?? 0, '#f97316'],
-            ].map(([label, value, color]) => <div key={label as string} className="rounded-2xl border border-white/8 bg-white/5 p-4 text-center"><div className="text-sm text-slate-500">{label}</div><div className="mt-2 text-3xl font-black" style={{ color: color as string }}>{value as number}</div></div>)}
+              ['核心完成率', `${stats?.completion.core.completionRate ?? 0}%`, '#22d3ee'],
+              ['总词完成率', `${stats?.completion.full.completionRate ?? 0}%`, '#8b5cf6'],
+              ['作文平均分', `${stats?.avgScore ?? 0}`, '#f97316'],
+            ].map(([label, value, color]) => <div key={label as string} className="rounded-2xl border border-white/8 bg-white/5 p-4 text-center"><div className="text-sm text-slate-500">{label}</div><div className="mt-2 text-3xl font-black" style={{ color: color as string }}>{value as string | number}</div></div>)}
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {[
+              { label: '核心词汇', stat: stats?.completion.core, accent: '#22d3ee' },
+              { label: '总词汇', stat: stats?.completion.full, accent: '#8b5cf6' },
+            ].map((item) => (
+              <div key={item.label} className="rounded-2xl border border-white/8 bg-white/5 p-4">
+                <div className="flex items-center justify-between"><div className="text-sm font-semibold" style={{ color: item.accent }}>{item.label}</div><div className="text-xs text-slate-500">完成 {item.stat?.known ?? 0} / {item.stat?.total ?? 0}</div></div>
+                <div className="mt-3 h-2 rounded-full bg-white/5"><div className="h-2 rounded-full" style={{ width: `${item.stat?.completionRate ?? 0}%`, background: item.accent }} /></div>
+                <div className="mt-3 flex items-center justify-between text-xs text-slate-500"><span>推进中 {item.stat?.learning ?? 0}</span><span>{item.stat?.completionRate ?? 0}%</span></div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -233,5 +310,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-
-

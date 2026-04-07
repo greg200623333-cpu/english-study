@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SelectionModal } from '@/components/study-mode/SelectionModal'
 import { createClient } from '@/lib/supabase/client'
-import { applyRemoteStudyModeProfile, loadStudyModeProfile, logStudyModeEvent, saveStudyModeProfile } from '@/lib/studyModePersistence'
+import { applyRemoteStudyModeProfile, describeStudyModeError, loadStudyModeProfile, logStudyModeEvent, saveStudyModeProfile } from '@/lib/studyModePersistence'
 import { type ExamType, useStudyModeStore } from '@/stores/useStudyModeStore'
 
 type StudyStats = {
@@ -97,8 +97,9 @@ export default function ProfilePage() {
       }
       setStrategyMsg('战略方向已更新。')
     } catch (error) {
-      console.error('Failed to persist strategy selection:', error)
-      setStrategyMsg('战略方向已在本地更新，但 Supabase 同步失败。请先执行最新 supabase/schema.sql 后再试。')
+      const details = describeStudyModeError(error)
+      console.error('Failed to persist strategy selection:', details, error)
+      setStrategyMsg(`战略方向已在本地更新，但 Supabase 同步失败：${details}。请先执行最新 supabase/schema.sql 后再试。`)
     } finally {
       setShowSelection(false)
     }
@@ -248,3 +249,6 @@ export default function ProfilePage() {
     </div>
   )
 }
+
+
+

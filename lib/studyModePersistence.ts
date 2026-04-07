@@ -1,6 +1,14 @@
 ﻿import { createClient } from '@/lib/supabase/client'
 import { getStudyModeSnapshot, useStudyModeStore, type StudyModeSnapshot } from '@/stores/useStudyModeStore'
 
+type SupabaseLikeError = {
+  message?: string
+  code?: string
+  details?: string
+  hint?: string
+  name?: string
+}
+
 export type TrendRow = {
   day: string
   quiz_attempts: number
@@ -28,6 +36,46 @@ export type LawRoiRow = {
   estimated_gdp_bonus_pct: number
 }
 
+export function describeStudyModeError(error: unknown) {
+  if (!error) return 'Unknown Supabase error'
+  if (typeof error === 'string') return error
+  if (error instanceof Error) return error.message
+  if (typeof error === 'object') {
+    const value = error as SupabaseLikeError
+    const parts = [
+      value.message ? `message=${value.message}` : '',
+      value.code ? `code=${value.code}` : '',
+      value.details ? `details=${value.details}` : '',
+      value.hint ? `hint=${value.hint}` : '',
+      value.name ? `name=${value.name}` : '',
+    ].filter(Boolean)
+
+    if (parts.length) return parts.join(' | ')
+
+    try {
+      return JSON.stringify(error)
+    } catch {
+      return Object.prototype.toString.call(error)
+    }
+  }
+  return String(error)
+}
+
+async function ensureProfileRow(userId: string) {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return
+
+  const { error } = await supabase
+    .from('profiles')
+    .upsert({ id: userId, email: user.email ?? null }, { onConflict: 'id' })
+
+  if (error) throw error
+}
+
 export async function loadStudyModeProfile(userId: string) {
   const supabase = createClient()
   const { data, error } = await supabase.from('study_mode_profiles').select('*').eq('user_id', userId).maybeSingle()
@@ -36,6 +84,8 @@ export async function loadStudyModeProfile(userId: string) {
 }
 
 export async function saveStudyModeProfile(userId: string) {
+  await ensureProfileRow(userId)
+
   const supabase = createClient()
   const snapshot = getStudyModeSnapshot(useStudyModeStore.getState())
   const payload = buildProfilePayload(userId, snapshot)
@@ -44,6 +94,8 @@ export async function saveStudyModeProfile(userId: string) {
 }
 
 export async function logStudyModeEvent(userId: string, eventType: string, source: string, payload: Record<string, unknown>) {
+  await ensureProfileRow(userId)
+
   const supabase = createClient()
   const { error } = await supabase.from('study_mode_events').insert({ user_id: userId, event_type: eventType, source, payload })
   if (error) throw error

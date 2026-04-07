@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { logStudyModeEvent, saveStudyModeProfile } from '@/lib/studyModePersistence'
+import { describeStudyModeError, logStudyModeEvent, saveStudyModeProfile } from '@/lib/studyModePersistence'
 import { useStudyModeStore, type StudyModeState } from '@/stores/useStudyModeStore'
 
 type SkillKey = keyof StudyModeState['skillBalance']
@@ -54,7 +54,7 @@ async function persist(source: string, eventType: string, payload: Record<string
     await saveStudyModeProfile(user.id)
     await logStudyModeEvent(user.id, eventType, source, payload)
   } catch (error) {
-    console.error(`Failed to persist war room sync event: ${eventType}`, error)
+    console.error(`Failed to persist war room sync event: ${eventType}`, describeStudyModeError(error), error)
   }
 }
 
@@ -124,4 +124,7 @@ export function useWarRoomSync() {
 
   return { syncQuizAttempt, syncEssayCompletion }
 }
+
+
+
 

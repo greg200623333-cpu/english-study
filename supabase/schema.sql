@@ -73,7 +73,6 @@ create table if not exists study_mode_profiles (
   active_buffs jsonb default '{"memoryRate":0,"reviewEfficiency":0,"focusRate":0,"gdpBonus":0}'::jsonb,
   gdp_history jsonb default '[]'::jsonb,
   last_briefing_at timestamptz,
-  strategy_last_changed_at timestamptz,
   updated_at timestamptz default now()
 );
 
@@ -86,6 +85,28 @@ create table if not exists study_mode_events (
   created_at timestamptz default now()
 );
 
+
+-- 兼容旧数据库：create table if not exists 不会给已有表自动补列，所以这里显式补齐战略模式字段。
+alter table study_mode_profiles add column if not exists has_seen_briefing boolean default false;
+alter table study_mode_profiles add column if not exists selected_exam text;
+alter table study_mode_profiles add column if not exists exam_label text;
+alter table study_mode_profiles add column if not exists days_to_exam int default 0;
+alter table study_mode_profiles add column if not exists administrative_power int default 0;
+alter table study_mode_profiles add column if not exists base_administrative_power int default 0;
+alter table study_mode_profiles add column if not exists vocabulary_gdp int default 0;
+alter table study_mode_profiles add column if not exists baseline_wpm int default 0;
+alter table study_mode_profiles add column if not exists skill_balance jsonb default '{"listening":0,"speaking":0,"reading":0,"writing":0}'::jsonb;
+alter table study_mode_profiles add column if not exists review_deficit int default 0;
+alter table study_mode_profiles add column if not exists laws jsonb default '{"morningReading":false,"deficitFreeze":false,"nightReview":false,"focusBudget":false}'::jsonb;
+alter table study_mode_profiles add column if not exists active_buffs jsonb default '{"memoryRate":0,"reviewEfficiency":0,"focusRate":0,"gdpBonus":0}'::jsonb;
+alter table study_mode_profiles add column if not exists gdp_history jsonb default '[]'::jsonb;
+alter table study_mode_profiles add column if not exists last_briefing_at timestamptz;
+alter table study_mode_profiles add column if not exists updated_at timestamptz default now();
+alter table study_mode_profiles drop column if exists strategy_last_changed_at;
+alter table study_mode_profiles drop column if exists strategy_locked_until;
+alter table words add column if not exists tier text not null default 'full' check (tier in ('core', 'full'));
+create unique index if not exists idx_words_word_category_tier on words(word, category, tier);
+create index if not exists idx_words_category_tier on words(category, tier);
 create index if not exists idx_study_mode_events_user_time on study_mode_events(user_id, created_at desc);
 create index if not exists idx_quiz_records_user_time on quiz_records(user_id, created_at desc);
 create index if not exists idx_essays_user_time on essays(user_id, created_at desc);
@@ -123,14 +144,14 @@ drop policy if exists "单词所有人可读" on words;
 drop policy if exists "用户只能读写自己的战情档案" on study_mode_profiles;
 drop policy if exists "用户只能读写自己的战情事件" on study_mode_events;
 
-create policy "用户只能读写自己的数据" on profiles for all using (auth.uid() = id);
-create policy "用户只能读写自己的做题记录" on quiz_records for all using (auth.uid() = user_id);
-create policy "用户只能读写自己的单词记录" on word_records for all using (auth.uid() = user_id);
-create policy "用户只能读写自己的作文" on essays for all using (auth.uid() = user_id);
+create policy "用户只能读写自己的数据" on profiles for all using (auth.uid() = id) with check (auth.uid() = id);
+create policy "用户只能读写自己的做题记录" on quiz_records for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "用户只能读写自己的单词记录" on word_records for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "用户只能读写自己的作文" on essays for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "题目所有人可读" on questions for select using (true);
 create policy "单词所有人可读" on words for select using (true);
-create policy "用户只能读写自己的战情档案" on study_mode_profiles for all using (auth.uid() = user_id);
-create policy "用户只能读写自己的战情事件" on study_mode_events for all using (auth.uid() = user_id);
+create policy "用户只能读写自己的战情档案" on study_mode_profiles for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "用户只能读写自己的战情事件" on study_mode_events for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
 create or replace function get_study_mode_7d_trends(target_user uuid)
 returns table (
@@ -252,4 +273,6 @@ as $$
   left join law_events on law_events.law_key = keys.law_key
   cross join profile;
 $$;
+
+
 
