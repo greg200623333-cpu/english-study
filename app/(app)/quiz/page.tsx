@@ -1,137 +1,93 @@
-'use client'
-import { useState } from 'react'
+﻿'use client'
+
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
+import { applyRemoteStudyModeProfile, loadStudyModeProfile } from '@/lib/studyModePersistence'
 
 const CET_TYPES = {
   cet4: {
-    label: 'CET-4 四级',
-    score: '满分710分 · 130分钟',
-    color: '#8b5cf6',
+    label: 'CET-4 基础建设',
+    score: '满分 710 · 130 分钟',
+    color: '#22d3ee',
     sections: [
-      {
-        name: '写作 Writing', weight: '15%', types: [
-          { key: 'writing', label: '议论文写作', desc: '120词左右，考察观点表达与论证' },
-        ]
-      },
-      {
-        name: '听力 Listening', weight: '35% ⭐核心', types: [
-          { key: 'listening_news', label: '新闻听力', desc: '3段新闻，每段2-3题，语速快' },
-          { key: 'listening_interview', label: '长对话', desc: '2段长对话，每段3-4题' },
-          { key: 'listening_passage', label: '听力短文', desc: '3篇短文，每篇3-4题' },
-        ]
-      },
-      {
-        name: '阅读 Reading', weight: '35%', types: [
-          { key: 'reading_match', label: '信息匹配', desc: '段落信息匹配，考察快速定位' },
-          { key: 'reading_choice', label: '仔细阅读', desc: '2篇文章，每篇5题，同义替换' },
-          { key: 'reading_cloze', label: '篇章词汇', desc: '15空完形，词汇与语境理解' },
-        ]
-      },
-      {
-        name: '翻译 Translation', weight: '15%', types: [
-          { key: 'translation', label: '段落汉译英', desc: '约140-160字中文段落翻译成英文' },
-        ]
-      },
-    ]
+      { name: '外交输出', weight: '15%', types: [{ key: 'writing', label: '写作', desc: '先稳住政策输出能力。' }] },
+      { name: '情报系统', weight: '35%', types: [{ key: 'listening_news', label: '新闻听力', desc: '快节奏信息截获。' }, { key: 'listening_interview', label: '长对话', desc: '追踪关键角色意图。' }, { key: 'listening_passage', label: '听力短文', desc: '构建完整情报链。' }] },
+      { name: '基建系统', weight: '35%', types: [{ key: 'reading_match', label: '信息匹配', desc: '宏观调度与定位。' }, { key: 'reading_choice', label: '仔细阅读', desc: '核心基建能力训练。' }, { key: 'reading_cloze', label: '篇章词汇', desc: '修复词汇链路。' }] },
+      { name: '翻译中枢', weight: '15%', types: [{ key: 'translation', label: '翻译', desc: '跨系统语言转换。' }] },
+    ],
   },
   cet6: {
-    label: 'CET-6 六级',
-    score: '满分710分 · 130分钟',
-    color: '#06b6d4',
+    label: 'CET-6 全面扩张',
+    score: '满分 710 · 130 分钟',
+    color: '#8b5cf6',
     sections: [
-      {
-        name: '写作 Writing', weight: '15%', types: [
-          { key: 'writing', label: '议论文写作', desc: '150词左右，难度高于四级' },
-        ]
-      },
-      {
-        name: '听力 Listening', weight: '35% ⭐核心', types: [
-          { key: 'listening_news', label: '新闻听力', desc: '3段新闻，语速更快，词汇更难' },
-          { key: 'listening_interview', label: '长对话', desc: '2段长对话，话题更复杂' },
-          { key: 'listening_passage', label: '听力短文', desc: '3篇短文，学术性更强' },
-        ]
-      },
-      {
-        name: '阅读 Reading', weight: '35%', types: [
-          { key: 'reading_match', label: '信息匹配', desc: '段落信息匹配，文章更长' },
-          { key: 'reading_choice', label: '仔细阅读', desc: '2篇文章，逻辑推断题更多' },
-          { key: 'reading_cloze', label: '篇章词汇', desc: '15空完形，熟词僻义考察' },
-        ]
-      },
-      {
-        name: '翻译 Translation', weight: '15%', types: [
-          { key: 'translation', label: '段落汉译英', desc: '约180-200字，涉及中国文化' },
-        ]
-      },
-    ]
-  }
+      { name: '外交输出', weight: '15%', types: [{ key: 'writing', label: '写作', desc: '更高压的政策表达。' }] },
+      { name: '情报系统', weight: '35%', types: [{ key: 'listening_news', label: '新闻听力', desc: '高频信息突袭。' }, { key: 'listening_interview', label: '长对话', desc: '多节点关系解读。' }, { key: 'listening_passage', label: '听力短文', desc: '学术型情报素材。' }] },
+      { name: '基建系统', weight: '35%', types: [{ key: 'reading_match', label: '信息匹配', desc: '长文结构治理。' }, { key: 'reading_choice', label: '仔细阅读', desc: '逻辑推断升级。' }, { key: 'reading_cloze', label: '篇章词汇', desc: '熟词僻义专项。' }] },
+      { name: '翻译中枢', weight: '15%', types: [{ key: 'translation', label: '翻译', desc: '文化与书面表达转换。' }] },
+    ],
+  },
 }
 
 const KAOYAN_TYPES = {
   kaoyan1: {
-    label: '考研英语一',
-    score: '满分100分 · 180分钟',
-    color: '#f472b6',
-    focus: '学术深度 · 长难句 · 逻辑推理',
+    label: '考研英语一 核心攻坚',
+    score: '满分 100 · 180 分钟',
+    color: '#f97316',
+    focus: '学术深度 · 长难句 · 高压逻辑',
     sections: [
-      {
-        name: '完形填空 Cloze', weight: '10分', types: [
-          { key: 'cloze', label: '完形填空', desc: '20空，考察上下文逻辑与词汇辨析，难度极高' },
-        ]
-      },
-      {
-        name: '阅读理解 Reading', weight: '40分 ⭐绝对核心', types: [
-          { key: 'reading', label: 'Part A 传统阅读', desc: '4篇文章各5题，反向逻辑陷阱多，熟词僻义' },
-          { key: 'new_type_match', label: 'Part B 信息匹配/排序', desc: '段落排序或小标题匹配，考察篇章逻辑' },
-          { key: 'new_type_summary', label: 'Part C 英译汉', desc: '5句长难句翻译，结构拆解是关键' },
-        ]
-      },
-      {
-        name: '写作 Writing', weight: '30分', types: [
-          { key: 'writing_small', label: '小作文 (10分)', desc: '应用文：书信、备忘录、通知等，约100词' },
-          { key: 'writing_big', label: '大作文 (20分)', desc: '图画作文：描述图画+分析寓意+表明立场，约160词' },
-        ]
-      },
-    ]
+      { name: '资源清算', weight: '10 分', types: [{ key: 'cloze', label: '完形填空', desc: '考验整体语义调度。' }] },
+      { name: '基建主战场', weight: '40 分', types: [{ key: 'reading', label: '阅读理解', desc: '核心决战区。' }, { key: 'new_type_match', label: '新题型匹配', desc: '篇章重组与排序。' }, { key: 'new_type_summary', label: '英译汉', desc: '拆解长难句结构。' }] },
+      { name: '外交输出', weight: '30 分', types: [{ key: 'writing_small', label: '小作文', desc: '短平快政策表达。' }, { key: 'writing_big', label: '大作文', desc: '完整立场输出。' }] },
+    ],
   },
   kaoyan2: {
-    label: '考研英语二',
-    score: '满分100分 · 180分钟',
+    label: '考研英语二 战略稳推',
+    score: '满分 100 · 180 分钟',
     color: '#34d399',
-    focus: '实际应用 · 图表分析 · 段落翻译',
+    focus: '应用写作 · 图表分析 · 实用表达',
     sections: [
-      {
-        name: '完形填空 Cloze', weight: '10分', types: [
-          { key: 'cloze', label: '完形填空', desc: '20空，难度低于英语一，偏实用语境' },
-        ]
-      },
-      {
-        name: '阅读理解 Reading', weight: '40分 ⭐绝对核心', types: [
-          { key: 'reading', label: 'Part A 传统阅读', desc: '4篇文章各5题，偏实用文体，逻辑相对直接' },
-          { key: 'new_type_match', label: 'Part B 新题型', desc: '信息匹配或段落排序，考察整体理解' },
-          { key: 'translation', label: 'Part C 段落翻译', desc: '翻译一段约150词的英文段落，偏实用文体' },
-        ]
-      },
-      {
-        name: '写作 Writing', weight: '30分', types: [
-          { key: 'writing_small', label: '小作文 (10分)', desc: '应用文写作，格式规范，约100词' },
-          { key: 'writing_big', label: '大作文 (20分)', desc: '图表作文：描述数据趋势+分析原因+总结，约160词' },
-        ]
-      },
-    ]
-  }
+      { name: '资源清算', weight: '10 分', types: [{ key: 'cloze', label: '完形填空', desc: '控制语境误差。' }] },
+      { name: '基建主战场', weight: '40 分', types: [{ key: 'reading', label: '阅读理解', desc: '偏应用文本调度。' }, { key: 'new_type_match', label: '新题型', desc: '结构统筹。' }, { key: 'translation', label: '翻译', desc: '段落级转换。' }] },
+      { name: '外交输出', weight: '30 分', types: [{ key: 'writing_small', label: '小作文', desc: '实用文书格式化。' }, { key: 'writing_big', label: '大作文', desc: '图表趋势与论证。' }] },
+    ],
+  },
 }
 
 type GenState = { loading: boolean; message: string }
+
+type StudyProfile = {
+  exam_label: string | null
+  selected_exam: string | null
+  administrative_power: number | null
+  review_deficit: number | null
+  skill_balance: { listening: number; speaking: number; reading: number; writing: number } | null
+}
 
 export default function QuizPage() {
   const [activeTab, setActiveTab] = useState<'cet' | 'kaoyan'>('cet')
   const [genState, setGenState] = useState<Record<string, GenState>>({})
   const [showGen, setShowGen] = useState(false)
+  const [profile, setProfile] = useState<StudyProfile | null>(null)
+
+  useEffect(() => {
+    async function loadProfile() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const remoteProfile = await loadStudyModeProfile(user.id).catch(() => null)
+      if (remoteProfile) {
+        applyRemoteStudyModeProfile(remoteProfile)
+        setProfile(remoteProfile)
+      }
+    }
+    loadProfile()
+  }, [])
 
   async function handleGenerate(category: string, type: string, count = 5) {
     const key = `${category}_${type}`
-    setGenState(s => ({ ...s, [key]: { loading: true, message: '' } }))
+    setGenState((state) => ({ ...state, [key]: { loading: true, message: '' } }))
     try {
       const res = await fetch('/api/generate/questions', {
         method: 'POST',
@@ -139,99 +95,111 @@ export default function QuizPage() {
         body: JSON.stringify({ category, type, count }),
       })
       const data = await res.json()
-      setGenState(s => ({ ...s, [key]: { loading: false, message: data.message ?? data.error ?? '完成' } }))
+      setGenState((state) => ({ ...state, [key]: { loading: false, message: data.message ?? data.error ?? '完成' } }))
     } catch {
-      setGenState(s => ({ ...s, [key]: { loading: false, message: '生成失败' } }))
+      setGenState((state) => ({ ...state, [key]: { loading: false, message: '生成失败' } }))
     }
   }
 
   const tabs = [
-    { key: 'cet', label: '四六级 CET', icon: '🎧' },
-    { key: 'kaoyan', label: '考研英语', icon: '📖' },
+    { key: 'cet', label: '四六级战区', icon: 'CET' },
+    { key: 'kaoyan', label: '考研战区', icon: 'GRD' },
   ]
 
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-extrabold" style={{ color: '#f1f5f9' }}>刷题练习</h1>
-          <p className="text-sm mt-1" style={{ color: '#64748b' }}>按真实考试题型分类练习</p>
-        </div>
-        <button onClick={() => setShowGen(v => !v)}
-          className="glass px-4 py-2 rounded-xl text-sm font-medium transition-all"
-          style={{ color: '#a78bfa', border: '1px solid rgba(139,92,246,0.3)' }}>
-          🤖 AI 生成题目
-        </button>
-      </div>
+  const operationReadiness = useMemo(() => {
+    const skills = profile?.skill_balance ?? { listening: 0, speaking: 0, reading: 0, writing: 0 }
+    return Math.round((skills.listening + skills.reading + skills.writing + skills.speaking) / 4)
+  }, [profile])
 
-      <div className="flex gap-2 mb-8">
-        {tabs.map(t => (
-          <button key={t.key} onClick={() => setActiveTab(t.key as 'cet' | 'kaoyan')}
-            className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
-            style={activeTab === t.key
-              ? { background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', color: '#fff' }
-              : { background: 'rgba(255,255,255,0.04)', color: '#64748b', border: '1px solid rgba(255,255,255,0.08)' }}>
-            {t.icon} {t.label}
+  return (
+    <div className="space-y-6">
+      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-8">
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Operations Center</p>
+            <h1 className="mt-3 text-4xl font-black text-slate-50">作战部署台</h1>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-400">所有刷题行为都不再是孤立练习，而是围绕国家经营目标执行的战术行动。按战区、科目与题型部署任务。</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm">
+              <div className="text-slate-500">当前主战方向</div>
+              <div className="mt-2 font-bold text-slate-100">{profile?.exam_label ?? '待签署动员令'}</div>
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm">
+              <div className="text-slate-500">战备完成度</div>
+              <div className="mt-2 font-bold text-cyan-200">{operationReadiness}%</div>
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm">
+              <div className="text-slate-500">行政力</div>
+              <div className="mt-2 font-bold text-amber-200">{profile?.administrative_power ?? 0}</div>
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm">
+              <div className="text-slate-500">训练赤字</div>
+              <div className="mt-2 font-bold text-rose-200">{profile?.review_deficit ?? 0}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as 'cet' | 'kaoyan')}
+                className="rounded-xl px-5 py-2.5 text-sm font-bold transition-all"
+                style={activeTab === tab.key ? { background: 'linear-gradient(135deg, #06b6d4, #3b82f6)', color: '#fff' } : { background: 'rgba(255,255,255,0.04)', color: '#64748b', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                {tab.icon} {tab.label}
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setShowGen((value) => !value)} className="rounded-xl border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">
+            {showGen ? '关闭 AI 战术补给' : '开启 AI 战术补给'}
           </button>
-        ))}
-      </div>
+        </div>
+      </section>
 
       {activeTab === 'cet' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid gap-6 xl:grid-cols-2">
           {Object.entries(CET_TYPES).map(([catKey, cat]) => (
-            <div key={catKey} className="glass rounded-2xl overflow-hidden"
-              style={{ border: `1px solid ${cat.color}25` }}>
-              <div className="px-6 py-4" style={{ background: `${cat.color}10`, borderBottom: `1px solid ${cat.color}20` }}>
-                <div className="flex items-center justify-between">
+            <div key={catKey} className="glass rounded-[1.75rem] overflow-hidden border border-white/10">
+              <div className="px-6 py-5" style={{ background: `${cat.color}12`, borderBottom: `1px solid ${cat.color}22` }}>
+                <div className="flex items-center justify-between gap-4">
                   <div>
-                    <h2 className="font-extrabold text-lg" style={{ color: cat.color }}>{cat.label}</h2>
-                    <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{cat.score}</p>
+                    <h2 className="text-2xl font-black" style={{ color: cat.color }}>{cat.label}</h2>
+                    <p className="mt-1 text-sm text-slate-400">{cat.score}</p>
                   </div>
-                  <span className="text-xs px-2 py-1 rounded-lg font-bold"
-                    style={{ color: cat.color, background: `${cat.color}15`, border: `1px solid ${cat.color}30` }}>
-                    {catKey.toUpperCase()}
-                  </span>
+                  <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: cat.color, background: `${cat.color}18`, border: `1px solid ${cat.color}30` }}>{catKey.toUpperCase()}</span>
                 </div>
               </div>
-              <div className="p-4 space-y-3">
-                {cat.sections.map(sec => (
-                  <div key={sec.name}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-bold" style={{ color: '#475569' }}>{sec.name}</span>
-                      <span className="text-xs px-1.5 py-0.5 rounded font-bold"
-                        style={{ color: sec.weight.includes('⭐') ? '#fbbf24' : '#475569', background: 'rgba(255,255,255,0.05)' }}>
-                        {sec.weight}
-                      </span>
+              <div className="space-y-5 p-5">
+                {cat.sections.map((section) => (
+                  <div key={section.name}>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="text-sm font-bold text-slate-300">{section.name}</span>
+                      <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-slate-500">{section.weight}</span>
                     </div>
-                    <div className="space-y-1.5">
-                      {sec.types.map(t => {
-                        const key = `${catKey}_${t.key}`
-                        const gs = genState[key]
+                    <div className="space-y-2.5">
+                      {section.types.map((type) => {
+                        const key = `${catKey}_${type.key}`
+                        const state = genState[key]
                         return (
-                          <div key={t.key} className="flex items-center gap-3 px-3 py-2.5 rounded-xl group transition-all"
-                            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                            <Link href={`/quiz/${catKey}/${t.key}`} className="flex-1 min-w-0">
-                              <div className="text-sm font-semibold" style={{ color: '#e2e8f0' }}>{t.label}</div>
-                              <div className="text-xs mt-0.5 truncate" style={{ color: '#475569' }}>{t.desc}</div>
+                          <div key={type.key} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+                            <Link href={`/quiz/${catKey}/${type.key}`} className="min-w-0 flex-1">
+                              <div className="font-semibold text-slate-100">{type.label}</div>
+                              <div className="mt-1 truncate text-xs text-slate-500">{type.desc}</div>
                             </Link>
-                            <div className="flex items-center gap-2 shrink-0">
-                              {gs?.message && (
-                                <span className="text-xs" style={{ color: gs.message.includes('成功') ? '#34d399' : '#f87171' }}>
-                                  {gs.message}
-                                </span>
-                              )}
-                              {showGen && (
-                                <button onClick={() => handleGenerate(catKey, t.key)}
-                                  disabled={gs?.loading}
-                                  className="text-xs px-2 py-1 rounded-lg font-medium transition-all disabled:opacity-50"
-                                  style={{ color: cat.color, background: `${cat.color}15`, border: `1px solid ${cat.color}30` }}>
-                                  {gs?.loading ? '...' : 'AI生成'}
+                            <div className="flex items-center gap-2">
+                              {state?.message ? <span className="text-xs text-slate-400">{state.message}</span> : null}
+                              {showGen ? (
+                                <button onClick={() => handleGenerate(catKey, type.key)} disabled={state?.loading} className="rounded-lg px-3 py-1.5 text-xs font-semibold" style={{ color: cat.color, background: `${cat.color}16`, border: `1px solid ${cat.color}30` }}>
+                                  {state?.loading ? '生成中' : 'AI 生成'}
                                 </button>
-                              )}
-                              <Link href={`/quiz/${catKey}/${t.key}`}
-                                className="text-xs px-3 py-1.5 rounded-lg font-semibold transition-all"
-                                style={{ color: '#fff', background: `${cat.color}` }}>
-                                练习
+                              ) : null}
+                              <Link href={`/quiz/${catKey}/${type.key}`} className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: cat.color }}>
+                                部署
                               </Link>
                             </div>
                           </div>
@@ -247,62 +215,45 @@ export default function QuizPage() {
       )}
 
       {activeTab === 'kaoyan' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid gap-6 xl:grid-cols-2">
           {Object.entries(KAOYAN_TYPES).map(([catKey, cat]) => (
-            <div key={catKey} className="glass rounded-2xl overflow-hidden"
-              style={{ border: `1px solid ${cat.color}25` }}>
-              <div className="px-6 py-4" style={{ background: `${cat.color}10`, borderBottom: `1px solid ${cat.color}20` }}>
-                <div className="flex items-center justify-between">
+            <div key={catKey} className="glass rounded-[1.75rem] overflow-hidden border border-white/10">
+              <div className="px-6 py-5" style={{ background: `${cat.color}12`, borderBottom: `1px solid ${cat.color}22` }}>
+                <div className="flex items-center justify-between gap-4">
                   <div>
-                    <h2 className="font-extrabold text-lg" style={{ color: cat.color }}>{cat.label}</h2>
-                    <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{cat.score}</p>
-                    <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{cat.focus}</p>
+                    <h2 className="text-2xl font-black" style={{ color: cat.color }}>{cat.label}</h2>
+                    <p className="mt-1 text-sm text-slate-400">{cat.score}</p>
+                    <p className="mt-1 text-xs text-slate-500">{cat.focus}</p>
                   </div>
-                  <span className="text-xs px-2 py-1 rounded-lg font-bold"
-                    style={{ color: cat.color, background: `${cat.color}15`, border: `1px solid ${cat.color}30` }}>
-                    {catKey === 'kaoyan1' ? '英语一' : '英语二'}
-                  </span>
+                  <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: cat.color, background: `${cat.color}18`, border: `1px solid ${cat.color}30` }}>{catKey === 'kaoyan1' ? '英一' : '英二'}</span>
                 </div>
               </div>
-              <div className="p-4 space-y-3">
-                {cat.sections.map(sec => (
-                  <div key={sec.name}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-bold" style={{ color: '#475569' }}>{sec.name}</span>
-                      <span className="text-xs px-1.5 py-0.5 rounded font-bold"
-                        style={{ color: sec.weight.includes('⭐') ? '#fbbf24' : '#475569', background: 'rgba(255,255,255,0.05)' }}>
-                        {sec.weight}
-                      </span>
+              <div className="space-y-5 p-5">
+                {cat.sections.map((section) => (
+                  <div key={section.name}>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="text-sm font-bold text-slate-300">{section.name}</span>
+                      <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-slate-500">{section.weight}</span>
                     </div>
-                    <div className="space-y-1.5">
-                      {sec.types.map(t => {
-                        const key = `${catKey}_${t.key}`
-                        const gs = genState[key]
+                    <div className="space-y-2.5">
+                      {section.types.map((type) => {
+                        const key = `${catKey}_${type.key}`
+                        const state = genState[key]
                         return (
-                          <div key={t.key} className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
-                            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                            <Link href={`/quiz/${catKey}/${t.key}`} className="flex-1 min-w-0">
-                              <div className="text-sm font-semibold" style={{ color: '#e2e8f0' }}>{t.label}</div>
-                              <div className="text-xs mt-0.5 truncate" style={{ color: '#475569' }}>{t.desc}</div>
+                          <div key={type.key} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+                            <Link href={`/quiz/${catKey}/${type.key}`} className="min-w-0 flex-1">
+                              <div className="font-semibold text-slate-100">{type.label}</div>
+                              <div className="mt-1 truncate text-xs text-slate-500">{type.desc}</div>
                             </Link>
-                            <div className="flex items-center gap-2 shrink-0">
-                              {gs?.message && (
-                                <span className="text-xs" style={{ color: gs.message.includes('成功') ? '#34d399' : '#f87171' }}>
-                                  {gs.message}
-                                </span>
-                              )}
-                              {showGen && (
-                                <button onClick={() => handleGenerate(catKey, t.key)}
-                                  disabled={gs?.loading}
-                                  className="text-xs px-2 py-1 rounded-lg font-medium transition-all disabled:opacity-50"
-                                  style={{ color: cat.color, background: `${cat.color}15`, border: `1px solid ${cat.color}30` }}>
-                                  {gs?.loading ? '...' : 'AI生成'}
+                            <div className="flex items-center gap-2">
+                              {state?.message ? <span className="text-xs text-slate-400">{state.message}</span> : null}
+                              {showGen ? (
+                                <button onClick={() => handleGenerate(catKey, type.key)} disabled={state?.loading} className="rounded-lg px-3 py-1.5 text-xs font-semibold" style={{ color: cat.color, background: `${cat.color}16`, border: `1px solid ${cat.color}30` }}>
+                                  {state?.loading ? '生成中' : 'AI 生成'}
                                 </button>
-                              )}
-                              <Link href={`/quiz/${catKey}/${t.key}`}
-                                className="text-xs px-3 py-1.5 rounded-lg font-semibold"
-                                style={{ color: '#fff', background: cat.color }}>
-                                练习
+                              ) : null}
+                              <Link href={`/quiz/${catKey}/${type.key}`} className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: cat.color }}>
+                                部署
                               </Link>
                             </div>
                           </div>
