@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { getSession } from '@/lib/session'
 
 function getClient() {
   return new OpenAI({
@@ -14,7 +15,16 @@ const categoryPrompt: Record<string, string> = {
   kaoyan: '考研英语',
 }
 
+function sanitize(str: string, maxLen: number): string {
+  return str.replace(/[<>]/g, '').slice(0, maxLen)
+}
+
 export async function POST(req: NextRequest) {
+  const session = await getSession()
+  if (!session) {
+    return NextResponse.json({ error: '未登录' }, { status: 401 })
+  }
+
   try {
     const { title, content, category } = await req.json()
 
@@ -22,11 +32,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '作文内容太短' }, { status: 400 })
     }
 
-    const prompt = `你是一位专业的英语作文评分老师，请对以下${categoryPrompt[category] ?? '英语'}作文进行批改。
+    const safeCategory = Object.keys(categoryPrompt).includes(category) ? category : 'cet4'
+    const safeTitle = sanitize(String(title || ''), 200)
+    const safeContent = sanitize(String(content), 3000)
 
-作文标题：${title || '无标题'}
+    const prompt = `你是一位专业的英语作文评分老师，请对以下${categoryPrompt[safeCategory]}作文进行批改。
+
+作文标题：${safeTitle || '无标题'}
 作文内容：
-${content}
+${safeContent}
 
 请严格按照以下 JSON 格式返回，不要输出任何其他内容：
 {

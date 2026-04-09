@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
+import { getSession } from '@/lib/session'
 
 function getClient() {
   return new OpenAI({
@@ -16,14 +17,20 @@ const categoryLabel: Record<string, string> = {
 }
 
 export async function POST(req: NextRequest) {
+  const session = await getSession()
+  if (!session) {
+    return NextResponse.json({ error: '未登录' }, { status: 401 })
+  }
+
   try {
     const { category, count = 10 } = await req.json()
+    const safeCount = Math.max(1, Math.min(50, Number(count) || 10))
 
     if (!categoryLabel[category]) {
       return NextResponse.json({ error: '无效的单词类别' }, { status: 400 })
     }
 
-    const prompt = `你是一位专业的英语词汇教师。请生成 ${count} 个${categoryLabel[category]}核心词汇。
+    const prompt = `你是一位专业的英语词汇教师。请生成 ${safeCount} 个${categoryLabel[category]}核心词汇。
 
 严格按照以下 JSON 格式返回，不要输出任何其他内容：
 {

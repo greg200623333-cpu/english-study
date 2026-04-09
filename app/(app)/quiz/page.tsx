@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { getCurrentUser } from '@/lib/auth'
 import { applyRemoteStudyModeProfile, loadStudyModeProfile } from '@/lib/studyModePersistence'
 
 const CET_TYPES = {
@@ -73,8 +73,7 @@ export default function QuizPage() {
 
   useEffect(() => {
     async function loadProfile() {
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getCurrentUser()
       if (!user) return
       const remoteProfile = await loadStudyModeProfile(user.id).catch(() => null)
       if (remoteProfile) {

@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { getCurrentUser } from '@/lib/auth'
 import { describeStudyModeError, logStudyModeEvent, saveStudyModeProfile } from '@/lib/studyModePersistence'
 import { useStudyModeStore, type StudyModeState } from '@/stores/useStudyModeStore'
 
@@ -44,10 +44,7 @@ function buildHistory(currentGDP: number, nextGDP: number) {
 }
 
 async function persist(source: string, eventType: string, payload: Record<string, unknown>) {
-  const supabase = createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user) return
 
   try {

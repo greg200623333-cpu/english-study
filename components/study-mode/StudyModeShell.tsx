@@ -7,6 +7,7 @@ import { SelectionModal } from '@/components/study-mode/SelectionModal'
 import { StrategyLawPanel } from '@/components/study-mode/StrategyLawPanel'
 import { WarRoomDashboard } from '@/components/study-mode/WarRoomDashboard'
 import { useReadingTracker, type ReadingAssessment } from '@/hooks/useReadingTracker'
+import { getCurrentUser } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/client'
 import { applyRemoteStudyModeProfile, describeStudyModeError, loadStudyModeProfile, logStudyModeEvent, saveStudyModeProfile } from '@/lib/studyModePersistence'
 import { calcGDP } from '@/utils/calcGDP'
@@ -114,6 +115,7 @@ export function StudyModeShell() {
     skillBalance,
     activeBuffs,
     laws,
+    hasSsaExchange,
     wordAssets,
     setHasSeenBriefing,
     setWordTier,
@@ -121,11 +123,13 @@ export function StudyModeShell() {
     syncVocabularyGDP,
     syncWordAssets,
     updateReviewDeficit,
+    syncReviewDeficitFromLearning,
     syncSkillBalance,
     enactLaw,
   } = useStudyModeStore()
 
   const [loading, setLoading] = useState(true)
+  const [profileLoading, setProfileLoading] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
   const [words, setWords] = useState<Word[]>([])
   const [notice, setNotice] = useState('')
@@ -142,17 +146,16 @@ export function StudyModeShell() {
   useEffect(() => {
     async function loadWords() {
       setLoading(true)
-      const supabase = createClient()
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const user = await getCurrentUser()
       setUserId(user?.id ?? null)
 
       if (user) {
         const remoteProfile = await loadStudyModeProfile(user.id).catch(() => null)
         if (remoteProfile) applyRemoteStudyModeProfile(remoteProfile)
       }
+      setProfileLoading(false)
 
+      const supabase = createClient()
       const allWordsQuery = selectedExam
         ? supabase.from('words').select('*').eq('category', selectedExam).order('id')
         : supabase.from('words').select('*').order('id')
@@ -163,13 +166,15 @@ export function StudyModeShell() {
         setWords([])
         syncWordAssets([])
         syncVocabularyGDP(0, buildGdpHistory(0))
-        updateReviewDeficit(0)
+        syncReviewDeficitFromLearning(0)
         setLoading(false)
         return
       }
 
       const normalizedAllWords = (allWordsData ?? []) as Word[]
-      const normalizedWords = normalizedAllWords.filter((word) => (word.tier ?? 'full') === selectedWordTier)
+      const normalizedWords = selectedWordTier === 'core'
+        ? normalizedAllWords.filter((word) => (word.tier ?? 'full') === 'core')
+        : normalizedAllWords
       setWords(normalizedWords)
 
       let records: WordRecord[] = []
@@ -200,15 +205,17 @@ export function StudyModeShell() {
       })
 
       const gdp = calcGDP(assets)
-      const reviewDebt = assets.filter((asset) => asset.status !== 'known').length
+      const reviewDebt = assets.filter((asset) => asset.status === 'learning').length
       syncWordAssets(assets)
-      syncVocabularyGDP(gdp, buildGdpHistory(gdp))
-      updateReviewDeficit(reviewDebt)
+      if (hasSsaExchange) {
+        syncVocabularyGDP(gdp, buildGdpHistory(gdp))
+      }
+      syncReviewDeficitFromLearning(reviewDebt, { source: 'overdue' })
       setLoading(false)
     }
 
     void loadWords()
-  }, [selectedExam, selectedWordTier, syncVocabularyGDP, syncWordAssets, updateReviewDeficit])
+  }, [hasSsaExchange, selectedExam, selectedWordTier, syncReviewDeficitFromLearning, syncVocabularyGDP, syncWordAssets, updateReviewDeficit])
 
   async function persistIfLoggedIn(eventType: string, payload: Record<string, unknown>) {
     if (!userId) return
@@ -267,12 +274,12 @@ export function StudyModeShell() {
 
     syncWordAssets(nextAssets)
     syncVocabularyGDP(nextGDP, buildGdpHistory(nextGDP))
-    updateReviewDeficit(nextAssets.filter((asset) => asset.status !== 'known').length)
+    syncReviewDeficitFromLearning(nextAssets.filter((asset) => asset.status === 'learning').length, { source: 'recon' })
     setNotice('词汇状态已同步，国家 GDP 与复习赤字已重新计算。')
     await persistIfLoggedIn('word_status_updated', { wordId, status, nextGDP, tier: selectedWordTier })
   }
 
-  const showBriefing = !hasSeenBriefing
+  const showBriefing = !profileLoading && !hasSeenBriefing
   const showSelection = hasSeenBriefing && !selectedExam
   const showTierCommand = !!selectedExam && !hasChosenWordTier
   const currentTierMeta = tierCopy[selectedWordTier]
@@ -332,7 +339,7 @@ export function StudyModeShell() {
         vocabularyGDP={vocabularyGDP}
         administrativePower={administrativePower}
         reviewDeficit={reviewDeficit}
-        gdpHistory={gdpHistory.length ? gdpHistory : buildGdpHistory(Math.max(vocabularyGDP, 1200))}
+        gdpHistory={gdpHistory.length ? gdpHistory : buildGdpHistory(0)}
         skillBalance={skillBalance}
         activeBuffs={activeBuffs}
         readingOps={{
@@ -460,3 +467,7 @@ export function StudyModeShell() {
     </div>
   )
 }
+
+
+
+

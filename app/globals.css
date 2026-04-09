@@ -332,3 +332,16 @@ body {
 /* Send button Claude Code fix */
 .btn-send { cursor: pointer; }
 .btn-send:disabled { cursor: not-allowed; }
+
+/* ============================================
+   政策输出部 - 终端扫描线动效
+   Essay Terminal Scan Animation
+============================================ */
+@keyframes scan {
+  0% { top: 0; opacity: 1; }
+  100% { top: 100%; opacity: 0.6; }
+}
+
+.animate-scan {
+  animation: scan 1.5s linear infinite;
+}

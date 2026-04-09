@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
+import { getSession } from '@/lib/session'
 
 function getClient() {
   return new OpenAI({
@@ -15,6 +16,12 @@ const categoryLabel: Record<string, string> = {
   kaoyan1: '考研英语一',
   kaoyan2: '考研英语二',
 }
+
+const validTypes = [
+  'writing', 'listening_news', 'listening_interview', 'listening_passage',
+  'reading_match', 'reading_choice', 'reading_cloze', 'translation', 'cloze',
+  'reading', 'new_type_match', 'new_type_summary', 'writing_small', 'writing_big'
+]
 
 function buildPrompt(category: string, type: string, count: number): string {
   const cat = categoryLabel[category] ?? '英语'
@@ -45,14 +52,24 @@ difficulty: 1简单 2中等 3困难`
 }
 
 export async function POST(req: NextRequest) {
+  const session = await getSession()
+  if (!session) {
+    return NextResponse.json({ error: '未登录' }, { status: 401 })
+  }
+
   try {
     const { category, type, count = 5 } = await req.json()
     if (!categoryLabel[category]) {
       return NextResponse.json({ error: '无效的题目类别' }, { status: 400 })
     }
+    if (!validTypes.includes(type)) {
+      return NextResponse.json({ error: '无效的题目类型' }, { status: 400 })
+    }
+    const safeCount = Math.max(1, Math.min(20, Number(count) || 5))
+
     const response = await getClient().chat.completions.create({
       model: 'deepseek-chat',
-      messages: [{ role: 'user', content: buildPrompt(category, type, count) }],
+      messages: [{ role: 'user', content: buildPrompt(category, type, safeCount) }],
       response_format: { type: 'json_object' },
       temperature: 0.7,
     })

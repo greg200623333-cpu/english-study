@@ -1,6 +1,5 @@
-﻿'use client'
-
-import Link from 'next/link'
+﻿import Link from 'next/link'
+import { HomeOnboardingFlow } from '@/components/HomeOnboardingFlow'
 
 const strategicSignals = [
   { label: '词汇 GDP', desc: '单词不再是孤立记忆，而是国家经济底盘。', color: '#22d3ee' },
@@ -58,7 +57,7 @@ export default function Home() {
                 你的每次训练都会回流到 GDP、基建、赤字、事件流与战略曲线。
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/dashboard" className="btn-glow rounded-2xl px-8 py-4 text-lg font-bold text-white">进入最高指挥部</Link>
+                <HomeOnboardingFlow />
                 <Link href="/portal" className="glass rounded-2xl px-8 py-4 text-lg font-bold text-slate-100" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>专业模式</Link>
               </div>
               <div className="mt-6 text-sm text-slate-500">提示：个人战略方向现在支持按备考节奏随时调整。</div>

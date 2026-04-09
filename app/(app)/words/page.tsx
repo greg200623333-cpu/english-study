@@ -1,7 +1,7 @@
 ﻿'use client'
 
-import { StudyModeShell } from '@/components/study-mode/StudyModeShell'
+import { VocabularyTreasury } from '@/components/study-mode/VocabularyTreasury'
 
 export default function WordsPage() {
-  return <StudyModeShell />
+  return <VocabularyTreasury />
 }

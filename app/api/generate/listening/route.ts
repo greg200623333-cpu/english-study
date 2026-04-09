@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { getSession } from '@/lib/session'
 
 function getClient() {
   return new OpenAI({
@@ -9,8 +10,14 @@ function getClient() {
 }
 
 export async function POST(req: NextRequest) {
+  const session = await getSession()
+  if (!session) {
+    return NextResponse.json({ error: '未登录' }, { status: 401 })
+  }
+
   try {
     const { category, type, count = 3 } = await req.json()
+    const safeCount = Math.max(1, Math.min(10, Number(count) || 3))
 
     const typeDesc: Record<string, string> = {
       listening_news: '新闻广播（语速较快，约150词，涉及时事、科技、社会话题）',
@@ -21,7 +28,7 @@ export async function POST(req: NextRequest) {
     const catDesc = category === 'cet4' ? '四级' : '六级'
     const desc = typeDesc[type] ?? '英语听力材料'
 
-    const prompt = `你是一位专业的大学英语${catDesc}听力出题专家。请生成 ${count} 段${desc}听力材料，每段材料附带3道选择题。
+    const prompt = `你是一位专业的大学英语${catDesc}听力出题专家。请生成 ${safeCount} 段${desc}听力材料，每段材料附带3道选择题。
 
 严格按以下JSON格式返回，不输出其他内容：
 {

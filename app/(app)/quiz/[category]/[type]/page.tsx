@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { getCurrentUser } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/client'
 import { useWarRoomSync } from '@/hooks/useWarRoomSync'
 import ListeningPage from './listening/page'
@@ -60,7 +61,12 @@ export default function QuizTypePage() {
   const [aiAnalysis, setAiAnalysis] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
   const [showPassage, setShowPassage] = useState(true)
+  const [userId, setUserId] = useState<string | null>(null)
   const { syncQuizAttempt } = useWarRoomSync()
+
+  useEffect(() => {
+    getCurrentUser().then((user) => setUserId(user?.id ?? null))
+  }, [])
 
   useEffect(() => {
     if (isListening) {
@@ -85,14 +91,11 @@ export default function QuizTypePage() {
 
     const current = questions[index]
     const isCorrect = option[0] === current.answer
-    const supabase = createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
 
-    if (user) {
+    if (userId) {
+      const supabase = createClient()
       await supabase.from('quiz_records').insert({
-        user_id: user.id,
+        user_id: userId,
         question_id: current.id,
         user_answer: option[0],
         is_correct: isCorrect,

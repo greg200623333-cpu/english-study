@@ -1,23 +1,27 @@
 ﻿'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { StrategicFab } from '@/components/study-mode/StrategicFab'
+import { useStudyModeStore } from '@/stores/useStudyModeStore'
 
 const navItems = [
   { href: '/dashboard', label: '最高指挥部', icon: '◈', mobileIcon: '🛰', tag: 'HQ' },
   { href: '/quiz', label: '作战部署台', icon: '◉', mobileIcon: '⚔', tag: 'OPS' },
   { href: '/words', label: '词汇财政部', icon: '◍', mobileIcon: '📚', tag: 'GDP' },
   { href: '/essay', label: '政策输出部', icon: '◎', mobileIcon: '✍', tag: 'WRITE' },
+  { href: '/ssa', label: '战略勤务局', icon: '◬', mobileIcon: '🎯', tag: 'SSA' },
   { href: '/profile', label: '指挥官档案', icon: '◇', mobileIcon: '👤', tag: 'ME' },
 ]
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
+  const isSsa = pathname === '/ssa'
+  const resetForUserSwitch = useStudyModeStore((state) => state.resetForUserSwitch)
 
   async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
+    resetForUserSwitch()
+    await fetch('/api/auth/logout', { method: 'POST' })
     router.push('/')
   }
 
@@ -76,7 +80,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <button onClick={handleLogout} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-400">退出</button>
       </header>
 
-      <main className="min-h-screen w-full flex-1 p-4 pb-20 pt-16 md:ml-64 md:p-8 md:pt-8">{children}</main>
+      <main className={isSsa ? 'min-h-screen w-full flex-1 pb-20 pt-16 md:ml-64 md:pb-0 md:pt-0' : 'min-h-screen w-full flex-1 p-4 pb-20 pt-16 md:ml-64 md:p-8 md:pt-8'}>{children}</main>
+      <StrategicFab />
 
       <nav className="glass fixed bottom-0 left-0 right-0 z-20 flex items-center md:hidden" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {navItems.map((item) => {

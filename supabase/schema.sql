@@ -1,10 +1,14 @@
 ﻿-- 用户学习进度表
 create table if not exists profiles (
-  id uuid references auth.users on delete cascade primary key,
-  email text,
+  id uuid default gen_random_uuid() primary key,
+  username text unique not null,
+  password_hash text not null,
   nickname text,
   created_at timestamptz default now()
 );
+
+-- 为用户名创建索引
+create index if not exists idx_profiles_username on profiles(username);
 
 create table if not exists questions (
   id serial primary key,
@@ -61,6 +65,7 @@ create table if not exists study_mode_profiles (
   user_id uuid primary key references profiles(id) on delete cascade,
   has_seen_briefing boolean default false,
   selected_exam text,
+  selected_word_tier text not null default 'core' check (selected_word_tier in ('core', 'full')),
   exam_label text,
   days_to_exam int default 0,
   administrative_power int default 0,
@@ -93,6 +98,10 @@ alter table study_mode_profiles add column if not exists exam_label text;
 alter table study_mode_profiles add column if not exists days_to_exam int default 0;
 alter table study_mode_profiles add column if not exists administrative_power int default 0;
 alter table study_mode_profiles add column if not exists base_administrative_power int default 0;
+alter table study_mode_profiles add column if not exists base_assets int default 0;
+alter table study_mode_profiles add column if not exists session_gains numeric default 0;
+alter table study_mode_profiles add column if not exists last_session_gain numeric default 0;
+alter table study_mode_profiles add column if not exists has_ssa_exchange boolean default false;
 alter table study_mode_profiles add column if not exists vocabulary_gdp int default 0;
 alter table study_mode_profiles add column if not exists baseline_wpm int default 0;
 alter table study_mode_profiles add column if not exists skill_balance jsonb default '{"listening":0,"speaking":0,"reading":0,"writing":0}'::jsonb;
@@ -105,8 +114,17 @@ alter table study_mode_profiles add column if not exists updated_at timestamptz 
 alter table study_mode_profiles drop column if exists strategy_last_changed_at;
 alter table study_mode_profiles drop column if exists strategy_locked_until;
 alter table words add column if not exists tier text not null default 'full' check (tier in ('core', 'full'));
-create unique index if not exists idx_words_word_category_tier on words(word, category, tier);
+alter table words add column if not exists stability float not null default 1;
+alter table words add column if not exists difficulty float not null default 1.5;
+alter table words add column if not exists last_review bigint not null default 0;
+alter table words add column if not exists next_review bigint not null default 0;
+alter table word_records add column if not exists stability   float  not null default 1;
+alter table word_records add column if not exists difficulty  float  not null default 1.5;
+alter table word_records add column if not exists last_review bigint not null default 0;
+alter table word_records add column if not exists next_review bigint not null default 0;
+create index if not exists idx_word_records_user_next_review on word_records (user_id, next_review);
 create index if not exists idx_words_category_tier on words(category, tier);
+create index if not exists idx_words_next_review on words(next_review);
 create index if not exists idx_study_mode_events_user_time on study_mode_events(user_id, created_at desc);
 create index if not exists idx_quiz_records_user_time on quiz_records(user_id, created_at desc);
 create index if not exists idx_essays_user_time on essays(user_id, created_at desc);
@@ -141,6 +159,7 @@ drop policy if exists "用户只能读写自己的单词记录" on word_records;
 drop policy if exists "用户只能读写自己的作文" on essays;
 drop policy if exists "题目所有人可读" on questions;
 drop policy if exists "单词所有人可读" on words;
+drop policy if exists "认证用户可更新单词复习数据" on words;
 drop policy if exists "用户只能读写自己的战情档案" on study_mode_profiles;
 drop policy if exists "用户只能读写自己的战情事件" on study_mode_events;
 
@@ -150,6 +169,7 @@ create policy "用户只能读写自己的单词记录" on word_records for all 
 create policy "用户只能读写自己的作文" on essays for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "题目所有人可读" on questions for select using (true);
 create policy "单词所有人可读" on words for select using (true);
+create policy "认证用户可更新单词复习数据" on words for update using (auth.uid() is not null) with check (auth.uid() is not null);
 create policy "用户只能读写自己的战情档案" on study_mode_profiles for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "用户只能读写自己的战情事件" on study_mode_events for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 

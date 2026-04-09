@@ -1,0 +1,239 @@
+/* 扫描线动效 - Scanning Line Animation */
+@keyframes scan-line {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.scan-line {
+  animation: scan-line 2s ease-in-out infinite;
+}
+
+/* 块状光标闪烁 - Block Cursor Blink */
+@keyframes cursor-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor::after {
+  content: '█';
+  animation: cursor-blink 1s step-end infinite;
+  color: #22d3ee;
+  margin-left: 2px;
+}
+
+/* 状态灯脉冲 - Status Light Pulse */
+@keyframes pulse-red {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 8px #ef4444, 0 0 16px #ef4444;
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 4px #ef4444, 0 0 8px #ef4444;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 8px #10b981, 0 0 16px #10b981;
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 6px #10b981, 0 0 12px #10b981;
+  }
+}
+
+.status-light-red {
+  animation: pulse-red 1.5s ease-in-out infinite;
+}
+
+.status-light-green {
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+/* 网格背景 - Grid Background */
+.grid-terminal-bg {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* L型定位边框 - L-shaped Corner Borders */
+.corner-borders {
+  position: relative;
+}
+
+.corner-borders::before,
+.corner-borders::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #00e5ff;
+}
+
+/* 左上角 */
+.corner-borders::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+/* 右上角 */
+.corner-borders::after {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+
+/* 左下角和右下角通过伪元素实现 */
+.corner-borders-bottom::before,
+.corner-borders-bottom::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #00e5ff;
+}
+
+.corner-borders-bottom::before {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+
+.corner-borders-bottom::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* 16进制流动画 - Hex Stream Animation */
+@keyframes hex-flow {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.hex-stream {
+  animation: hex-flow 8s linear infinite;
+}
+
+/* 波形动画 - Waveform Animation */
+@keyframes wave-pulse {
+  0%, 100% {
+    height: 20%;
+  }
+  50% {
+    height: 80%;
+  }
+}
+
+.wave-bar {
+  animation: wave-pulse 1.5s ease-in-out infinite;
+}
+
+.wave-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.wave-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.wave-bar:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.wave-bar:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+/* 按钮发光效果 - Button Glow Effect */
+.btn-broadcast {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-broadcast:hover {
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.5), 0 0 40px rgba(34, 211, 238, 0.3);
+}
+
+.btn-broadcast::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(34, 211, 238, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+}
+
+.btn-broadcast:hover::before {
+  left: 100%;
+}
+
+/* 玻璃态效果增强 - Enhanced Glass Effect */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 数据流动效果 - Data Stream Effect */
+@keyframes data-stream {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.data-stream {
+  animation: data-stream 3s linear infinite;
+}

@@ -1,12 +1,15 @@
 ﻿'use client'
 
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import type { ExamType } from '@/stores/useStudyModeStore'
 
 type SelectionModalProps = {
   open: boolean
   onSelect: (exam: ExamType) => void | Promise<void>
   currentExam?: ExamType | null
+  redirectToSsa?: boolean
 }
 
 const options: Array<{
@@ -26,7 +29,10 @@ function reportSelectionError(error: unknown) {
   console.error('Campaign selection failed:', error)
 }
 
-export function SelectionModal({ open, onSelect, currentExam }: SelectionModalProps) {
+export function SelectionModal({ open, onSelect, currentExam, redirectToSsa = true }: SelectionModalProps) {
+  const router = useRouter()
+  const [submitting, setSubmitting] = useState<ExamType | null>(null)
+
   if (!open) return null
 
   return (
@@ -53,8 +59,16 @@ export function SelectionModal({ open, onSelect, currentExam }: SelectionModalPr
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.08 }}
+                disabled={submitting !== null}
                 onClick={() => {
-                  Promise.resolve(onSelect(option.key)).catch(reportSelectionError)
+                  setSubmitting(option.key)
+                  Promise.resolve()
+                    .then(() => onSelect(option.key))
+                    .then(() => {
+                      if (redirectToSsa) router.push('/ssa')
+                    })
+                    .catch(reportSelectionError)
+                    .finally(() => setSubmitting(null))
                 }}
                 className="mode-card-mega rounded-[1.75rem] bg-slate-950/80 p-6 text-left"
                 style={{ ['--glow-color-1' as string]: `${option.accent}66`, ['--glow-color-2' as string]: `${option.accent}22` }}
@@ -69,7 +83,9 @@ export function SelectionModal({ open, onSelect, currentExam }: SelectionModalPr
                 <p className="mt-4 text-sm text-slate-300">{option.subtitle}</p>
                 <p className="mt-4 text-sm leading-7 text-slate-400">{option.description}</p>
                 <div className="mt-6 space-y-2 text-sm text-slate-200">{option.stats.map((stat) => <div key={stat} className="rounded-xl border border-white/8 bg-white/5 px-3 py-2">{stat}</div>)}</div>
-                <div className="mt-8 text-sm font-semibold" style={{ color: option.accent }}>{active ? '当前执行路线' : '确认此战略路线'}</div>
+                <div className="mt-8 text-sm font-semibold" style={{ color: option.accent }}>
+                  {submitting === option.key ? '战略回传中...' : active ? '当前执行路线' : '确认此战略路线'}
+                </div>
               </motion.button>
             )
           })}
