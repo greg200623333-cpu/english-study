@@ -1,3 +1,4 @@
+import 'server-only'
 import { cookies } from 'next/headers'
 import { SignJWT, jwtVerify } from 'jose'
 
@@ -6,12 +7,14 @@ export type UserSession = {
   username: string
 }
 
-const SECRET = new TextEncoder().encode(
-  process.env.SESSION_SECRET || 'fallback-secret-change-in-production'
-)
+if (!process.env.SESSION_SECRET) {
+  throw new Error('[session] SESSION_SECRET 未配置。请在 .env.local 中设置该变量后再启动服务。')
+}
+
+const SECRET = new TextEncoder().encode(process.env.SESSION_SECRET)
 
 export async function createSessionToken(session: UserSession, expiresIn = '30d'): Promise<string> {
-  return await new SignJWT(session)
+  return await new SignJWT({ id: session.id, username: session.username })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime(expiresIn)
@@ -24,7 +27,10 @@ export async function getSession(): Promise<UserSession | null> {
   if (!token) return null
   try {
     const { payload } = await jwtVerify(token, SECRET)
-    return payload as UserSession
+    const id = payload['id']
+    const username = payload['username']
+    if (typeof id !== 'string' || typeof username !== 'string') return null
+    return { id, username }
   } catch {
     return null
   }

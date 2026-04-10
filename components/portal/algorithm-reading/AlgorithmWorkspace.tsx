@@ -54,21 +54,27 @@ const fallbackPayload: WorkspacePayload = {
   quizzes: [
     {
       id: 'binary-search',
-      prompt: 'Use _ _ _ _ _ _ search to locate the replacement position in O(log n).',
+      prompt: 'Use _____ search to locate the replacement position in O(log n).',
       answer: 'binary',
       hint: 'It repeatedly halves the search interval.',
+      cnConcept: '二分查找 · O(log n)',
+      cnHint: '在 tails 数组中定位插入位置时，使用二分查找可将每次操作从 O(n) 降至 O(log n)，整体复杂度达到 O(n log n)。',
     },
     {
       id: 'tails-array',
-      prompt: 'The tails _ _ _ _ _ stores the smallest valid ending value for each length.',
-      answer: 'array',
-      hint: 'It is a contiguous structure indexed by subsequence length.',
+      prompt: 'The algorithm maintains a _____ array to store the smallest tail of each valid length.',
+      answer: 'tails',
+      hint: 'It stores the optimal ending element for each subsequence length.',
+      cnConcept: 'tails 数组维护',
+      cnHint: 'tails[i] 保存当前长度为 i+1 的递增子序列末尾的最小值。贪心策略使得 tails 始终有序，从而支持二分查找。',
     },
     {
       id: 'subsequence',
-      prompt: 'The algorithm tracks the longest increasing _ _ _ _ _ _ _ _ _ _.',
+      prompt: 'A valid answer is an increasing _____, where elements need not be adjacent.',
       answer: 'subsequence',
       hint: 'Elements keep their relative order but do not need to stay adjacent.',
+      cnConcept: '子序列 vs 子数组',
+      cnHint: '子序列（subsequence）保持相对顺序但元素可以不连续；子数组（subarray）要求元素连续。LIS 问题求的是子序列，而非子数组。',
     },
   ],
 }

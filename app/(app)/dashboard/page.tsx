@@ -103,6 +103,21 @@ export default function DashboardPage() {
   const _hasHydrated = useStudyModeStore((state) => state._hasHydrated)
   const [user, setUser] = useState<{ id: string; username: string } | null | undefined>(undefined)
   const [stats, setStats] = useState<DashboardStats | null>(null)
+
+  // ── Hydration guard: render skeleton until Zustand has rehydrated from localStorage ──
+  // Without this, persisted values (vocabularyGDP, laws, etc.) would flash
+  // as zeros on the first paint, causing a visible layout jump.
+  if (!_hasHydrated) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-10 w-72 rounded-2xl bg-white/5" />
+        <div className="grid gap-4 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => <div key={i} className="h-32 rounded-[1.5rem] bg-white/5" />)}
+        </div>
+        <div className="h-64 rounded-[1.75rem] bg-white/5" />
+      </div>
+    )
+  }
   const [profile, setProfile] = useState<StudyProfile | null>(null)
   const [trends, setTrends] = useState<TrendRow[]>([])
   const [winRates, setWinRates] = useState<WinRateRow[]>([])
