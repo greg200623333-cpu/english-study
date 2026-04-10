@@ -134,6 +134,8 @@ export type StudyModeState = StudyModeSnapshot & {
   ssaHasMore: boolean
   pendingDeficitNotice: string | null
   hasSeenFirstDeficitNotice: boolean
+  isNoticeOpen: boolean
+  isBriefingOpen: boolean
   _hasHydrated: boolean
   setHasHydrated: (value: boolean) => void
   setHasSeenBriefing: (seen: boolean) => void
@@ -153,6 +155,10 @@ export type StudyModeState = StudyModeSnapshot & {
   syncSsaPoolMeta: (meta: { loadedCount: number; hasMore: boolean }) => void
   setSsaMountRequired: (required: boolean) => void
   setDailyWordTarget: (target: number) => void
+  openNotice: () => void
+  closeNotice: () => void
+  openBriefing: () => void
+  closeBriefing: () => void
   resetForUserSwitch: () => void
 }
 
@@ -265,6 +271,12 @@ export const useStudyModeStore = create<StudyModeState>()(
     (set, get) => ({
       _hasHydrated: false,
       setHasHydrated: (value) => set({ _hasHydrated: value }),
+      isNoticeOpen: false,
+      openNotice: () => set({ isNoticeOpen: true }),
+      closeNotice: () => set({ isNoticeOpen: false }),
+      isBriefingOpen: false,
+      openBriefing: () => set({ isBriefingOpen: true }),
+      closeBriefing: () => set({ isBriefingOpen: false }),
       hasSeenBriefing: false,
       selectedExam: null,
       selectedWordTier: 'core',
@@ -339,6 +351,7 @@ export const useStudyModeStore = create<StudyModeState>()(
             targetGDP: isSameExam ? current.targetGDP : 0,
             currentGDP: isSameExam ? current.currentGDP : 0,
             ssaMountRequired: false,
+            wordAssets: isSameExam ? current.wordAssets : [],
           }
         })
         return { ok: true }

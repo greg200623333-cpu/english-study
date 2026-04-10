@@ -322,10 +322,12 @@ export function SsaCommandCenter() {
     updateReviewDeficit,
     syncSsaPoolMeta,
     setDailyWordTarget,
+    _hasHydrated,
   } = useStudyModeStore()
   const [words, setWords] = useState<SsaWord[]>(fallbackWords)
   const [index, setIndex] = useState(0)
-  const [loading, setLoading] = useState(true)
+  // Start as false — we'll set true once we know hydration is done and no wordbook is selected
+  const [loading, setLoading] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const [deploying, setDeploying] = useState(false)
   const [techLabWord, setTechLabWord] = useState<TechModalWord | null>(null)
@@ -344,9 +346,18 @@ export function SsaCommandCenter() {
   const flipStartRef = useRef<number | null>(null)
   const pendingUpdatesRef = useRef<Array<{ wordId: number; stability: number; difficulty: number; last_review: number; next_review: number }>>([])
   const reviewStatsRef = useRef({ dueCount: 0, totalLearned: 0, avgStability: 0 })
+  const isSyncingRef = useRef(false)
+  const reviewDeficitRef = useRef(reviewDeficit)
+  const syncPendingReviewsRef = useRef<() => Promise<void>>(async () => {})
   const [reviewRating, setReviewRating] = useState<'perfect' | 'good' | 'hard' | 'forgot' | null>(null)
   const [manualOverride, setManualOverride] = useState(false)
   const [healFlash, setHealFlash] = useState(false)
+  const [allWordbookWords, setAllWordbookWords] = useState<SsaWord[]>([])
+  const [wordbookStats, setWordbookStats] = useState({ unseenCount: 0, dueCount: 0 })
+  const [ttsPlaying, setTtsPlaying] = useState(false)
+
+  // Keep reviewDeficitRef in sync so mountWordbook (a useCallback) can read the latest value
+  useEffect(() => { reviewDeficitRef.current = reviewDeficit }, [reviewDeficit])
 
   const focused = words[index] ?? null
   const leftWing = words[index - 1] ?? null
@@ -359,7 +370,15 @@ export function SsaCommandCenter() {
   }, [activeBuffs.focusRate, activeBuffs.memoryRate])
 
   const reviewStats = useMemo(() => {
-    const { dueCount, totalLearned, avgStability } = reviewStatsRef.current
+    const now = Date.now()
+    // Use allWordbookWords so DUE/CR/STB stay consistent with StrategicStatusBar
+    const source = allWordbookWords.length > 0 ? allWordbookWords : words
+    const dueCount = source.filter(w => w.next_review > 0 && w.next_review <= now).length
+    const learnedRecords = source.filter(w => w.status === 'known' || w.status === 'learning')
+    const totalLearned = learnedRecords.length
+    const avgStability = learnedRecords.length > 0
+      ? learnedRecords.reduce((sum, w) => sum + w.stability, 0) / learnedRecords.length
+      : 0
     const casualtyRate = totalLearned > 0 ? ((dueCount / totalLearned) * 100).toFixed(1) : '0.0'
     const estTime = Math.ceil(dueCount * 0.15)
     return {
@@ -368,22 +387,59 @@ export function SsaCommandCenter() {
       est: estTime,
       stb: avgStability.toFixed(1),
     }
-  }, [words]) // re-compute when words change (after mastered)
+  }, [allWordbookWords, words])
 
   useEffect(() => {
     setMountModalOpen(ssaMountRequired)
   }, [ssaMountRequired])
 
-  // Auto-reload words when component mounts if a wordbook was previously selected
+  // Auto-reload words once Zustand has hydrated from localStorage
+  const hasMountedRef = useRef(false)
   useEffect(() => {
-    if (!ssaMountRequired && selectedExam && !hasMountedWordbook) {
+    if (!_hasHydrated) return
+    if (hasMountedRef.current) return
+    hasMountedRef.current = true
+    if (!ssaMountRequired && selectedExam) {
+      void mountWordbook(selectedExam, selectedWordTier).then(() => setHasMountedWordbook(true))
+    } else {
+      // No wordbook selected yet — stop the loading spinner
+      setLoading(false)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [_hasHydrated])
+
+  // Re-build session queue when daily target changes (only after a wordbook is mounted)
+  const prevDailyTargetRef = useRef(dailyWordTarget)
+  useEffect(() => {
+    if (prevDailyTargetRef.current === dailyWordTarget) return
+    prevDailyTargetRef.current = dailyWordTarget
+    if (selectedExam && hasMountedWordbook) {
       void mountWordbook(selectedExam, selectedWordTier)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dailyWordTarget])
 
   function pushFeed(message: string) {
     setCombatFeed((current) => [message, ...current].slice(0, 18))
+  }
+
+  async function playTts(word: string) {
+    if (ttsPlaying) return
+    setTtsPlaying(true)
+    try {
+      const res = await fetch(`/api/tts?word=${encodeURIComponent(word)}`)
+      if (!res.ok) return
+      const buffer = await res.arrayBuffer()
+      const ctx = new AudioContext()
+      const decoded = await ctx.decodeAudioData(buffer)
+      const source = ctx.createBufferSource()
+      source.buffer = decoded
+      source.connect(ctx.destination)
+      source.onended = () => { setTtsPlaying(false); void ctx.close() }
+      source.start()
+    } catch {
+      setTtsPlaying(false)
+    }
   }
 
   const toSsaWord = useCallback((row: WordRow, absoluteIndex: number, wordType: 'review' | 'new' = 'new'): SsaWord => {
@@ -403,8 +459,8 @@ export function SsaCommandCenter() {
       rootHint: inferRootHint(row.word),
       stability: rec?.stability ?? 1,
       difficulty: rec?.difficulty ?? 1.5,
-      last_review: rec?.last_review ?? now,
-      next_review: rec?.next_review ?? now,
+      last_review: rec?.last_review ?? 0,
+      next_review: rec?.next_review ?? 0,
     }
   }, [])
 
@@ -412,7 +468,8 @@ export function SsaCommandCenter() {
     const prev = statusMapRef.current.get(wordId)
     statusMapRef.current.set(wordId, { ...(prev ?? { stability: 1, difficulty: 1.5, last_review: 0, next_review: 0 }), status })
     if (!userIdRef.current) return
-    await supabase.from('word_records').upsert({ user_id: userIdRef.current, word_id: wordId, status, updated_at: new Date().toISOString() }, { onConflict: 'user_id,word_id' })
+    const { error } = await supabase.from('word_records').upsert({ user_id: userIdRef.current, word_id: wordId, status, updated_at: new Date().toISOString() }, { onConflict: 'user_id,word_id' })
+    if (error) pushFeed(`[警告] 状态写入失败 word_id=${wordId}: ${error.message}`)
   }, [supabase])
 
   const mountWordbook = useCallback(async (exam: ExamType, tier: WordTier) => {
@@ -421,8 +478,52 @@ export function SsaCommandCenter() {
     setRevealed(false)
     setDeploying(false)
 
+    // Flush any pending SRS writes before querying, so DB reflects latest progress
+    await syncPendingReviewsRef.current()
+
     const user = await getCurrentUser()
     userIdRef.current = user?.id ?? null
+
+    // Replay any SRS updates that survived component unmount via SPA navigation.
+    // handleMastered writes records synchronously to localStorage; syncPendingReviews
+    // only flushes the in-memory pendingUpdatesRef which is lost on unmount.
+    // Reading localStorage here ensures DB is up-to-date before we query it.
+    if (user?.id) {
+      const lsKey = `SSA_ACTIVE_SESSION_${user.id}`
+      const stored = localStorage.getItem(lsKey)
+      if (stored) {
+        try {
+          const records: Array<{ wordId: number; stability: number; difficulty: number; last_review: number; next_review: number }> = JSON.parse(stored)
+          if (records.length > 0) {
+            const supabaseFlush = createClient()
+            const failedIds: number[] = []
+            for (const r of records) {
+              const { error } = await supabaseFlush.from('word_records').upsert({
+                user_id: user.id,
+                word_id: r.wordId,
+                stability: r.stability,
+                difficulty: r.difficulty,
+                last_review: r.last_review,
+                next_review: r.next_review,
+                updated_at: new Date().toISOString(),
+              }, { onConflict: 'user_id,word_id' })
+              if (error) {
+                failedIds.push(r.wordId)
+                console.error('[SSA localStorage replay] upsert error', { wordId: r.wordId, error })
+              }
+            }
+            if (failedIds.length === 0) {
+              localStorage.removeItem(lsKey)
+              pushFeed(`已从本地缓存恢复 ${records.length} 条 SRS 记录并同步至数据库。`)
+            } else {
+              pushFeed(`[警告] 本地缓存恢复失败 ${failedIds.length}/${records.length} 条。请检查控制台错误。`)
+            }
+          }
+        } catch {
+          // ignore malformed localStorage data
+        }
+      }
+    }
 
     const supabase = createClient()
     const now = Date.now()
@@ -454,20 +555,26 @@ export function SsaCommandCenter() {
     let statusMap = new Map<number, { status: 'new' | 'learning' | 'known'; stability: number; difficulty: number; last_review: number; next_review: number }>()
     let isNewToThisWordbook = false
     if (user && allWordIds.length) {
-      const { data: recordRows } = await supabase
+      const { data: recordRows, error: recordError } = await supabase
         .from('word_records')
         .select('word_id, status, stability, difficulty, last_review, next_review')
         .eq('user_id', user.id)
         .in('word_id', allWordIds)
-      statusMap = new Map((recordRows ?? []).map(r => [r.word_id as number, {
+      if (recordError) {
+        pushFeed(`[诊断] word_records 读取失败: ${recordError.message} (code=${recordError.code})`)
+        console.error('[SSA mountWordbook] word_records select error', recordError)
+      }
+      const rows = recordRows ?? []
+      statusMap = new Map(rows.map(r => [r.word_id as number, {
         status: r.status as 'new' | 'learning' | 'known',
         stability: (r.stability as number) ?? 1,
         difficulty: (r.difficulty as number) ?? 1.5,
         last_review: (r.last_review as number) ?? 0,
         next_review: (r.next_review as number) ?? 0,
       }]))
-      // Only "new to this wordbook" if user has zero records specifically in this exam
-      isNewToThisWordbook = (recordRows ?? []).length === 0
+      pushFeed(`[诊断] word_records 读取完成：共 ${rows.length} 条记录，user_id=${user.id.slice(0, 8)}…`)
+      // Only "new to this wordbook" if not mid-sync, no error, and truly no records exist in DB
+      isNewToThisWordbook = !isSyncingRef.current && !recordError && rows.length === 0
     }
     statusMapRef.current = statusMap
 
@@ -494,6 +601,11 @@ export function SsaCommandCenter() {
     setWords(nextWords)
     setPoolMeta({ loaded: nextWords.length, hasMore: false })
     syncSsaPoolMeta({ loadedCount: nextWords.length, hasMore: false })
+
+    // Build full wordbook word list for StrategicStatusBar (all words, not just session)
+    const fullWordbookWords: SsaWord[] = wordRows.map((row, i) => toSsaWord(row as WordRow, i, statusMap.get(row.id)?.next_review && statusMap.get(row.id)!.next_review <= now ? 'review' : 'new'))
+    setAllWordbookWords(fullWordbookWords)
+    setWordbookStats({ unseenCount: unseenIds.length, dueCount: dueIds.length })
 
     // Sync GDP mapping based on all words in this wordbook
     const knownCount = [...statusMap.values()].filter(r => r.status === 'known').length
@@ -553,24 +665,38 @@ export function SsaCommandCenter() {
 
   const syncPendingReviews = useCallback(async () => {
     if (pendingUpdatesRef.current.length === 0 || !userIdRef.current) return
+    isSyncingRef.current = true
     const updates = [...pendingUpdatesRef.current]
     pendingUpdatesRef.current = []
     const supabase = createClient()
-    for (const u of updates) {
-      await supabase.from('word_records').upsert({
-        user_id: userIdRef.current,
-        word_id: u.wordId,
-        stability: u.stability,
-        difficulty: u.difficulty,
-        last_review: u.last_review,
-        next_review: u.next_review,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,word_id' })
-    }
-    if (userIdRef.current) {
-      localStorage.removeItem(`SSA_ACTIVE_SESSION_${userIdRef.current}`)
+    try {
+      const failedIds: number[] = []
+      for (const u of updates) {
+        const { error } = await supabase.from('word_records').upsert({
+          user_id: userIdRef.current,
+          word_id: u.wordId,
+          stability: u.stability,
+          difficulty: u.difficulty,
+          last_review: u.last_review,
+          next_review: u.next_review,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'user_id,word_id' })
+        if (error) {
+          failedIds.push(u.wordId)
+          console.error('[SSA syncPendingReviews] upsert error', { wordId: u.wordId, error })
+        }
+      }
+      if (failedIds.length > 0) {
+        pushFeed(`[警告] SRS 同步失败 ${failedIds.length} 条（word_ids: ${failedIds.slice(0, 5).join(',')}）。请检查 RLS 策略或网络连接。`)
+      } else if (userIdRef.current) {
+        localStorage.removeItem(`SSA_ACTIVE_SESSION_${userIdRef.current}`)
+      }
+    } finally {
+      isSyncingRef.current = false
     }
   }, [])
+  // Keep the ref current so mountWordbook can call it without a circular dependency
+  syncPendingReviewsRef.current = syncPendingReviews
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -651,9 +777,17 @@ export function SsaCommandCenter() {
     }
 
     setWords(nextWords)
-    syncGdpMapping({
-      targetGDP: nextWords.length,
-      currentGDP: nextWords.filter(item => item.status === 'known').length,
+    // Keep full wordbook in sync so StrategicStatusBar reflects real distribution
+    setAllWordbookWords(prev => {
+      const updated = prev.map(w => w.id === word.id ? { ...w, status: newStatus, stability, difficulty, last_review, next_review } : w)
+      // Schedule GDP sync after render — cannot call Zustand set inside a React state updater
+      window.setTimeout(() => {
+        syncGdpMapping({
+          targetGDP: updated.length,
+          currentGDP: updated.filter(w => w.status === 'known').length,
+        })
+      }, 0)
+      return updated
     })
     if (gain > 0) registerSsaGain(gain, { combo: nextCombo, dailyCompleted })
     syncReviewDeficitFromLearning(nextWords.filter(item => item.status === 'learning').length, { source: 'recon' })
@@ -669,16 +803,6 @@ export function SsaCommandCenter() {
     if (!isForgot && word.wordType === 'review') {
       setHealFlash(true)
       window.setTimeout(() => setHealFlash(false), 800)
-      // Decrement dueCount since we cleared a review word
-      reviewStatsRef.current.dueCount = Math.max(0, reviewStatsRef.current.dueCount - 1)
-    }
-    // Update avgStability for all learned words
-    if (!isForgot) {
-      const allLearned = [...statusMapRef.current.values()].filter(r => r.status === 'known' || r.status === 'learning')
-      reviewStatsRef.current.avgStability = allLearned.length > 0
-        ? allLearned.reduce((sum, r) => sum + r.stability, 0) / allLearned.length
-        : 0
-      reviewStatsRef.current.totalLearned = allLearned.length
     }
     await persistStatus(word.id, newStatus)
 
@@ -745,9 +869,15 @@ export function SsaCommandCenter() {
   async function handleLearning(word: SsaWord) {
     const nextWords = words.map((item) => (item.id === word.id ? { ...item, status: 'learning' as const } : item))
     setWords(nextWords)
-    syncGdpMapping({
-      targetGDP: nextWords.length,
-      currentGDP: nextWords.filter((item) => item.status === 'known').length,
+    setAllWordbookWords(prev => {
+      const updated = prev.map(w => w.id === word.id ? { ...w, status: 'learning' as const } : w)
+      window.setTimeout(() => {
+        syncGdpMapping({
+          targetGDP: updated.length,
+          currentGDP: updated.filter(w => w.status === 'known').length,
+        })
+      }, 0)
+      return updated
     })
     syncReviewDeficitFromLearning(nextWords.filter((item) => item.status === 'learning').length, { source: 'recon' })
     pushFeed(`词汇 [${word.word}] 已进入侦察推进状态。`)
@@ -900,7 +1030,22 @@ export function SsaCommandCenter() {
                                 <div className="absolute inset-0 [backface-visibility:hidden]">
                                   <div className="mt-10 text-center md:mt-12">
                                     <div className="text-4xl font-black tracking-[0.04em] text-slate-50 md:text-6xl">{focused.word}</div>
-                                    <div className="mt-4 text-base text-slate-400 md:text-lg">{focused.phonetic ?? 'phonetic pending'}</div>
+                                    <div className="mt-4 flex items-center justify-center gap-3">
+                                      <span className="text-base text-slate-400 md:text-lg">{focused.phonetic ?? 'phonetic pending'}</span>
+                                      <button
+                                        type="button"
+                                        onClick={() => void playTts(focused.word)}
+                                        disabled={ttsPlaying}
+                                        className="flex h-8 w-8 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-300 transition hover:bg-cyan-400/20 disabled:opacity-40"
+                                        title="点读发音"
+                                      >
+                                        {ttsPlaying ? (
+                                          <svg className="h-4 w-4 animate-pulse" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" /></svg>
+                                        ) : (
+                                          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" /></svg>
+                                        )}
+                                      </button>
+                                    </div>
                                   </div>
                                   <div className="mt-12 rounded-[1.5rem] border border-white/8 bg-white/5 p-5 text-sm leading-7 text-slate-300">
                                     当前目标保持加密状态。按 <span className="text-cyan-200">Space</span> 展开释义，按 <span className="text-cyan-200">Enter / J</span> 执行占领。
@@ -959,7 +1104,7 @@ export function SsaCommandCenter() {
               )}
 
               <div className="mt-6 px-4 md:px-8">
-                <StrategicStatusBar words={words} currentWordId={focused?.id} healFlash={healFlash} />
+                <StrategicStatusBar words={allWordbookWords.length > 0 ? allWordbookWords : words} currentWordId={focused?.id} healFlash={healFlash} />
               </div>
             </div>
 
@@ -970,7 +1115,27 @@ export function SsaCommandCenter() {
                     <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">Combat Feed</div>
                     <div className="mt-2 text-lg font-bold text-slate-50">实时战报流</div>
                   </div>
-                  <div className="rounded-full border border-rose-300/15 bg-rose-300/10 px-3 py-1 text-xs text-rose-100">赤字警戒 {words.filter((word) => word.status === 'learning').length}</div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const user = await getCurrentUser()
+                        if (!user) { pushFeed('[诊断] getCurrentUser 返回 null — 未登录或 session 失效'); return }
+                        pushFeed(`[诊断] user.id = ${user.id}`)
+                        const sb = createClient()
+                        // Test read
+                        const { data: readData, error: readErr } = await sb.from('word_records').select('id').eq('user_id', user.id).limit(1)
+                        if (readErr) pushFeed(`[诊断] READ 失败: ${readErr.message} (${readErr.code})`)
+                        else pushFeed(`[诊断] READ 成功，返回 ${readData?.length ?? 0} 条`)
+                        // Test write (upsert a dummy record with word_id=1)
+                        const { error: writeErr } = await sb.from('word_records').upsert({ user_id: user.id, word_id: 1, status: 'new', updated_at: new Date().toISOString() }, { onConflict: 'user_id,word_id' })
+                        if (writeErr) pushFeed(`[诊断] WRITE 失败: ${writeErr.message} (${writeErr.code})`)
+                        else pushFeed('[诊断] WRITE 成功 ✓')
+                      }}
+                      className="rounded-full border border-yellow-300/20 bg-yellow-300/10 px-3 py-1 text-xs text-yellow-200 hover:bg-yellow-300/20"
+                    >诊断 DB</button>
+                    <div className="rounded-full border border-rose-300/15 bg-rose-300/10 px-3 py-1 text-xs text-rose-100">赤字警戒 {words.filter((word) => word.status === 'learning').length}</div>
+                  </div>
                 </div>
                 <div className="mt-5 h-[18rem] overflow-hidden rounded-[1.5rem] border border-white/8 bg-[#020617] p-4 font-mono text-sm xl:h-[22rem]">
                   <div className="h-full space-y-3 overflow-y-auto pr-2 text-slate-300">
@@ -998,14 +1163,15 @@ export function SsaCommandCenter() {
                       className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3 text-lg font-bold text-slate-100 focus:border-cyan-300/30 focus:outline-none"
                     />
                   </div>
-                  {selectedExam && words.length > 0 && (
+                  {selectedExam && wordbookStats.unseenCount > 0 && (
                     <div className="rounded-xl border border-emerald-300/15 bg-emerald-300/10 p-4">
                       <div className="text-sm text-emerald-100/80">预计完成天数</div>
                       <div className="mt-2 text-3xl font-black text-white">
-                        {Math.ceil(words.filter(w => w.status !== 'known').length / dailyWordTarget)} 天
+                        {Math.ceil(wordbookStats.unseenCount / Math.max(1, dailyWordTarget - wordbookStats.dueCount))} 天
                       </div>
                       <div className="mt-2 text-xs text-emerald-100/60">
-                        剩余 {words.filter(w => w.status !== 'known').length} 个单词 ÷ {dailyWordTarget} 个/天
+                        未学 {wordbookStats.unseenCount} 词 ÷ 每日新词 {Math.max(1, dailyWordTarget - wordbookStats.dueCount)} 个/天
+                        {wordbookStats.dueCount > 0 && <span className="ml-1 text-amber-300/80">+ 需要复习 {wordbookStats.dueCount} 词</span>}
                       </div>
                     </div>
                   )}

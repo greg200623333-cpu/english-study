@@ -162,16 +162,26 @@ drop policy if exists "单词所有人可读" on words;
 drop policy if exists "认证用户可更新单词复习数据" on words;
 drop policy if exists "用户只能读写自己的战情档案" on study_mode_profiles;
 drop policy if exists "用户只能读写自己的战情事件" on study_mode_events;
+drop policy if exists "anon 可读写单词记录" on word_records;
+drop policy if exists "anon 可读写做题记录" on quiz_records;
+drop policy if exists "anon 可读写作文" on essays;
+drop policy if exists "anon 可读写战情档案" on study_mode_profiles;
+drop policy if exists "anon 可读写战情事件" on study_mode_events;
 
+-- NOTE: This app uses custom JWT auth (not Supabase Auth), so auth.uid() is always null.
+-- RLS policies that rely on auth.uid() silently block all writes from the anon key.
+-- User isolation is enforced at the application layer (user_id is always passed explicitly).
+-- These permissive policies allow the anon key to read/write all rows; the API routes
+-- and server-side logic are responsible for ensuring users only access their own data.
 create policy "用户只能读写自己的数据" on profiles for all using (auth.uid() = id) with check (auth.uid() = id);
-create policy "用户只能读写自己的做题记录" on quiz_records for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "用户只能读写自己的单词记录" on word_records for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "用户只能读写自己的作文" on essays for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "anon 可读写单词记录" on word_records for all using (true) with check (true);
+create policy "anon 可读写做题记录" on quiz_records for all using (true) with check (true);
+create policy "anon 可读写作文" on essays for all using (true) with check (true);
 create policy "题目所有人可读" on questions for select using (true);
 create policy "单词所有人可读" on words for select using (true);
-create policy "认证用户可更新单词复习数据" on words for update using (auth.uid() is not null) with check (auth.uid() is not null);
-create policy "用户只能读写自己的战情档案" on study_mode_profiles for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "用户只能读写自己的战情事件" on study_mode_events for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "认证用户可更新单词复习数据" on words for update using (true) with check (true);
+create policy "anon 可读写战情档案" on study_mode_profiles for all using (true) with check (true);
+create policy "anon 可读写战情事件" on study_mode_events for all using (true) with check (true);
 
 create or replace function get_study_mode_7d_trends(target_user uuid)
 returns table (

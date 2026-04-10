@@ -1,5 +1,6 @@
 ﻿import Link from 'next/link'
 import { HomeOnboardingFlow } from '@/components/HomeOnboardingFlow'
+import { HomeBriefingTrigger } from '@/components/HomeBriefingTrigger'
 
 const strategicSignals = [
   { label: '词汇 GDP', desc: '单词不再是孤立记忆，而是国家经济底盘。', color: '#22d3ee' },
@@ -34,6 +35,7 @@ export default function Home() {
             </div>
           </Link>
           <div className="flex items-center gap-4">
+            <HomeBriefingTrigger />
             <Link href="/login" className="text-sm text-slate-400 transition hover:text-white">登录</Link>
             <Link href="/register" className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-5 py-2 text-sm font-semibold text-cyan-100">注册指挥官</Link>
           </div>

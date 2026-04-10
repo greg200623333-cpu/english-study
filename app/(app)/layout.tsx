@@ -1,7 +1,9 @@
 ﻿'use client'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { StrategicFab } from '@/components/study-mode/StrategicFab'
+import { NoticeModal } from '@/components/NoticeModal'
 import { useStudyModeStore } from '@/stores/useStudyModeStore'
 
 const navItems = [
@@ -18,6 +20,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const isSsa = pathname === '/ssa'
   const resetForUserSwitch = useStudyModeStore((state) => state.resetForUserSwitch)
+  const openNotice = useStudyModeStore((state) => state.openNotice)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localStorage.getItem('hasSeenUpdateNotice_v1') !== 'true') {
+        openNotice()
+        localStorage.setItem('hasSeenUpdateNotice_v1', 'true')
+      }
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [openNotice])
 
   async function handleLogout() {
     resetForUserSwitch()
@@ -27,6 +40,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex grid-bg" style={{ background: '#0a0b0f' }}>
+      <NoticeModal />
       <aside className="glass fixed z-20 hidden h-full w-64 flex-col md:flex" style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="p-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <Link href="/dashboard" className="flex items-center gap-3">
@@ -64,6 +78,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <button
+            onClick={openNotice}
+            className="mb-2 flex w-full items-center gap-2 rounded-xl border border-indigo-500/25 bg-indigo-500/10 px-3 py-2.5 text-left text-sm font-medium text-indigo-300 transition hover:border-indigo-400/40 hover:bg-indigo-500/18"
+          >
+            <span className="animate-pulse text-base">📡</span>
+            <span>系统简报</span>
+          </button>
           <button onClick={handleLogout} className="w-full rounded-xl border border-white/10 px-3 py-3 text-left text-sm font-medium text-slate-400 transition hover:border-rose-400/20 hover:bg-rose-400/10 hover:text-rose-300">
             退出指挥部
           </button>
@@ -77,7 +98,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
           <span className="text-sm font-bold text-white">大战略备考</span>
         </Link>
-        <button onClick={handleLogout} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-400">退出</button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={openNotice}
+            className="flex items-center gap-1 rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1.5 text-xs font-medium text-indigo-300"
+          >
+            <span className="animate-pulse">📡</span>
+            <span>简报</span>
+          </button>
+          <button onClick={handleLogout} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-400">退出</button>
+        </div>
       </header>
 
       <main className={isSsa ? 'min-h-screen w-full flex-1 pb-20 pt-16 md:ml-64 md:pb-0 md:pt-0' : 'min-h-screen w-full flex-1 p-4 pb-20 pt-16 md:ml-64 md:p-8 md:pt-8'}>{children}</main>

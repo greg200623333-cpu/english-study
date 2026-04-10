@@ -38,6 +38,8 @@ export default function ProfilePage() {
   const hasSsaExchange = useStudyModeStore((state) => state.hasSsaExchange)
   const gdpHistory = useStudyModeStore((state) => state.gdpHistory)
   const resetForUserSwitch = useStudyModeStore((state) => state.resetForUserSwitch)
+  const syncVocabularyGDP = useStudyModeStore((state) => state.syncVocabularyGDP)
+  const updateReviewDeficit = useStudyModeStore((state) => state.updateReviewDeficit)
   const [user, setUser] = useState<{ id: string; username: string } | null>(null)
   const [profile, setProfile] = useState<StudyProfile | null>(null)
   const [loading, setLoading] = useState(true)
@@ -101,6 +103,34 @@ export default function ProfilePage() {
     }
 
     const issues: string[] = []
+
+    // 切换词书后，先从 word_records 重新计算新词书的 GDP 和赤字，再保存
+    try {
+      const supabase = createClient()
+      const [wordsRes, recordsRes] = await Promise.all([
+        supabase.from('words').select('id,tier,category').eq('category', exam),
+        supabase.from('word_records').select('word_id,status').eq('user_id', user.id),
+      ])
+      const wordsMeta = wordsRes.data ?? []
+      const wordRecords = recordsRes.data ?? []
+      const statusMap = new Map(wordRecords.map((r) => [r.word_id as number, r.status as 'new' | 'learning' | 'known']))
+      const assets = wordsMeta.map((w) => {
+        const status = statusMap.get(w.id) ?? 'new'
+        const difficultyWeight = w.category === 'cet6' ? 1.28 : w.category === 'kaoyan' ? 1.62 : 1
+        const masteryLevel = status === 'known' ? 0.92 : status === 'learning' ? 0.56 : 0.18
+        return { difficultyWeight, masteryLevel, status }
+      })
+      const knownCount = assets.filter((a) => a.status === 'known').length
+      const learningCount = assets.filter((a) => a.status === 'learning').length
+      const hasSsaData = knownCount > 0 || learningCount > 0
+      if (hasSsaData) {
+        const baseGDP = Math.round(assets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
+        syncVocabularyGDP(baseGDP)
+        updateReviewDeficit(learningCount * 3)
+      }
+    } catch {
+      // 计算失败不阻断流程
+    }
 
     await saveStudyModeProfile(user.id).catch((error) => {
       const details = describeStudyModeError(error)

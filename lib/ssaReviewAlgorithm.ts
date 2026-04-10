@@ -58,7 +58,7 @@ export function calculateNextReview(
       difficulty = Math.min(3.0, difficulty + 0.2)
       break
     case 'forgot':
-      stability = 1
+      stability = 0.1
       difficulty = Math.min(3.0, difficulty + 0.4)
       break
   }

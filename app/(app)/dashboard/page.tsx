@@ -80,6 +80,11 @@ export default function DashboardPage() {
   const laws = useStudyModeStore((state) => state.laws)
   const daysToExam = useStudyModeStore((state) => state.daysToExam)
   const ssaLoadedCount = useStudyModeStore((state) => state.ssaLoadedCount)
+  const syncVocabularyGDP = useStudyModeStore((state) => state.syncVocabularyGDP)
+  const syncWordAssets = useStudyModeStore((state) => state.syncWordAssets)
+  const updateReviewDeficit = useStudyModeStore((state) => state.updateReviewDeficit)
+  const syncGdpMapping = useStudyModeStore((state) => state.syncGdpMapping)
+  const dailyWordTarget = useStudyModeStore((state) => state.dailyWordTarget)
 
   const [riskAnalysis, setRiskAnalysis] = useState<string | null>(null)
   const [riskLoading, setRiskLoading] = useState(false)
@@ -156,7 +161,7 @@ export default function DashboardPage() {
 
       const [quizRes, wordRes, wordsMetaRes, essayRes, eventRes, analytics] = await Promise.all([
         supabase.from('quiz_records').select('is_correct, created_at').eq('user_id', sessionUser.id),
-        supabase.from('word_records').select('word_id,status').eq('user_id', sessionUser.id),
+        supabase.from('word_records').select('word_id,status,next_review').eq('user_id', sessionUser.id),
         wordsQuery,
         supabase.from('essays').select('score, category, created_at').eq('user_id', sessionUser.id),
         supabase.from('study_mode_events').select('id, event_type, source, created_at').eq('user_id', sessionUser.id).order('created_at', { ascending: false }).limit(6),
@@ -183,6 +188,31 @@ export default function DashboardPage() {
         core: buildTierCompletion(coreIds, statusMap),
         full: buildTierCompletion(fullIds, statusMap),
       }
+
+      // 重新从 word_records 同步 GDP 和赤字，确保切换词书后数据准确
+      if (activeExam && wordsMeta.length > 0) {
+        const assets = wordsMeta.map((w) => {
+          const status = statusMap.get(w.id) ?? 'new'
+          const difficultyWeight = w.category === 'cet6' ? 1.28 : w.category === 'kaoyan' ? 1.62 : 1
+          const masteryLevel = status === 'known' ? 0.92 : status === 'learning' ? 0.56 : 0.18
+          return { id: w.id, word: '', category: w.category ?? activeExam, tier: (w.tier ?? 'full') as 'core' | 'full', difficultyWeight, masteryLevel, status }
+        })
+        syncWordAssets(assets)
+        const knownCount = assets.filter((a) => a.status === 'known').length
+        const learningCount = assets.filter((a) => a.status === 'learning').length
+        const hasSsaData = knownCount > 0 || learningCount > 0
+        if (hasSsaData) {
+          const baseGDP = Math.round(assets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
+          syncVocabularyGDP(baseGDP)
+          const dueCount = wordRecords.filter((r) => {
+            const rec = r as { next_review?: number; status: string }
+            return rec.next_review && rec.next_review <= Date.now()
+          }).length
+          const dailyDeficit = Math.max(0, dailyWordTarget - Math.min(dailyWordTarget, wordsMeta.filter(w => !statusMap.has(w.id)).length))
+          updateReviewDeficit(learningCount * 3 + dailyDeficit)
+          syncGdpMapping({ targetGDP: wordsMeta.length, currentGDP: knownCount })
+        }
+      }
       const avgScore = essayRecords.length > 0 ? Math.round(essayRecords.reduce((sum, essay) => sum + (essay.score ?? 0), 0) / essayRecords.length) : 0
       const recentEssays = essayRecords.slice(0, 5)
 
@@ -193,7 +223,7 @@ export default function DashboardPage() {
     }
     void load()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedExam, selectedWordTier])
+  }, [selectedExam, selectedWordTier, dailyWordTarget])
 
   async function runRiskAnalysis() {
     if (!selectedExam || !stats) return
