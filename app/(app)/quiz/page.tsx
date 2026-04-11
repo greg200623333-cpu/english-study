@@ -112,11 +112,11 @@ export default function QuizPage() {
 
   return (
     <div className="space-y-6">
-      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-8">
+      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-4 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Operations Center</p>
-            <h1 className="mt-3 text-4xl font-black text-slate-50">作战部署台</h1>
+            <h1 className="mt-3 text-2xl font-black text-slate-50 md:text-4xl">作战部署台</h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-400">所有刷题行为都不再是孤立练习，而是围绕国家经营目标执行的战术行动。按战区、科目与题型部署任务。</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -140,7 +140,7 @@ export default function QuizPage() {
         </div>
       </section>
 
-      <section className="glass rounded-[1.75rem] border border-white/10 p-6">
+      <section className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex gap-2">
             {tabs.map((tab) => (
@@ -161,7 +161,7 @@ export default function QuizPage() {
       </section>
 
       {activeTab === 'cet' && (
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {Object.entries(CET_TYPES).map(([catKey, cat]) => (
             <div key={catKey} className="glass rounded-[1.75rem] overflow-hidden border border-white/10">
               <div className="px-6 py-5" style={{ background: `${cat.color}12`, borderBottom: `1px solid ${cat.color}22` }}>
@@ -214,7 +214,7 @@ export default function QuizPage() {
       )}
 
       {activeTab === 'kaoyan' && (
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {Object.entries(KAOYAN_TYPES).map(([catKey, cat]) => (
             <div key={catKey} className="glass rounded-[1.75rem] overflow-hidden border border-white/10">
               <div className="px-6 py-5" style={{ background: `${cat.color}12`, borderBottom: `1px solid ${cat.color}22` }}>

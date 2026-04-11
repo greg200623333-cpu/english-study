@@ -230,20 +230,20 @@ export default function ProfilePage() {
         </div>
       ) : null}
 
-      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-8">
+      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-4 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="flex h-20 w-20 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-cyan-400 to-blue-500 text-3xl font-black text-white">{user?.username?.[0]?.toUpperCase()}</div>
+            <div className="flex h-16 w-16 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-cyan-400 to-blue-500 text-2xl font-black text-white md:h-20 md:w-20 md:text-3xl">{user?.username?.[0]?.toUpperCase()}</div>
             <div>
               <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Commander Dossier</p>
-              <h1 className="mt-2 text-3xl font-black text-slate-50">指挥官档案</h1>
+              <h1 className="mt-2 text-2xl font-black text-slate-50 md:text-3xl">指挥官档案</h1>
               <p className="mt-2 text-sm text-slate-400">{user?.username}</p>
             </div>
           </div>
           <button onClick={() => router.push('/dashboard')} className="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-300">返回总览</button>
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-6 grid gap-4 grid-cols-2 md:grid-cols-5">
           {[
             ['词汇 GDP', isTreasuryInitialized ? vocabularyGDP : '--', '#22d3ee'],
             ['训练题量', isTreasuryInitialized ? stats.quiz : 0, '#8b5cf6'],
@@ -260,7 +260,7 @@ export default function ProfilePage() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
           <h2 className="text-xl font-bold text-slate-50">战备画像</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {[
@@ -298,7 +298,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
           <h2 className="text-xl font-bold text-slate-50">账号操作</h2>
           <form onSubmit={handleChangePassword} className="mt-5 space-y-4">
             <div>

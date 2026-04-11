@@ -91,7 +91,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      <header className="glass fixed left-0 right-0 top-0 z-20 flex items-center justify-between px-4 py-3 md:hidden" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <header className="glass fixed left-0 right-0 top-0 z-20 flex items-center justify-between px-4 py-3 md:hidden" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
         <Link href="/dashboard" className="flex items-center gap-2">
           <div className="btn-glow flex h-8 w-8 items-center justify-center rounded-xl">
             <span className="relative z-10 text-xs font-bold text-white">英</span>
@@ -110,7 +110,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className={isSsa ? 'min-h-screen w-full flex-1 pb-20 pt-16 md:ml-64 md:pb-0 md:pt-0' : 'min-h-screen w-full flex-1 p-4 pb-20 pt-16 md:ml-64 md:p-8 md:pt-8'}>{children}</main>
+      <main className={isSsa ? 'min-h-screen w-full flex-1 pb-20 pt-16 md:ml-64 md:pb-0 md:pt-0' : 'min-h-screen w-full flex-1 p-4 pb-24 pt-16 md:ml-64 md:p-8 md:pt-8'}>{children}</main>
       <StrategicFab />
 
       <nav className="glass fixed bottom-0 left-0 right-0 z-20 flex items-center md:hidden" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
@@ -119,7 +119,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           return (
             <Link key={item.href} href={item.href} className="relative flex flex-1 flex-col items-center justify-center gap-1 py-3 transition-all" style={{ color: active ? '#67e8f9' : '#475569' }}>
               <span className="text-xl leading-none">{item.mobileIcon}</span>
-              <span className="text-xs font-medium">{item.label.slice(0, 4)}</span>
+              <span className="text-[10px] font-medium leading-tight">{item.label.slice(0, 4)}</span>
               {active ? <div className="absolute bottom-0 h-0.5 w-8 rounded-full bg-cyan-300" /> : null}
             </Link>
           )

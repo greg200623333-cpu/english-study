@@ -295,11 +295,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-8">
-        <div className="flex flex-wrap items-start justify-between gap-6">
+      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-4 md:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-4 md:gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Supreme Command</p>
-            <h1 className="mt-3 text-4xl font-black text-slate-50">最高指挥部总览</h1>
+            <h1 className="mt-3 text-2xl font-black text-slate-50 md:text-4xl">最高指挥部总览</h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-400">这里是学习区默认首页。词汇 GDP、法案、作战训练、政策输出和赤字走势都在这里统一汇总。</p>
           </div>
           <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:items-end">
@@ -345,7 +345,7 @@ export default function DashboardPage() {
             </div>
           </div>
         ) : null}
-        <div className="mt-6 grid gap-4 lg:grid-cols-4">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/10 p-5">
             <div className="text-sm text-slate-300">词汇 GDP</div>
             <div className="mt-3">
@@ -365,7 +365,7 @@ export default function DashboardPage() {
 
       </section>
       <section className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
           <div className="flex items-center justify-between"><h2 className="text-xl font-bold text-slate-50">国家经营指标</h2><div className="text-xs uppercase tracking-[0.25em] text-slate-500">Live</div></div>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             {[
@@ -421,7 +421,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
           <h2 className="text-xl font-bold text-slate-50">能力配比</h2>
           <div className="relative mt-5 space-y-4">
             {[
@@ -444,7 +444,7 @@ export default function DashboardPage() {
 
       </section>
       <section className="grid gap-6 xl:grid-cols-3">
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6 xl:col-span-1">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6 xl:col-span-1">
           <div className="flex items-center justify-between"><h2 className="text-xl font-bold text-slate-50">近 7 天战情趋势</h2><div className="text-xs text-slate-500">RPC</div></div>
           <div className="mt-5 space-y-3">
             {isTreasuryInitialized && trends.length ? trends.map((trend) => (
@@ -461,7 +461,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6 xl:col-span-1">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6 xl:col-span-1">
           <div className="flex items-center justify-between"><h2 className="text-xl font-bold text-slate-50">题型胜率</h2><div className="text-xs text-slate-500">RPC</div></div>
           <div className="mt-5 space-y-3">
             {isTreasuryInitialized && winRates.length ? winRates.map((item) => (
@@ -473,7 +473,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6 xl:col-span-1">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6 xl:col-span-1">
           <div className="flex items-center justify-between"><h2 className="text-xl font-bold text-slate-50">法案收益</h2><div className="text-xs text-slate-500">RPC</div></div>
           <div className="mt-5 space-y-3">
             {isTreasuryInitialized && lawRoi.length ? lawRoi.map((law) => (
@@ -492,14 +492,14 @@ export default function DashboardPage() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-2">
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
           <div className="flex items-center justify-between"><h2 className="text-xl font-bold text-slate-50">最近战情事件</h2><Link href="/profile" className="text-sm text-cyan-200">查看档案</Link></div>
           <div className="mt-5 space-y-3">
             {stats?.recentEvents.length ? stats.recentEvents.map((event) => <div key={event.id} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3"><div className="flex items-center justify-between gap-4"><div><div className="font-semibold text-slate-100">{eventLabel[event.event_type] ?? event.event_type}</div><div className="mt-1 text-xs text-slate-500">来源：{event.source}</div></div><div className="text-xs text-slate-500">{new Date(event.created_at).toLocaleString('zh-CN')}</div></div></div>) : <div className="rounded-2xl border border-white/8 bg-white/5 p-4 text-sm text-slate-400">尚未形成事件流，先去签署动员令并开始训练。</div>}
           </div>
         </div>
 
-        <div className="glass rounded-[1.75rem] border border-white/10 p-6">
+        <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
           <div className="flex items-center justify-between"><h2 className="text-xl font-bold text-slate-50">战略快捷入口</h2><div className="text-xs uppercase tracking-[0.25em] text-slate-500">Actions</div></div>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             {[
@@ -512,7 +512,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="glass-strong rounded-[2rem] border border-rose-400/15 p-6">
+      <section className="glass-strong rounded-[2rem] border border-rose-400/15 p-4 md:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-rose-300/80">Strategic Risk Analysis</p>

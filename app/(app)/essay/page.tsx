@@ -124,7 +124,7 @@ export default function EssayPage() {
   return (
     <div className="min-h-screen" style={{ background: '#0a0b0f' }}>
       {/* Header */}
-      <div className="glass mb-6 border-b border-cyan-500/20 p-6">
+      <div className="glass mb-6 border-b border-cyan-500/20 p-4 md:p-6">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded border border-cyan-500/30 bg-cyan-500/10">
             <Terminal className="h-6 w-6 text-cyan-400" />
@@ -400,7 +400,7 @@ export default function EssayPage() {
           >
             ← 返回档案列表
           </button>
-          <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
+          <div className="border border-cyan-500/30 bg-slate-950/80 p-4 md:p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
             <div className="mb-4 flex items-start justify-between border-b border-cyan-500/20 pb-4">
               <div>
                 <h2 className="text-xl font-bold text-white">{selected.title}</h2>
