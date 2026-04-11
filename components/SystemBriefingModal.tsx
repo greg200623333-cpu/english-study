@@ -98,7 +98,7 @@ function TabA() {
             <span className="font-semibold text-amber-300">政策输出部</span>：消耗学习积累的"<Hi>行政力</Hi>"，颁布"强制晨读法案"或"赤字冻结协议"等政策，为全局状态叠加 Buff。
           </div>
           <div className="rounded-xl border border-indigo-400/15 bg-indigo-400/[0.07] px-4 py-3">
-            <span className="font-semibold text-indigo-300">双层持久化防护</span>：每一次击键都会实时同步至本地缓存，每 10 个词异步提交至云端数据库。即使断网，你的"战损"与"战果"也坚如磐石。
+            <span className="font-semibold text-indigo-300">双层持久化防护</span>：每一次击键都会实时同步至本地缓存，每 10 个词异步提交至云端数据库。即使断网，你的"战损"与"战果·"也坚如磐石。
           </div>
         </div>
       </div>
