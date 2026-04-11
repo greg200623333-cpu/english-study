@@ -190,25 +190,26 @@ export function SystemBriefingModal() {
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ duration: 0.38, ease: [0.2, 1, 0.32, 1] }}
             className="relative flex w-full max-w-3xl flex-col rounded-t-[2rem] border border-cyan-400/20 bg-slate-900 shadow-[0_0_100px_rgba(34,211,238,0.12),0_0_0_1px_rgba(34,211,238,0.08)] sm:rounded-[2rem]"
-            style={{ height: '92dvh', maxHeight: '92dvh' }}
+            style={{ height: 'calc(100dvh - env(safe-area-inset-top, 0px) - 56px)', maxHeight: '92dvh' }}
           >
             {/* 顶部光晕 */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-40 rounded-t-[2rem] bg-[linear-gradient(to_bottom,rgba(34,211,238,0.14),transparent)]" />
 
             {/* ── Header ── */}
-            <div className="relative shrink-0 border-b border-white/8 px-5 py-5 md:px-8 md:py-6">
+            <div className="relative shrink-0 border-b border-white/8 px-5 py-4 md:px-8 md:py-6">
               <div className="text-[10px] uppercase tracking-[0.45em] text-cyan-300/70">System Broadcast · v2.0</div>
-              <h2 className="mt-2 text-lg font-black leading-snug text-slate-50 md:text-xl">
+              <h2 className="mt-1.5 text-base font-black leading-snug text-slate-50 md:mt-2 md:text-xl">
                 🚀 全新架构升级：将英语学习重塑为大战略与沉浸式极客实验
               </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-400">
+              {/* 描述段落：移动端隐藏，节省空间 */}
+              <p className="mt-3 hidden text-sm leading-7 text-slate-400 md:block">
                 <span className="font-semibold text-slate-300">各位指挥官与开发者，欢迎来到全新升级的英语学习平台。</span>打破传统背单词软件"打卡签到"的枯燥套路与"死记硬背"的低效泥潭。现在，这里不再是一个简单的词典或题库，而是一个结合了
                 <span className="font-semibold text-cyan-400">宏观资源调度</span>与
                 <span className="font-semibold text-cyan-400">源码级硬核交互</span>的综合工作站。本网站为两大核心板块：<span className="font-semibold text-cyan-400">大战略学习模式</span>与<span className="font-semibold text-cyan-400">沉浸式专业模式</span>。以下是详细的系统运转逻辑与操作指南。
               </p>
 
               {/* ── Tabs 头部 ── */}
-              <div className="mt-5 flex gap-1 overflow-x-auto border-b border-white/8" style={{ scrollbarWidth: 'none' }}>
+              <div className="mt-4 flex gap-1 overflow-x-auto border-b border-white/8 md:mt-5" style={{ scrollbarWidth: 'none' }}>
                 {TABS.map((tab) => {
                   const active = activeTab === tab.id
                   return (
@@ -252,7 +253,7 @@ export function SystemBriefingModal() {
 
             {/* ── Footer ── */}
             <div className="relative shrink-0 border-t border-white/8 px-5 py-4 md:px-8 md:py-5">
-              <p className="mb-4 text-xs leading-6 text-slate-500">
+              <p className="mb-4 hidden text-xs leading-6 text-slate-500 md:block">
                 <span className="font-semibold text-slate-400">最高指挥部提示：</span>
                 无论是建立你的词汇帝国，还是在极客工作台手撕英文源码，所有的工具都已部署完毕。请合理规划你的每日{' '}
                 <span className="text-cyan-400">GDP</span> 目标，关注
