@@ -384,6 +384,7 @@ export function VocabularyTreasury() {
     initializeCampaign,
     setWordTier,
     enactLaw,
+    syncVocabularyGDP,
   } = useStudyModeStore()
 
   const [loading, setLoading] = useState(true)
@@ -433,6 +434,16 @@ export function VocabularyTreasury() {
       })
 
       setAssets(nextAssets)
+
+      // Sync GDP to store so all pages show consistent value
+      const knownCount = nextAssets.filter((a) => a.status === 'known').length
+      const learningCount = nextAssets.filter((a) => a.status === 'learning').length
+      if (knownCount > 0 || learningCount > 0) {
+        const activeAssets = nextAssets.filter((a) => a.status !== 'new')
+        const baseGDP = Math.round(activeAssets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
+        syncVocabularyGDP(baseGDP)
+      }
+
       setLoading(false)
     }
 
@@ -450,7 +461,7 @@ export function VocabularyTreasury() {
   const buckets = useMemo(() => buildBuckets(rows, new Map(assets.map((asset) => [asset.id, asset.status]))), [assets, rows])
   const buffRate = useMemo(() => activeBuffs.gdpBonus + activeBuffs.memoryRate * 0.45 + activeBuffs.reviewEfficiency * 0.3, [activeBuffs])
   const historyData = hasSsaExchange ? gdpHistory : []
-  const isInitialized = !(masteredCount === 0 && historyData.length === 0)
+  const isInitialized = masteredCount > 0 || learningCount > 0 || historyData.length > 0 || vocabularyGDP > 0
   const forecast = useMemo(() => buildForecast(isInitialized ? Math.max(vocabularyGDP, 1200) : 0, buffRate), [buffRate, isInitialized, vocabularyGDP])
   const treasuryLabel = examLabel || (selectedExam ? examMeta[selectedExam] : '待签署动员令')
   const showSelection = forceSelection || (!selectedExam && hasSeenBriefing)
@@ -470,11 +481,11 @@ export function VocabularyTreasury() {
     <div className="space-y-6 pb-12">
       <SelectionModal open={showSelection} onSelect={handleCampaignSelect} currentExam={selectedExam} />
 
-      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-8">
+      <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-4 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Vocabulary Treasury</div>
-            <h1 className="mt-3 text-4xl font-black text-slate-50">词汇财政部</h1>
+            <h1 className="mt-3 text-2xl font-black text-slate-50 md:text-4xl">词汇财政部</h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-400">逐词账本已移交前线勤务局。此处仅保留战略财政视角，用于观察资产结构、增长预测与类别级风险。</p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -483,7 +494,7 @@ export function VocabularyTreasury() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 xl:grid-cols-[1.05fr_0.95fr_0.95fr]">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr_0.95fr]">
           <div className="rounded-[1.6rem] border border-cyan-300/15 bg-cyan-300/10 p-5">
             <div className="flex items-center justify-between">
               <div className="text-sm text-slate-300">词汇 GDP</div>

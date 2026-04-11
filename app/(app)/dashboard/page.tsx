@@ -217,7 +217,9 @@ export default function DashboardPage() {
         const learningCount = assets.filter((a) => a.status === 'learning').length
         const hasSsaData = knownCount > 0 || learningCount > 0
         if (hasSsaData) {
-          const baseGDP = Math.round(assets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
+          // Only count words you've actually studied (learning/known), not untouched 'new' words
+          const activeAssets = assets.filter((a) => a.status !== 'new')
+          const baseGDP = Math.round(activeAssets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
           syncVocabularyGDP(baseGDP)
           const dueCount = wordRecords.filter((r) => {
             const rec = r as { next_review?: number; status: string }

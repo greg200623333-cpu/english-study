@@ -385,7 +385,9 @@ export const useStudyModeStore = create<StudyModeState>()(
       }),
       syncVocabularyGDP: (baseAssets, points) => {
         set((state) => {
-          if (!hasInitializedGdpProgress(state)) {
+          // Only zero out if there's genuinely no data — don't clear when called
+          // from dashboard with a freshly-computed baseAssets value.
+          if (baseAssets <= 0 && !hasInitializedGdpProgress(state)) {
             return {
               baseAssets: 0,
               sessionGains: 0,
@@ -397,7 +399,7 @@ export const useStudyModeStore = create<StudyModeState>()(
           const displayGDP = computeDisplayGDP(nextBaseAssets, state.sessionGains)
           const nextHistory = points?.length
             ? shiftHistory(points, state.sessionGains)
-            : state.hasSsaExchange
+            : state.hasSsaExchange || state.gdpHistory.length > 0
               ? [...state.gdpHistory.slice(-6), { label: 'Now', value: Math.round(displayGDP) }]
               : buildFlatHistory(displayGDP)
           return {

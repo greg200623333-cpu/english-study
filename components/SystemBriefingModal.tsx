@@ -180,7 +180,7 @@ export function SystemBriefingModal() {
           animate={{ opacity: 1, pointerEvents: 'auto' }}
           exit={{ opacity: 0, pointerEvents: 'none' }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[300] flex items-center justify-center bg-slate-950/80 px-4 backdrop-blur-md"
+          className="fixed inset-0 z-[300] flex items-end justify-center bg-slate-950/80 backdrop-blur-md sm:items-center sm:px-4"
           onClick={(e) => { if (e.target === e.currentTarget) closeBriefing() }}
         >
           <motion.div
@@ -189,16 +189,16 @@ export function SystemBriefingModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ duration: 0.38, ease: [0.2, 1, 0.32, 1] }}
-            className="relative flex h-[90vh] w-full max-w-3xl flex-col rounded-[2rem] border border-cyan-400/20 bg-slate-900 shadow-[0_0_100px_rgba(34,211,238,0.12),0_0_0_1px_rgba(34,211,238,0.08)]"
-            style={{ maxHeight: '90vh' }}
+            className="relative flex w-full max-w-3xl flex-col rounded-t-[2rem] border border-cyan-400/20 bg-slate-900 shadow-[0_0_100px_rgba(34,211,238,0.12),0_0_0_1px_rgba(34,211,238,0.08)] sm:rounded-[2rem]"
+            style={{ height: '92dvh', maxHeight: '92dvh' }}
           >
             {/* 顶部光晕 */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-40 rounded-t-[2rem] bg-[linear-gradient(to_bottom,rgba(34,211,238,0.14),transparent)]" />
 
             {/* ── Header ── */}
-            <div className="relative shrink-0 border-b border-white/8 px-8 py-6">
+            <div className="relative shrink-0 border-b border-white/8 px-5 py-5 md:px-8 md:py-6">
               <div className="text-[10px] uppercase tracking-[0.45em] text-cyan-300/70">System Broadcast · v2.0</div>
-              <h2 className="mt-2 text-xl font-black leading-snug text-slate-50">
+              <h2 className="mt-2 text-lg font-black leading-snug text-slate-50 md:text-xl">
                 🚀 全新架构升级：将英语学习重塑为大战略与沉浸式极客实验
               </h2>
               <p className="mt-3 text-sm leading-7 text-slate-400">
@@ -208,7 +208,7 @@ export function SystemBriefingModal() {
               </p>
 
               {/* ── Tabs 头部 ── */}
-              <div className="mt-5 flex gap-1 border-b border-white/8">
+              <div className="mt-5 flex gap-1 overflow-x-auto border-b border-white/8" style={{ scrollbarWidth: 'none' }}>
                 {TABS.map((tab) => {
                   const active = activeTab === tab.id
                   return (
@@ -216,7 +216,7 @@ export function SystemBriefingModal() {
                       key={tab.id}
                       type="button"
                       onClick={() => switchTab(tab.id)}
-                      className={`relative pb-3 pr-6 text-sm font-semibold transition-colors ${active ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
+                      className={`relative shrink-0 pb-3 pr-4 text-xs font-semibold transition-colors sm:pr-6 sm:text-sm ${active ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
                     >
                       {tab.label}
                       {active && (
@@ -242,7 +242,7 @@ export function SystemBriefingModal() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: direction * -32 }}
                   transition={{ duration: 0.28, ease: 'easeInOut' }}
-                  className="absolute inset-0 overflow-y-auto px-8 py-6"
+                  className="absolute inset-0 overflow-y-auto px-5 py-5 md:px-8 md:py-6"
                   style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(34,211,238,0.3) transparent' }}
                 >
                   <ActiveComponent />
@@ -251,7 +251,7 @@ export function SystemBriefingModal() {
             </div>
 
             {/* ── Footer ── */}
-            <div className="relative shrink-0 border-t border-white/8 px-8 py-5">
+            <div className="relative shrink-0 border-t border-white/8 px-5 py-4 md:px-8 md:py-5">
               <p className="mb-4 text-xs leading-6 text-slate-500">
                 <span className="font-semibold text-slate-400">最高指挥部提示：</span>
                 无论是建立你的词汇帝国，还是在极客工作台手撕英文源码，所有的工具都已部署完毕。请合理规划你的每日{' '}
