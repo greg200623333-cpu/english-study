@@ -25,9 +25,10 @@ export async function POST(req: NextRequest) {
   const isRemember = Boolean(rememberMe)
   const token = await createSessionToken({ id: user.id, username: user.username }, isRemember ? '15d' : '1d')
   const response = NextResponse.json({ success: true, userId: user.id })
+  const isSecure = process.env.NODE_ENV === 'production' && process.env.COOKIE_SECURE !== 'false'
   response.cookies.set('user_session', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isSecure,
     sameSite: 'lax',
     ...(isRemember ? { maxAge: 60 * 60 * 24 * 15 } : {}),
     path: '/',

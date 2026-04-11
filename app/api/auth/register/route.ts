@@ -50,9 +50,10 @@ export async function POST(req: NextRequest) {
   // 设置签名 session cookie
   const token = await createSessionToken({ id: user.id, username: user.username })
   const response = NextResponse.json({ success: true, userId: user.id })
+  const isSecure = process.env.NODE_ENV === 'production' && process.env.COOKIE_SECURE !== 'false'
   response.cookies.set('user_session', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isSecure,
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 30, // 30 days
     path: '/',
