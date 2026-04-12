@@ -16,6 +16,16 @@ type Essay = {
   created_at: string
 }
 
+type EssayPrompt = {
+  id: string
+  examType: string
+  year: number
+  season: number
+  set: number
+  prompt: string
+  modelEssay: string
+}
+
 const categories = [
   { key: 'cet4', label: 'CET-4 级战术', icon: '◉' },
   { key: 'cet6', label: 'CET-6 级战术', icon: '◎' },
@@ -28,12 +38,20 @@ export default function EssayPage() {
   const [content, setContent] = useState('')
   const [category, setCategory] = useState('cet4')
   const [submitting, setSubmitting] = useState(false)
-  const [activeTab, setActiveTab] = useState<'write' | 'history'>('write')
+  const [activeTab, setActiveTab] = useState<'write' | 'history' | 'exercises'>('write')
   const [selected, setSelected] = useState<Essay | null>(null)
   const [scanning, setScanning] = useState(false)
   const [showMonitors, setShowMonitors] = useState(false)
   const [userId, setUserId] = useState<string | null>(null)
   const { syncEssayCompletion } = useWarRoomSync()
+
+  const [essayPrompts, setEssayPrompts] = useState<EssayPrompt[]>([])
+  const [selectedYear, setSelectedYear] = useState<number | null>(null)
+  const [selectedSeason, setSelectedSeason] = useState<number | null>(null)
+  const [selectedSet, setSelectedSet] = useState<number | null>(null)
+  const [selectedPrompt, setSelectedPrompt] = useState<EssayPrompt | null>(null)
+  const [showModelEssay, setShowModelEssay] = useState(false)
+  const [decryptingPrompt, setDecryptingPrompt] = useState(false)
 
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length
   const isReady = wordCount >= 50
@@ -45,7 +63,20 @@ export default function EssayPage() {
       setUserId(user.id)
       loadEssays(user.id)
     })
+    loadEssayPrompts()
   }, [])
+
+  async function loadEssayPrompts() {
+    try {
+      const res = await fetch('/data/essay-prompts.json')
+      if (res.ok) {
+        const data = await res.json()
+        setEssayPrompts(data)
+      }
+    } catch {
+      // silently ignore
+    }
+  }
 
   async function loadEssays(uid: string) {
     try {
@@ -121,6 +152,34 @@ export default function EssayPage() {
     return 'text-rose-400'
   }
 
+  function handleLoadPrompt(prompt: EssayPrompt) {
+    setDecryptingPrompt(true)
+    setSelectedPrompt(prompt)
+    setShowModelEssay(false)
+    setTimeout(() => {
+      setContent(prompt.prompt)
+      setCategory(prompt.examType === 'cet6' ? 'cet6' : 'cet4')
+      setTitle('')
+      setDecryptingPrompt(false)
+      setActiveTab('write')
+    }, 800)
+  }
+
+  // Derived filter values from loaded prompts
+  const availableYears = [...new Set(essayPrompts.map(p => p.year))].sort((a, b) => b - a)
+  const availableSeasons = selectedYear
+    ? [...new Set(essayPrompts.filter(p => p.year === selectedYear).map(p => p.season))].sort((a, b) => a - b)
+    : []
+  const availableSets = selectedYear && selectedSeason
+    ? [...new Set(essayPrompts.filter(p => p.year === selectedYear && p.season === selectedSeason).map(p => p.set))].sort()
+    : []
+  const filteredPrompts = essayPrompts.filter(p => {
+    if (selectedYear && p.year !== selectedYear) return false
+    if (selectedSeason && p.season !== selectedSeason) return false
+    if (selectedSet && p.set !== selectedSet) return false
+    return true
+  })
+
   return (
     <div className="min-h-screen" style={{ background: '#0a0b0f' }}>
       {/* Header */}
@@ -145,6 +204,15 @@ export default function EssayPage() {
           >
             <ShieldAlert className="h-4 w-4" />
             战略撰写
+          </button>
+          <button
+            onClick={() => setActiveTab('exercises')}
+            className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition ${
+              activeTab === 'exercises' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'
+            }`}
+          >
+            <Activity className="h-4 w-4" />
+            历年演习
           </button>
           <button
             onClick={() => setActiveTab('history')}
@@ -279,6 +347,24 @@ export default function EssayPage() {
                 <Send className="h-4 w-4" />
                 {submitting ? '执行中...' : '提交政策'}
               </button>
+
+              {/* Model Essay Reveal (only after submission, when a prompt is loaded) */}
+              {selectedPrompt && essays.length > 0 && (
+                <div className="border border-cyan-500/20 bg-slate-950/50 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowModelEssay(true)
+                      setActiveTab('exercises')
+                    }}
+                    className="flex w-full items-center justify-center gap-2 border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-400 transition hover:bg-amber-500/20"
+                    style={{ borderRadius: 0 }}
+                  >
+                    <FileText className="h-4 w-4" />
+                    查看参考范文
+                  </button>
+                </div>
+              )}
             </form>
           </div>
 
@@ -427,6 +513,146 @@ export default function EssayPage() {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Exercises Tab */}
+      {activeTab === 'exercises' && (
+        <div className="space-y-6">
+          {/* Decrypting Animation */}
+          {decryptingPrompt && (
+            <div className="border border-cyan-500/30 bg-slate-950/80 p-8 text-center backdrop-blur-md" style={{ borderRadius: 0 }}>
+              <div className="mb-4 text-cyan-400">
+                <Activity className="mx-auto h-12 w-12 animate-pulse" />
+              </div>
+              <div className="font-mono text-sm text-cyan-400">档案解密中...</div>
+              <div className="mt-2 text-xs text-slate-500">DECRYPTING ARCHIVE...</div>
+            </div>
+          )}
+
+          {!decryptingPrompt && (
+            <>
+              {/* Filter Matrix */}
+              <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+                  <Activity className="h-5 w-5 text-cyan-400" />
+                  历年演习档案筛选
+                </h2>
+
+                <div className="grid gap-4 md:grid-cols-3">
+                  {/* Year Filter */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-slate-300">年份 (Year)</label>
+                    <select
+                      value={selectedYear ?? ''}
+                      onChange={(e) => {
+                        setSelectedYear(e.target.value ? parseInt(e.target.value) : null)
+                        setSelectedSeason(null)
+                        setSelectedSet(null)
+                      }}
+                      className="w-full border border-cyan-500/30 bg-slate-950/80 px-4 py-2 text-sm text-white backdrop-blur-md transition focus:border-cyan-400 focus:outline-none"
+                      style={{ borderRadius: 0 }}
+                    >
+                      <option value="">全部年份</option>
+                      {availableYears.map(year => (
+                        <option key={year} value={year}>{year}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Season Filter */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-slate-300">季度 (Season)</label>
+                    <select
+                      value={selectedSeason ?? ''}
+                      onChange={(e) => {
+                        setSelectedSeason(e.target.value ? parseInt(e.target.value) : null)
+                        setSelectedSet(null)
+                      }}
+                      disabled={!selectedYear}
+                      className="w-full border border-cyan-500/30 bg-slate-950/80 px-4 py-2 text-sm text-white backdrop-blur-md transition focus:border-cyan-400 focus:outline-none disabled:opacity-50"
+                      style={{ borderRadius: 0 }}
+                    >
+                      <option value="">全部季度</option>
+                      {availableSeasons.map(season => (
+                        <option key={season} value={season}>{season}月</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Set Filter */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-slate-300">套卷 (Set)</label>
+                    <select
+                      value={selectedSet ?? ''}
+                      onChange={(e) => setSelectedSet(e.target.value ? parseInt(e.target.value) : null)}
+                      disabled={!selectedYear || !selectedSeason}
+                      className="w-full border border-cyan-500/30 bg-slate-950/80 px-4 py-2 text-sm text-white backdrop-blur-md transition focus:border-cyan-400 focus:outline-none disabled:opacity-50"
+                      style={{ borderRadius: 0 }}
+                    >
+                      <option value="">全部套卷</option>
+                      {availableSets.map(set => (
+                        <option key={set} value={set}>Set {set}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Prompt List */}
+              <div className="grid gap-4 md:grid-cols-2">
+                {filteredPrompts.map(prompt => (
+                  <div
+                    key={prompt.id}
+                    className="border border-cyan-500/30 bg-slate-950/80 p-4 backdrop-blur-md transition hover:border-cyan-400"
+                    style={{ borderRadius: 0 }}
+                  >
+                    <div className="mb-3 flex items-start justify-between">
+                      <div>
+                        <div className="text-sm font-bold text-cyan-400">
+                          {prompt.examType.toUpperCase()} · {prompt.year}.{prompt.season < 10 ? '0' + prompt.season : prompt.season} · Set {prompt.set}
+                        </div>
+                        <div className="mt-1 text-xs text-slate-500">
+                          {categories.find(c => c.key === prompt.examType)?.label}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mb-4 line-clamp-3 text-sm text-slate-300">
+                      {prompt.prompt.substring(0, 150)}...
+                    </div>
+
+                    <button
+                      onClick={() => handleLoadPrompt(prompt)}
+                      className="w-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-500/20"
+                      style={{ borderRadius: 0 }}
+                    >
+                      载入题目
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {filteredPrompts.length === 0 && (
+                <div className="border border-cyan-500/30 bg-slate-950/80 p-8 text-center backdrop-blur-md" style={{ borderRadius: 0 }}>
+                  <div className="text-slate-500">暂无符合条件的演习档案</div>
+                </div>
+              )}
+
+              {/* Model Essay Display */}
+              {selectedPrompt && showModelEssay && (
+                <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
+                  <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+                    <FileText className="h-5 w-5 text-cyan-400" />
+                    参考范文
+                  </h3>
+                  <div className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-slate-200">
+                    {selectedPrompt.modelEssay}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       )}
     </div>

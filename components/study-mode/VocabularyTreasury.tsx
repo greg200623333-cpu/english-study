@@ -442,6 +442,12 @@ export function VocabularyTreasury() {
         const activeAssets = nextAssets.filter((a) => a.status !== 'new')
         const baseGDP = Math.round(activeAssets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
         syncVocabularyGDP(baseGDP)
+
+        // Persist GDP to database after recalculation
+        if (user) {
+          const { saveStudyModeProfile } = await import('@/lib/studyModePersistence')
+          await saveStudyModeProfile(user.id).catch(err => console.error('Failed to persist GDP:', err))
+        }
       }
 
       setLoading(false)

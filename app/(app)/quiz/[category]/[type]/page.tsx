@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/client'
 import { useWarRoomSync } from '@/hooks/useWarRoomSync'
@@ -10,14 +10,21 @@ import ListeningPage from './listening/page'
 const LISTENING_TYPES = ['listening_news', 'listening_interview', 'listening_passage']
 
 type Question = {
-  id: number
-  content: string
-  passage: string | null
+  id?: number
+  number?: number
+  content?: string
+  question?: string
+  passage?: string | null
+  context?: string
   options: string[]
-  answer: string
-  explanation: string
-  type: string
-  difficulty: number
+  answer?: string
+  correctAnswer?: string
+  explanation?: string
+  type?: string
+  difficulty?: number
+  part?: string
+  section?: string
+  set?: number
 }
 
 const categoryLabel: Record<string, string> = {
@@ -50,6 +57,9 @@ const diffLabel = ['', '简单', '中等', '困难']
 export default function QuizTypePage() {
   const { category, type } = useParams<{ category: string; type: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const archiveId = searchParams.get('archiveId')
+
   const isListening = useMemo(() => LISTENING_TYPES.includes(type), [type])
   const [questions, setQuestions] = useState<Question[]>([])
   const [index, setIndex] = useState(0)
@@ -75,6 +85,43 @@ export default function QuizTypePage() {
     }
 
     async function load() {
+      // 如果有 archiveId，从本地 JSON 加载
+      if (archiveId) {
+        try {
+          // archiveId 格式: "2024.12-set1" → 文件名: "cet4-2024-12-set1.json"
+          const fileId = archiveId.replace('.', '-')
+          const res = await fetch(`/data/${category}-${fileId}.json`)
+          if (res.ok) {
+            const data: Question[] = await res.json()
+            // 根据 type 过滤题目
+            const filtered = data.filter(q => {
+              if (type === 'listening_news' || type === 'listening_interview' || type === 'listening_passage') {
+                return q.type === 'listening'
+              }
+              if (type === 'reading_choice') {
+                return q.type === 'reading'
+              }
+              if (type === 'reading_match') {
+                return q.type === 'paragraph_match'
+              }
+              if (type === 'reading_cloze') {
+                return q.type === 'cloze' || q.type === 'reading_cloze'
+              }
+              if (type === 'translation') {
+                return q.type === 'translation'
+              }
+              return q.type === type
+            })
+            setQuestions(filtered)
+          }
+        } catch (err) {
+          console.error('加载真题失败:', err)
+        }
+        setLoading(false)
+        return
+      }
+
+      // 否则从 Supabase 加载
       const supabase = createClient()
       const { data } = await supabase.from('questions').select('*').eq('category', category).eq('type', type).limit(10)
       if (data) setQuestions(data)
@@ -82,7 +129,7 @@ export default function QuizTypePage() {
     }
 
     load()
-  }, [category, isListening, type])
+  }, [category, isListening, type, archiveId])
 
   async function handleSelect(option: string) {
     if (selected) return
@@ -90,9 +137,10 @@ export default function QuizTypePage() {
     setShowResult(true)
 
     const current = questions[index]
-    const isCorrect = option[0] === current.answer
+    const correctAnswer = current.correctAnswer || current.answer
+    const isCorrect = option[0] === correctAnswer
 
-    if (userId) {
+    if (userId && current.id) {
       const supabase = createClient()
       await supabase.from('quiz_records').insert({
         user_id: userId,
@@ -110,7 +158,7 @@ export default function QuizTypePage() {
       category,
       correct: isCorrect ? 1 : 0,
       total: 1,
-      passageWordCount: current.passage?.split(/\s+/).filter(Boolean).length ?? 0,
+      passageWordCount: (current.passage || current.context || '')?.split(/\s+/).filter(Boolean).length ?? 0,
     })
   }
 
@@ -123,10 +171,10 @@ export default function QuizTypePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          passage: current.passage,
-          content: current.content,
+          passage: current.passage || current.context,
+          content: current.content || current.question,
           options: current.options,
-          answer: current.answer,
+          answer: current.answer || current.correctAnswer,
           category,
           type,
         }),
@@ -211,6 +259,11 @@ export default function QuizTypePage() {
 
   const q = questions[index]
   const options: string[] = q.options ?? []
+  const questionText = q.content || q.question || ''
+  const correctAnswer = q.correctAnswer || q.answer || ''
+  const explanationText = q.explanation || ''
+  const passageText = q.passage || q.context || null
+  const archiveLabel = archiveId ? ` · ${archiveId}` : ''
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -219,11 +272,11 @@ export default function QuizTypePage() {
           <button onClick={() => router.push('/quiz')} className="text-sm transition-colors" style={{ color: '#475569' }}>← 返回</button>
           <span className="text-sm font-bold" style={{ color: '#a78bfa' }}>{categoryLabel[category] ?? category}</span>
           <span className="rounded-lg px-2 py-0.5 text-xs" style={{ color: '#64748b', background: 'rgba(255,255,255,0.05)' }}>
-            {typeLabel[type] ?? type}
+            {typeLabel[type] ?? type}{archiveLabel}
           </span>
-          {q.difficulty > 0 && (
-            <span className="rounded-lg px-2 py-0.5 text-xs font-bold" style={{ color: diffColor[q.difficulty], background: `${diffColor[q.difficulty]}15` }}>
-              {diffLabel[q.difficulty]}
+          {(q.difficulty ?? 0) > 0 && (
+            <span className="rounded-lg px-2 py-0.5 text-xs font-bold" style={{ color: diffColor[q.difficulty ?? 0], background: `${diffColor[q.difficulty ?? 0]}15` }}>
+              {diffLabel[q.difficulty ?? 0]}
             </span>
           )}
         </div>
@@ -234,26 +287,26 @@ export default function QuizTypePage() {
         <div className="h-1 rounded-full transition-all" style={{ width: `${((index + 1) / questions.length) * 100}%`, background: 'linear-gradient(90deg, #7c3aed, #06b6d4)' }} />
       </div>
 
-      {q.passage && (
+      {passageText && (
         <div className="glass mb-4 overflow-hidden rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
           <button
             onClick={() => setShowPassage((value) => !value)}
             className="flex w-full items-center justify-between px-5 py-3 text-sm font-semibold"
             style={{ color: '#94a3b8', borderBottom: showPassage ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
           >
-            <span>📄 阅读原文</span>
+            <span>📄 题目背景</span>
             <span>{showPassage ? '▲ 收起' : '▼ 展开'}</span>
           </button>
           {showPassage && (
             <div className="px-5 py-4 text-sm leading-relaxed" style={{ color: '#cbd5e1', maxHeight: '280px', overflowY: 'auto' }}>
-              {q.passage}
+              {passageText}
             </div>
           )}
         </div>
       )}
 
       <div className="glass mb-4 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
-        <p className="mb-6 text-base leading-relaxed" style={{ color: '#e2e8f0' }}>{q.content}</p>
+        <p className="mb-6 text-base leading-relaxed" style={{ color: '#e2e8f0' }}>{questionText}</p>
         {options.length > 0 ? (
           <div className="space-y-3">
             {options.map((opt) => {
@@ -263,7 +316,7 @@ export default function QuizTypePage() {
               let color = '#94a3b8'
 
               if (showResult) {
-                if (letter === q.answer) {
+                if (letter === correctAnswer) {
                   borderColor = 'rgba(52,211,153,0.5)'
                   background = 'rgba(52,211,153,0.08)'
                   color = '#34d399'
@@ -300,14 +353,16 @@ export default function QuizTypePage() {
         <div
           className="mb-4 rounded-2xl p-5"
           style={{
-            background: selected?.[0] === q.answer ? 'rgba(52,211,153,0.08)' : 'rgba(248,113,113,0.08)',
-            border: `1px solid ${selected?.[0] === q.answer ? 'rgba(52,211,153,0.3)' : 'rgba(248,113,113,0.3)'}`,
+            background: selected?.[0] === correctAnswer ? 'rgba(52,211,153,0.08)' : 'rgba(248,113,113,0.08)',
+            border: `1px solid ${selected?.[0] === correctAnswer ? 'rgba(52,211,153,0.3)' : 'rgba(248,113,113,0.3)'}`,
           }}
         >
-          <div className="mb-2 text-sm font-bold" style={{ color: selected?.[0] === q.answer ? '#34d399' : '#f87171' }}>
-            {selected?.[0] === q.answer ? '✓ 回答正确' : `✗ 正确答案：${q.answer}`}
+          <div className="mb-2 text-sm font-bold" style={{ color: selected?.[0] === correctAnswer ? '#34d399' : '#f87171' }}>
+            {selected?.[0] === correctAnswer ? '✓ 回答正确' : `✗ 正确答案：${correctAnswer}`}
           </div>
-          <div className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{q.explanation}</div>
+          {explanationText && (
+            <div className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{explanationText}</div>
+          )}
         </div>
       )}
 

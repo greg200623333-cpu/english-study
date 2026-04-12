@@ -1,0 +1,410 @@
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowLeft, Mic, Volume2, VolumeX, Send } from 'lucide-react'
+import { SCENARIOS } from '@/types/scenario'
+import { useYoudaoChat } from '@/hooks/useYoudaoChat'
+import ScenarioCard from './ScenarioCard'
+
+interface Props {
+  onBack: () => void
+}
+
+export default function ScenarioSimulation({ onBack }: Props) {
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null)
+  const [input, setInput] = useState('')
+  const [isRecording, setIsRecording] = useState(false)
+  const [voiceOutputEnabled, setVoiceOutputEnabled] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
+
+  const { messages, isLoading, session, initializeChat, sendMessage, resetChat } = useYoudaoChat()
+
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const recognitionRef = useRef<any>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const selectedScenario = SCENARIOS.find(s => s.id === selectedScenarioId)
+
+  // 自动滚动到底部
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  // 初始化语音识别
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition
+      recognitionRef.current = new SpeechRecognition()
+      recognitionRef.current.continuous = false
+      recognitionRef.current.interimResults = false
+      recognitionRef.current.lang = 'en-US'
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript
+        setInput(transcript)
+        setIsRecording(false)
+      }
+
+      recognitionRef.current.onerror = () => {
+        setIsRecording(false)
+      }
+
+      recognitionRef.current.onend = () => {
+        setIsRecording(false)
+      }
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [])
+
+  // 语音输入
+  const startVoiceInput = () => {
+    if (recognitionRef.current && !isRecording) {
+      setIsRecording(true)
+      recognitionRef.current.start()
+    }
+  }
+
+  const stopVoiceInput = () => {
+    if (recognitionRef.current && isRecording) {
+      recognitionRef.current.stop()
+      setIsRecording(false)
+    }
+  }
+
+  // 语音输出
+  const speakText = async (text: string) => {
+    if (!voiceOutputEnabled) return
+
+    try {
+      setIsSpeaking(true)
+      const chunks = text.match(/.{1,100}/g) || [text]
+
+      for (const chunk of chunks) {
+        try {
+          const response = await fetch(`/api/tts?word=${encodeURIComponent(chunk)}`)
+
+          if (!response.ok) {
+            console.error('TTS API error:', response.status, await response.text())
+            continue
+          }
+
+          const blob = await response.blob()
+
+          // 检查 blob 是否有效
+          if (blob.size === 0) {
+            console.error('TTS returned empty blob')
+            continue
+          }
+
+          const url = URL.createObjectURL(blob)
+
+          await new Promise<void>((resolve, reject) => {
+            const audio = new Audio(url)
+            audioRef.current = audio
+
+            audio.oncanplaythrough = () => {
+              audio.play().catch(err => {
+                console.error('Audio play error:', err)
+                reject(err)
+              })
+            }
+
+            audio.onended = () => {
+              URL.revokeObjectURL(url)
+              resolve()
+            }
+
+            audio.onerror = (e) => {
+              console.error('Audio load error:', e)
+              URL.revokeObjectURL(url)
+              reject(e)
+            }
+
+            // 设置超时
+            setTimeout(() => {
+              if (audio.paused) {
+                console.error('Audio timeout')
+                URL.revokeObjectURL(url)
+                reject(new Error('Audio timeout'))
+              }
+            }, 10000)
+          })
+        } catch (chunkError) {
+          console.error('Chunk TTS error:', chunkError)
+          continue
+        }
+      }
+    } catch (error) {
+      console.error('TTS error:', error)
+    } finally {
+      setIsSpeaking(false)
+    }
+  }
+
+  // 选择场景并初始化对话
+  const handleSelectScenario = async (scenarioId: string) => {
+    const scenario = SCENARIOS.find(s => s.id === scenarioId)
+    if (!scenario) return
+
+    setSelectedScenarioId(scenarioId)
+    await initializeChat(scenario.topic)
+  }
+
+  // 发送消息
+  const handleSendMessage = async () => {
+    if (!input.trim() || isLoading) return
+
+    const userInput = input.trim()
+    setInput('')
+
+    await sendMessage(userInput)
+  }
+
+  // 监听新消息，自动播放 AI 回复
+  useEffect(() => {
+    if (!voiceOutputEnabled || messages.length === 0) return
+
+    const lastMessage = messages[messages.length - 1]
+    if (lastMessage && lastMessage.role === 'assistant' && !isLoading) {
+      speakText(lastMessage.content)
+    }
+  }, [messages, voiceOutputEnabled, isLoading])
+
+  // 返回场景选择
+  const handleBackToScenarios = () => {
+    resetChat()
+    setSelectedScenarioId(null)
+    setInput('')
+  }
+
+  // 如果没有选择场景，显示场景选择页面
+  if (!selectedScenarioId) {
+    return (
+      <div className="flex h-full flex-col" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%)' }}>
+        {/* 头部 */}
+        <div className="border-b p-4 sm:p-6" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <button
+              onClick={onBack}
+              className="flex h-10 w-10 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl transition-all hover:bg-white/5 touch-manipulation"
+            >
+              <ArrowLeft className="h-5 w-5 text-slate-400" />
+            </button>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-white">情景模拟</h2>
+              <p className="mt-1 text-sm text-slate-400">选择一个场景开始练习</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 场景卡片网格 */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {SCENARIOS.map((scenario) => (
+                <ScenarioCard
+                  key={scenario.id}
+                  scenario={scenario}
+                  onSelect={handleSelectScenario}
+                  isSelected={false}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 对话界面
+  return (
+    <div className="flex h-full flex-col" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%)' }}>
+      {/* 头部 */}
+      <div className="border-b p-4 sm:p-6" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+            <button
+              onClick={handleBackToScenarios}
+              className="flex h-10 w-10 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl transition-all hover:bg-white/5 touch-manipulation flex-shrink-0"
+            >
+              <ArrowLeft className="h-5 w-5 text-slate-400" />
+            </button>
+            <div className="min-w-0">
+              <h3 className="font-bold text-white text-sm sm:text-base truncate">{selectedScenario?.title}</h3>
+              <p className="text-xs text-slate-400 truncate">{selectedScenario?.subtitle}</p>
+            </div>
+          </div>
+
+          {/* 语音输出开关 */}
+          <button
+            onClick={() => setVoiceOutputEnabled(!voiceOutputEnabled)}
+            className={`
+              flex items-center gap-1 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all flex-shrink-0 min-h-[44px] touch-manipulation
+              ${voiceOutputEnabled
+                ? 'bg-purple-500/20 text-purple-400'
+                : 'bg-white/5 text-slate-400 hover:bg-white/10'
+              }
+            `}
+          >
+            {voiceOutputEnabled ? (
+              <>
+                <Volume2 className="h-4 w-4" />
+                <span className="hidden sm:inline">语音输出</span>
+              </>
+            ) : (
+              <>
+                <VolumeX className="h-4 w-4" />
+                <span className="hidden sm:inline">静音</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* 对话区域 */}
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+        <div className="mx-auto max-w-4xl space-y-3 sm:space-y-4">
+          <AnimatePresence>
+            {messages.map((message) => (
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`
+                    max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3
+                    ${message.role === 'user'
+                      ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white'
+                      : message.role === 'assistant'
+                      ? 'bg-white/5 text-slate-200 backdrop-blur-sm border border-white/10'
+                      : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
+                    }
+                  `}
+                >
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{message.content}</p>
+                  <p className="mt-1.5 sm:mt-2 text-xs opacity-60">
+                    {message.timestamp.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {/* 加载指示器 */}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-start"
+            >
+              <div className="rounded-2xl bg-white/5 px-4 py-3 backdrop-blur-sm border border-white/10">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-purple-400" style={{ animationDelay: '0ms' }} />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-purple-400" style={{ animationDelay: '150ms' }} />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-purple-400" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* 语音播放指示器 */}
+          {isSpeaking && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-center"
+            >
+              <div className="flex items-center gap-2 rounded-full bg-purple-500/20 px-4 py-2 text-sm text-purple-400">
+                <Volume2 className="h-4 w-4 animate-pulse" />
+                <span>正在播放...</span>
+              </div>
+            </motion.div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
+
+      {/* 输入区域 */}
+      <div className="border-t p-3 sm:p-4" style={{ borderColor: 'rgba(255,255,255,0.1)', background: '#0a0a0f' }}>
+        <div className="mx-auto max-w-4xl">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* 语音输入按钮 */}
+            <button
+              onClick={isRecording ? stopVoiceInput : startVoiceInput}
+              disabled={isLoading}
+              className={`
+                flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl transition-all flex-shrink-0 touch-manipulation
+                ${isRecording
+                  ? 'bg-red-500/20 text-red-400 animate-pulse'
+                  : 'bg-white/5 text-slate-400 hover:bg-white/10 active:bg-white/15'
+                }
+                disabled:opacity-50 disabled:cursor-not-allowed
+              `}
+              aria-label={isRecording ? '停止录音' : '开始录音'}
+            >
+              <Mic className="h-5 w-5" />
+            </button>
+
+            {/* 文字输入框 */}
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+              placeholder="输入你的回复（英文）..."
+              disabled={isLoading}
+              className="
+                flex-1 rounded-xl bg-white/5 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder-slate-500
+                border border-white/10 backdrop-blur-sm
+                focus:border-purple-500/50 focus:outline-none focus:ring-2 focus:ring-purple-500/20
+                disabled:opacity-50 disabled:cursor-not-allowed
+                min-h-[44px]
+              "
+            />
+
+            {/* 发送按钮 */}
+            <button
+              onClick={handleSendMessage}
+              disabled={!input.trim() || isLoading}
+              className="
+                flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl flex-shrink-0 touch-manipulation
+                bg-gradient-to-r from-purple-500 to-indigo-500
+                text-white transition-all hover:shadow-lg hover:shadow-purple-500/50 active:scale-95
+                disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100
+              "
+              aria-label="发送消息"
+            >
+              <Send className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* 提示文字 */}
+          {isRecording && (
+            <motion.p
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-2 text-center text-xs text-red-400"
+            >
+              正在录音，请说话...
+            </motion.p>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

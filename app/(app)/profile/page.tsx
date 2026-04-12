@@ -92,7 +92,19 @@ export default function ProfilePage() {
 
   const activeLawCount = useMemo(() => Object.values(laws ?? {}).filter(Boolean).length, [laws])
   const historyData = hasSsaExchange ? gdpHistory : []
-  const isTreasuryInitialized = !(stats.words === 0 && historyData.length === 0)
+  // Treasury is initialized if there's GDP data, word data, or history
+  const isTreasuryInitialized = vocabularyGDP > 0 || stats.words > 0 || historyData.length > 0 || hasSsaExchange
+
+  // Debug: log values to console
+  useEffect(() => {
+    console.log('Profile page debug:', {
+      vocabularyGDP,
+      statsWords: stats.words,
+      historyDataLength: historyData.length,
+      hasSsaExchange,
+      isTreasuryInitialized,
+    })
+  }, [vocabularyGDP, stats.words, historyData.length, hasSsaExchange, isTreasuryInitialized])
 
   async function handleStrategySelect(exam: ExamType) {
     if (!user) return
@@ -246,7 +258,7 @@ export default function ProfilePage() {
 
         <div className="mt-6 grid gap-4 grid-cols-2 md:grid-cols-5">
           {[
-            ['词汇 GDP', isTreasuryInitialized ? vocabularyGDP : '--', '#22d3ee'],
+            ['词汇 GDP', vocabularyGDP > 0 ? vocabularyGDP : (isTreasuryInitialized ? 0 : '--'), '#22d3ee'],
             ['训练题量', isTreasuryInitialized ? stats.quiz : 0, '#8b5cf6'],
             ['执行率', isTreasuryInitialized ? `${stats.accuracy}%` : '--', '#34d399'],
             ['法案生效', isTreasuryInitialized ? activeLawCount : 0, '#fbbf24'],

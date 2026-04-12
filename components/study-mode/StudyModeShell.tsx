@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { MissionBriefingModal } from '@/components/study-mode/MissionBriefingModal'
+import { OnboardingBriefingModal } from '@/components/study-mode/OnboardingBriefingModal'
 import { SelectionModal } from '@/components/study-mode/SelectionModal'
 import { StrategyLawPanel } from '@/components/study-mode/StrategyLawPanel'
 import { WarRoomDashboard } from '@/components/study-mode/WarRoomDashboard'
@@ -286,7 +286,7 @@ export function StudyModeShell() {
 
   return (
     <div className="space-y-8 pb-10">
-      <MissionBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
+      <OnboardingBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
       <SelectionModal open={showSelection} onSelect={handleCampaignSelect} currentExam={selectedExam} />
 
       {showTierCommand ? (

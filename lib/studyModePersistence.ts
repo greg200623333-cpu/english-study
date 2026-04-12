@@ -148,6 +148,11 @@ export function applyRemoteStudyModeProfile(profile: {
   gdp_history?: StudyModeSnapshot['gdpHistory']
   last_briefing_at?: string | null
 }) {
+  // If vocabulary_gdp > 0, activate hasSsaExchange even if has_ssa_exchange is false
+  // This ensures GDP from essays and other sources is properly displayed
+  const hasGdpData = (profile.vocabulary_gdp ?? 0) > 0 || (profile.session_gains ?? 0) > 0
+  const shouldActivateExchange = profile.has_ssa_exchange || hasGdpData
+
   useStudyModeStore.getState().hydrateProgress({
     hasSeenBriefing: profile.has_seen_briefing ?? false,
     selectedExam: profile.selected_exam ?? null,
@@ -157,10 +162,10 @@ export function applyRemoteStudyModeProfile(profile: {
     administrativePower: profile.administrative_power ?? 0,
     baseAdministrativePower: profile.base_administrative_power ?? 0,
     baseAssets: profile.base_assets ?? 0,
-    sessionGains: profile.has_ssa_exchange ? (profile.session_gains ?? 0) : 0,
-    lastSessionGain: profile.has_ssa_exchange ? (profile.last_session_gain ?? 0) : 0,
-    hasSsaExchange: profile.has_ssa_exchange ?? false,
-    vocabularyGDP: profile.has_ssa_exchange ? (profile.vocabulary_gdp ?? 0) : 0,
+    sessionGains: shouldActivateExchange ? (profile.session_gains ?? 0) : 0,
+    lastSessionGain: shouldActivateExchange ? (profile.last_session_gain ?? 0) : 0,
+    hasSsaExchange: shouldActivateExchange,
+    vocabularyGDP: shouldActivateExchange ? (profile.vocabulary_gdp ?? 0) : 0,
     baselineWpm: profile.baseline_wpm ?? 0,
     skillBalance: profile.skill_balance ?? { listening: 0, speaking: 0, reading: 0, writing: 0 },
     reviewDeficit: profile.review_deficit ?? 0,

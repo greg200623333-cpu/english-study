@@ -177,8 +177,8 @@ export function SystemBriefingModal() {
         <motion.div
           key="briefing-overlay"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, pointerEvents: 'auto' }}
-          exit={{ opacity: 0, pointerEvents: 'none' }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[300] flex items-end justify-center bg-slate-950/80 backdrop-blur-md sm:items-center sm:px-4"
           onClick={(e) => { if (e.target === e.currentTarget) closeBriefing() }}

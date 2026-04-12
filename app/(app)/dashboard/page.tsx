@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { type ExamType, useStudyModeStore } from '@/stores/useStudyModeStore'
 import { GdpTicker } from '@/components/study-mode/GdpTicker'
-import { MissionBriefingModal } from '@/components/study-mode/MissionBriefingModal'
+import { OnboardingBriefingModal } from '@/components/study-mode/OnboardingBriefingModal'
 import { SelectionModal } from '@/components/study-mode/SelectionModal'
 import { applyRemoteStudyModeProfile, fetchStudyModeAnalytics, loadStudyModeProfile, saveStudyModeProfile, type LawRoiRow, type TrendRow, type WinRateRow } from '@/lib/studyModePersistence'
 
@@ -228,6 +228,10 @@ export default function DashboardPage() {
           const dailyDeficit = Math.max(0, dailyWordTarget - Math.min(dailyWordTarget, wordsMeta.filter(w => !statusMap.has(w.id)).length))
           updateReviewDeficit(learningCount * 3 + dailyDeficit)
           syncGdpMapping({ targetGDP: wordsMeta.length, currentGDP: knownCount })
+
+          // Persist GDP to database after recalculation
+          const { saveStudyModeProfile } = await import('@/lib/studyModePersistence')
+          await saveStudyModeProfile(sessionUser.id).catch(err => console.error('Failed to persist GDP:', err))
         }
       }
       const avgScore = essayRecords.length > 0 ? Math.round(essayRecords.reduce((sum, essay) => sum + (essay.score ?? 0), 0) / essayRecords.length) : 0
@@ -546,7 +550,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <MissionBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
+      <OnboardingBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
       <SelectionModal open={showSelection} onSelect={handleExamSelect} currentExam={selectedExam} redirectToSsa={false} />
     </div>
   )

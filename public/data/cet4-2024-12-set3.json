@@ -1,0 +1,921 @@
+[
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nIn a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a 26 face and which showed a person wearing a mask.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nerror rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "31.【解析】A）分析句子结构可知，空格所在句句子成分完整，空格处应填入副词修饰其后的谓语动词improve。空格所在句意思是，我们语言能力的某些方面，比如我们对词义的认识，是在成年中后期得到提高的。由下文列举的例子可以看出，研究发现，老年人在词义理解方面比年轻人表现得更好，这是一个既定事实。所以本空应填入表示“实际上，事实上”含义的副词，备选项中"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\n error rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "33.【解析】B)空格前是谓语动词 contained, 空格后是名词“16,000 words”, 分析句子可知, 空格处应该填入一个副词修饰后面的名词。空格所在句意思是, 发现其平均词汇量包含 16000 个单词。根据常识可知, 此处应表示一个约数, 所以本空应填入一个表示“大约, 大概”含义的副词。备选项中, 符合语义的为 B) approximately(大约), 故为答案。"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were \n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "35.【解析】C)空格前为情态动词might，空格后为逗号，所以空格处应填入动词原形。空格所在句的意思是，因此，语言似乎是一种技能，与许多人可能________的相反，它不会随着年龄的增长而减弱。分析句意可知，“语言似乎是一项不会随着年龄增长而衰退的技能”这一事实应该与大多数人的想法相反，因此，空格处应填入一个表示“认为”含义的动词，备选项中只有C）assume（假设，认为)符合文意，故为答案。"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "28.【解析】C）空格前是不定冠词an，空格后是名词face，由此可知，此空需填入一个形容词，且以元音音素开头，根据句意，研究中观察到的 "
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "30.【解析】A）空格前出现并列连词 and, and 前 slower 是形容词比较级作表语，空格前也有比较级的标志词 less，因此本空应填入形容词。根据句意，当参与者被要求在与他们不同种族的人脸照片中做出选择时，他们的反应时间会变慢，选择的 也会降低 "
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "33.【解析】D）本题句子主干为“an international gang used an realistic mask to pose as a French minister”，句子主干完整，空设在句子主干后，由逗号隔开，由此可以推断，逗号后的内容是状语。空格后有名词短语 business executives 和介词短语 out of millions of pounds，因此本空应填入动词的分词形式作结果状语。根据句意，一个国际犯罪团伙用一个逼真的面具冒充法国的一位部长，企业高管数百万英镑，可以推断空中应填入“骗取”含义的动词分词形式，空格处所填动词的逻辑主语是 an international gang，与空中分词是主动关系。把选项中的现在分词代入此空，只有 D) cheating 符合句意，表示骗取了企业高管数百万英镑，故本题选 D) cheating（欺骗，行骗）。"
+  },
+  {
+    "set": 3,
+    "number": 36,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Acquisition of new knowledge may not guarantee the progress that you aim to make.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null,
+    "correctAnswer": "B",
+    "explanation": "34.【解析】B）本题空格前有情态动词 may，因此本空应填入动词原形。根据句意，无法检测出合成人脸可能会对安全和犯罪预防产生重要影响，因为超逼真面具可能会人的面部关键特征被识别出来，可以推断空处动词原形应具备“使……，让……”的含义，且该动词需与后面 to be identified 语义自洽。把选项中的动词原形代入此空，只有 B) allow 符合句意，表示让人的面部关键特征被识别出来，故本题选 B) allow（允许；使有可能）。"
+  },
+  {
+    "set": 3,
+    "number": 37,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Your current situation in life is built on the beliefs and habits you have been practicing daily.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 38,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Knowing the best way to learn a foreign language will not enable you to speak it without actual practice.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 39,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "People may find it demanding to create a goal which will take a long time to achieve.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 40,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Learning and practicing seem to be very much alike, but the two processes can lead to quite different outcomes.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 41,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Absorbing new information is helpful in making better decisions prior to action.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 42,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Sometimes we may feel like we are making progress by doing some research or making preparations, but actually we are staying at the starting point.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 43,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "We are inclined to think that a lack of knowledge prevents us from advancing to a better future.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 44,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Learning can benefit you by itself, but only practice can turn what you learn into meaningful contributions.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 45,
+    "part": "Part III",
+    "section": "Section B",
+    "context": "段落匹配",
+    "question": "Practice involves repeating a process intentionally to attain a particular objective.",
+    "options": [
+      "段落 A",
+      "段落 B",
+      "段落 C",
+      "段落 D",
+      "段落 E",
+      "段落 F",
+      "段落 G",
+      "段落 H",
+      "段落 I",
+      "段落 J",
+      "段落 K"
+    ],
+    "type": "paragraph_match",
+    "passage": null
+  },
+  {
+    "set": 3,
+    "number": 46,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 46 to 50 are based on the following passage.",
+    "question": "What do we learn from research in human-vehicle interaction?",
+    "options": [
+      "A) Automatic driving systems are by no means immune to errors.",
+      "B) Driverless vehicles are likely to be misused by some people.",
+      "C) Self-driving car manufacturers are not aware of the legal matters involved.",
+      "D) There is a long way to go before humans can interact with driverless vehicles."
+    ],
+    "type": "reading",
+    "passage": "Research in human-vehicle interaction has shown even systems designed to automate driving are far from being error-proof. Recent evidence points to drivers' limited understanding of what these systems can and cannot do as a contributing factor to system misuse. A recent study tackles the issue of over-trusting drivers and the resulting system misuse from a legal viewpoint. It looks at what the manufacturers of self-driving cars should legally do to ensure that drivers understand how to use the vehicles appropriately.\n\nOne solution suggested in the study involves requiring buyers to sign end-user license agreements (EULAs), similar to the terms and conditions that require agreement when using new software products. But this is far from ideal. The agreement may not provide enough information to the driver, leading to confusion about the nature of the requests for agreement and their implications. Further, most end users don't read EULAs. A 2017 study shows 91 percent of people agree to them without reading. Among young people, 97 percent agree without reviewing the terms.\n\nThe issue is that, unlike using a smartphone app, operating a car has serious safety risks, whether the driver is human or software. And human drivers need to consent to take responsibility for the outcomes of the software and hardware.\n\n\"Warning fatigue\" and distracted driving are also causes for concern. For example, a driver, annoyed after receiving continuous warnings, could decide to just ignore the message. Or, if the message is presented while the vehicle is in motion, it could represent a distraction. Given these limitations and concerns, even if this mode of obtaining consent is to move forward, it likely won't fully protect automakers from their legal liability should the system malfunction (发生故障) or an accident occur.\n\nDriver training for self-driving vehicles can help ensure that drivers fully understand system capabilities and limitations. This needs to occur beyond the vehicle purchase. Recent evidence shows even\n\nrelying on the information provided by the seller is not going to answer many questions. All of this considered, the road forward for self-driving cars is not going to be a smooth ride after all."
+  },
+  {
+    "set": 3,
+    "number": 47,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 46 to 50 are based on the following passage.",
+    "question": "What is the problem with requiring buyers to sign end-user license agreements?",
+    "options": [
+      "A) End users, young and old alike, find the terms complex to interpret.",
+      "B) Most end users sign them without bothering to read the terms.",
+      "C) Many people are often confused by the wording of the terms.",
+      "D) Most end users do not understand the terms after reading them through."
+    ],
+    "type": "reading",
+    "passage": "Research in human-vehicle interaction has shown even systems designed to automate driving are far from being error-proof. Recent evidence points to drivers' limited understanding of what these systems can and cannot do as a contributing factor to system misuse. A recent study tackles the issue of over-trusting drivers and the resulting system misuse from a legal viewpoint. It looks at what the manufacturers of self-driving cars should legally do to ensure that drivers understand how to use the vehicles appropriately.\n\nOne solution suggested in the study involves requiring buyers to sign end-user license agreements (EULAs), similar to the terms and conditions that require agreement when using new software products. But this is far from ideal. The agreement may not provide enough information to the driver, leading to confusion about the nature of the requests for agreement and their implications. Further, most end users don't read EULAs. A 2017 study shows 91 percent of people agree to them without reading. Among young people, 97 percent agree without reviewing the terms.\n\nThe issue is that, unlike using a smartphone app, operating a car has serious safety risks, whether the driver is human or software. And human drivers need to consent to take responsibility for the outcomes of the software and hardware.\n\n\"Warning fatigue\" and distracted driving are also causes for concern. For example, a driver, annoyed after receiving continuous warnings, could decide to just ignore the message. Or, if the message is presented while the vehicle is in motion, it could represent a distraction. Given these limitations and concerns, even if this mode of obtaining consent is to move forward, it likely won't fully protect automakers from their legal liability should the system malfunction (发生故障) or an accident occur.\n\nDriver training for self-driving vehicles can help ensure that drivers fully understand system capabilities and limitations. This needs to occur beyond the vehicle purchase. Recent evidence shows even\n\nrelying on the information provided by the seller is not going to answer many questions. All of this considered, the road forward for self-driving cars is not going to be a smooth ride after all."
+  },
+  {
+    "set": 3,
+    "number": 48,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 46 to 50 are based on the following passage.",
+    "question": "What would drivers do when they suffer from \"warning fatigue\"?",
+    "options": [
+      "A) Waste no time keeping the car moving.",
+      "B) Rest a while to avoid fatigue driving.",
+      "C) Take no action despite repeated warnings.",
+      "D) Take note of the message though fatigued."
+    ],
+    "type": "reading",
+    "passage": "Research in human-vehicle interaction has shown even systems designed to automate driving are far from being error-proof. Recent evidence points to drivers' limited understanding of what these systems can and cannot do as a contributing factor to system misuse. A recent study tackles the issue of over-trusting drivers and the resulting system misuse from a legal viewpoint. It looks at what the manufacturers of self-driving cars should legally do to ensure that drivers understand how to use the vehicles appropriately.\n\nOne solution suggested in the study involves requiring buyers to sign end-user license agreements (EULAs), similar to the terms and conditions that require agreement when using new software products. But this is far from ideal. The agreement may not provide enough information to the driver, leading to confusion about the nature of the requests for agreement and their implications. Further, most end users don't read EULAs. A 2017 study shows 91 percent of people agree to them without reading. Among young people, 97 percent agree without reviewing the terms.\n\nThe issue is that, unlike using a smartphone app, operating a car has serious safety risks, whether the driver is human or software. And human drivers need to consent to take responsibility for the outcomes of the software and hardware.\n\n\"Warning fatigue\" and distracted driving are also causes for concern. For example, a driver, annoyed after receiving continuous warnings, could decide to just ignore the message. Or, if the message is presented while the vehicle is in motion, it could represent a distraction. Given these limitations and concerns, even if this mode of obtaining consent is to move forward, it likely won't fully protect automakers from their legal liability should the system malfunction (发生故障) or an accident occur.\n\nDriver training for self-driving vehicles can help ensure that drivers fully understand system capabilities and limitations. This needs to occur beyond the vehicle purchase. Recent evidence shows even\n\nrelying on the information provided by the seller is not going to answer many questions. All of this considered, the road forward for self-driving cars is not going to be a smooth ride after all."
+  },
+  {
+    "set": 3,
+    "number": 49,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 46 to 50 are based on the following passage.",
+    "question": "What does the author think of continuing to ask buyers to sign end-user license agreements?",
+    "options": [
+      "A) It will probably not guarantee the safety of drivers in case of accidents.",
+      "B) It likely won't ensure that the automatic driving system functions properly.",
+      "C) It likely won't fully protect automakers against accusations of deliberate cheating.",
+      "D) It will probably not provide manufacturers adequate protection from legal responsibilities."
+    ],
+    "type": "reading",
+    "passage": "Research in human-vehicle interaction has shown even systems designed to automate driving are far from being error-proof. Recent evidence points to drivers' limited understanding of what these systems can and cannot do as a contributing factor to system misuse. A recent study tackles the issue of over-trusting drivers and the resulting system misuse from a legal viewpoint. It looks at what the manufacturers of self-driving cars should legally do to ensure that drivers understand how to use the vehicles appropriately.\n\nOne solution suggested in the study involves requiring buyers to sign end-user license agreements (EULAs), similar to the terms and conditions that require agreement when using new software products. But this is far from ideal. The agreement may not provide enough information to the driver, leading to confusion about the nature of the requests for agreement and their implications. Further, most end users don't read EULAs. A 2017 study shows 91 percent of people agree to them without reading. Among young people, 97 percent agree without reviewing the terms.\n\nThe issue is that, unlike using a smartphone app, operating a car has serious safety risks, whether the driver is human or software. And human drivers need to consent to take responsibility for the outcomes of the software and hardware.\n\n\"Warning fatigue\" and distracted driving are also causes for concern. For example, a driver, annoyed after receiving continuous warnings, could decide to just ignore the message. Or, if the message is presented while the vehicle is in motion, it could represent a distraction. Given these limitations and concerns, even if this mode of obtaining consent is to move forward, it likely won't fully protect automakers from their legal liability should the system malfunction (发生故障) or an accident occur.\n\nDriver training for self-driving vehicles can help ensure that drivers fully understand system capabilities and limitations. This needs to occur beyond the vehicle purchase. Recent evidence shows even\n\nrelying on the information provided by the seller is not going to answer many questions. All of this considered, the road forward for self-driving cars is not going to be a smooth ride after all."
+  },
+  {
+    "set": 3,
+    "number": 50,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 46 to 50 are based on the following passage.",
+    "question": "What should be done to help drivers fully understand system capabilities and limitations?",
+    "options": [
+      "A) Training them to be experts in vehicle automation.",
+      "B) Familiarizing them with the systems through training.",
+      "C) Broadening their knowledge of accident-prevention mechanisms.",
+      "D) Facilitating their access to the information provided by the seller."
+    ],
+    "type": "reading",
+    "passage": "Research in human-vehicle interaction has shown even systems designed to automate driving are far from being error-proof. Recent evidence points to drivers' limited understanding of what these systems can and cannot do as a contributing factor to system misuse. A recent study tackles the issue of over-trusting drivers and the resulting system misuse from a legal viewpoint. It looks at what the manufacturers of self-driving cars should legally do to ensure that drivers understand how to use the vehicles appropriately.\n\nOne solution suggested in the study involves requiring buyers to sign end-user license agreements (EULAs), similar to the terms and conditions that require agreement when using new software products. But this is far from ideal. The agreement may not provide enough information to the driver, leading to confusion about the nature of the requests for agreement and their implications. Further, most end users don't read EULAs. A 2017 study shows 91 percent of people agree to them without reading. Among young people, 97 percent agree without reviewing the terms.\n\nThe issue is that, unlike using a smartphone app, operating a car has serious safety risks, whether the driver is human or software. And human drivers need to consent to take responsibility for the outcomes of the software and hardware.\n\n\"Warning fatigue\" and distracted driving are also causes for concern. For example, a driver, annoyed after receiving continuous warnings, could decide to just ignore the message. Or, if the message is presented while the vehicle is in motion, it could represent a distraction. Given these limitations and concerns, even if this mode of obtaining consent is to move forward, it likely won't fully protect automakers from their legal liability should the system malfunction (发生故障) or an accident occur.\n\nDriver training for self-driving vehicles can help ensure that drivers fully understand system capabilities and limitations. This needs to occur beyond the vehicle purchase. Recent evidence shows even\n\nrelying on the information provided by the seller is not going to answer many questions. All of this considered, the road forward for self-driving cars is not going to be a smooth ride after all."
+  },
+  {
+    "set": 3,
+    "number": 51,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 51 to 55 are based on the following passage.",
+    "question": "What do we learn about publicity over protein in America?",
+    "options": [
+      "A) It has helped to create the myth of protein deficiency.",
+      "B) It has helped Americans in search of protein-rich diets.",
+      "C) It has raised a lot of health concerns among the public.",
+      "D) It has been funded by food companies and health experts."
+    ],
+    "type": "reading",
+    "passage": "Do you ever blend up a protein drink for breakfast, or grab a protein bar following an afternoon workout? If so, you are likely among the millions of people in search of more protein-rich diets.\n\nProtein-enriched products are found everywhere. But contrary to all the publicity that everyone needs more protein, most Americans get twice as much as they need.\n\nMany of us living in the most developed countries are buying into a myth of protein deficiency created by food companies and self-identified health experts. Global retail sales of protein supplement products reached an astonishing US $ 18.9 billion in 2020.\n\nBut are we really in need of more protein? Physicians in the US have never actually examined a patient with protein deficiency because simply by eating an adequate number of daily calories we are also most likely getting enough protein.\n\nIn fact, Americans currently consume almost twice the National Academy of Medicine's recommended daily intake of protein although the most desirable protein intake may vary depending on age and activity level.\n\nFor example, if you're a dedicated athlete you might need to consume higher quantities of\n\nprotein. Generally, though, a 140-pound person should not exceed 120 grams of protein per day, particularly because a high protein diet can strain kidney and liver function and increase risks of developing heart disease and cancer.\n\nWhile fats and sugar have taken the beating in turns since over a century ago, protein has managed to remain our red-hot favorite.\n\nIn the 1970s through the 1990s, protein products remained visible but moved back somewhat with the dietary spotlight firmly fixed on low-calorie, low-fat, sugar-free snack foods and beverages following the publication of studies linking sugar and saturated (饱和的) fat consumption to heart disease.\n\nLater research in 2003, however, suggested high-protein diets could aid in weight loss, and protein quickly regained its former nutrient-superstar status.\n\nNow most people living in high-income nations are consuming enough protein. When we replace meals with a protein bar or drink, we also risk missing out on the rich sources of antioxidants (抗氧化剂), vitamins and many other benefits of real food."
+  },
+  {
+    "set": 3,
+    "number": 52,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 51 to 55 are based on the following passage.",
+    "question": "Why have physicians in the US never actually examined a patient with protein deficiency?",
+    "options": [
+      "A) Americans can purchase many kinds of protein-rich foods everywhere.",
+      "B) Americans can absorb the number of calories recommended by food experts.",
+      "C) Americans can get sufficient protein just by eating adequate foods daily.",
+      "D) Americans can rely on food supplements to prevent protein deficiency."
+    ],
+    "type": "reading",
+    "passage": "Do you ever blend up a protein drink for breakfast, or grab a protein bar following an afternoon workout? If so, you are likely among the millions of people in search of more protein-rich diets.\n\nProtein-enriched products are found everywhere. But contrary to all the publicity that everyone needs more protein, most Americans get twice as much as they need.\n\nMany of us living in the most developed countries are buying into a myth of protein deficiency created by food companies and self-identified health experts. Global retail sales of protein supplement products reached an astonishing US $ 18.9 billion in 2020.\n\nBut are we really in need of more protein? Physicians in the US have never actually examined a patient with protein deficiency because simply by eating an adequate number of daily calories we are also most likely getting enough protein.\n\nIn fact, Americans currently consume almost twice the National Academy of Medicine's recommended daily intake of protein although the most desirable protein intake may vary depending on age and activity level.\n\nFor example, if you're a dedicated athlete you might need to consume higher quantities of\n\nprotein. Generally, though, a 140-pound person should not exceed 120 grams of protein per day, particularly because a high protein diet can strain kidney and liver function and increase risks of developing heart disease and cancer.\n\nWhile fats and sugar have taken the beating in turns since over a century ago, protein has managed to remain our red-hot favorite.\n\nIn the 1970s through the 1990s, protein products remained visible but moved back somewhat with the dietary spotlight firmly fixed on low-calorie, low-fat, sugar-free snack foods and beverages following the publication of studies linking sugar and saturated (饱和的) fat consumption to heart disease.\n\nLater research in 2003, however, suggested high-protein diets could aid in weight loss, and protein quickly regained its former nutrient-superstar status.\n\nNow most people living in high-income nations are consuming enough protein. When we replace meals with a protein bar or drink, we also risk missing out on the rich sources of antioxidants (抗氧化剂), vitamins and many other benefits of real food."
+  },
+  {
+    "set": 3,
+    "number": 53,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 51 to 55 are based on the following passage.",
+    "question": "What should people take into consideration in deciding on the most preferable protein intake?",
+    "options": [
+      "A) How healthy they are and what food they eat.",
+      "B) How old they are and what activities they do.",
+      "C) How much protein they consume and what their body weight is.",
+      "D) How serious their protein deficiency is and what remedies they use."
+    ],
+    "type": "reading",
+    "passage": "Do you ever blend up a protein drink for breakfast, or grab a protein bar following an afternoon workout? If so, you are likely among the millions of people in search of more protein-rich diets.\n\nProtein-enriched products are found everywhere. But contrary to all the publicity that everyone needs more protein, most Americans get twice as much as they need.\n\nMany of us living in the most developed countries are buying into a myth of protein deficiency created by food companies and self-identified health experts. Global retail sales of protein supplement products reached an astonishing US $ 18.9 billion in 2020.\n\nBut are we really in need of more protein? Physicians in the US have never actually examined a patient with protein deficiency because simply by eating an adequate number of daily calories we are also most likely getting enough protein.\n\nIn fact, Americans currently consume almost twice the National Academy of Medicine's recommended daily intake of protein although the most desirable protein intake may vary depending on age and activity level.\n\nFor example, if you're a dedicated athlete you might need to consume higher quantities of\n\nprotein. Generally, though, a 140-pound person should not exceed 120 grams of protein per day, particularly because a high protein diet can strain kidney and liver function and increase risks of developing heart disease and cancer.\n\nWhile fats and sugar have taken the beating in turns since over a century ago, protein has managed to remain our red-hot favorite.\n\nIn the 1970s through the 1990s, protein products remained visible but moved back somewhat with the dietary spotlight firmly fixed on low-calorie, low-fat, sugar-free snack foods and beverages following the publication of studies linking sugar and saturated (饱和的) fat consumption to heart disease.\n\nLater research in 2003, however, suggested high-protein diets could aid in weight loss, and protein quickly regained its former nutrient-superstar status.\n\nNow most people living in high-income nations are consuming enough protein. When we replace meals with a protein bar or drink, we also risk missing out on the rich sources of antioxidants (抗氧化剂), vitamins and many other benefits of real food."
+  },
+  {
+    "set": 3,
+    "number": 54,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 51 to 55 are based on the following passage.",
+    "question": "What foods have been largely out of favor for more than a century?",
+    "options": [
+      "A) Sugar-free snacks.",
+      "B) Protein-rich foods.",
+      "C) Both red and white meats.",
+      "D) Sugary and fatty foods."
+    ],
+    "type": "reading",
+    "passage": "Do you ever blend up a protein drink for breakfast, or grab a protein bar following an afternoon workout? If so, you are likely among the millions of people in search of more protein-rich diets.\n\nProtein-enriched products are found everywhere. But contrary to all the publicity that everyone needs more protein, most Americans get twice as much as they need.\n\nMany of us living in the most developed countries are buying into a myth of protein deficiency created by food companies and self-identified health experts. Global retail sales of protein supplement products reached an astonishing US $ 18.9 billion in 2020.\n\nBut are we really in need of more protein? Physicians in the US have never actually examined a patient with protein deficiency because simply by eating an adequate number of daily calories we are also most likely getting enough protein.\n\nIn fact, Americans currently consume almost twice the National Academy of Medicine's recommended daily intake of protein although the most desirable protein intake may vary depending on age and activity level.\n\nFor example, if you're a dedicated athlete you might need to consume higher quantities of\n\nprotein. Generally, though, a 140-pound person should not exceed 120 grams of protein per day, particularly because a high protein diet can strain kidney and liver function and increase risks of developing heart disease and cancer.\n\nWhile fats and sugar have taken the beating in turns since over a century ago, protein has managed to remain our red-hot favorite.\n\nIn the 1970s through the 1990s, protein products remained visible but moved back somewhat with the dietary spotlight firmly fixed on low-calorie, low-fat, sugar-free snack foods and beverages following the publication of studies linking sugar and saturated (饱和的) fat consumption to heart disease.\n\nLater research in 2003, however, suggested high-protein diets could aid in weight loss, and protein quickly regained its former nutrient-superstar status.\n\nNow most people living in high-income nations are consuming enough protein. When we replace meals with a protein bar or drink, we also risk missing out on the rich sources of antioxidants (抗氧化剂), vitamins and many other benefits of real food."
+  },
+  {
+    "set": 3,
+    "number": 55,
+    "part": "Part III",
+    "section": "Section C",
+    "context": "Questions 51 to 55 are based on the following passage.",
+    "question": "What does the author imply people in developed countries should do to keep healthy?",
+    "options": [
+      "A) Enjoy natural food.",
+      "B) Eat vegetarian diets.",
+      "C) Consume enough protein daily.",
+      "D) Replace meals with protein bars."
+    ],
+    "type": "reading",
+    "passage": "Do you ever blend up a protein drink for breakfast, or grab a protein bar following an afternoon workout? If so, you are likely among the millions of people in search of more protein-rich diets.\n\nProtein-enriched products are found everywhere. But contrary to all the publicity that everyone needs more protein, most Americans get twice as much as they need.\n\nMany of us living in the most developed countries are buying into a myth of protein deficiency created by food companies and self-identified health experts. Global retail sales of protein supplement products reached an astonishing US $ 18.9 billion in 2020.\n\nBut are we really in need of more protein? Physicians in the US have never actually examined a patient with protein deficiency because simply by eating an adequate number of daily calories we are also most likely getting enough protein.\n\nIn fact, Americans currently consume almost twice the National Academy of Medicine's recommended daily intake of protein although the most desirable protein intake may vary depending on age and activity level.\n\nFor example, if you're a dedicated athlete you might need to consume higher quantities of\n\nprotein. Generally, though, a 140-pound person should not exceed 120 grams of protein per day, particularly because a high protein diet can strain kidney and liver function and increase risks of developing heart disease and cancer.\n\nWhile fats and sugar have taken the beating in turns since over a century ago, protein has managed to remain our red-hot favorite.\n\nIn the 1970s through the 1990s, protein products remained visible but moved back somewhat with the dietary spotlight firmly fixed on low-calorie, low-fat, sugar-free snack foods and beverages following the publication of studies linking sugar and saturated (饱和的) fat consumption to heart disease.\n\nLater research in 2003, however, suggested high-protein diets could aid in weight loss, and protein quickly regained its former nutrient-superstar status.\n\nNow most people living in high-income nations are consuming enough protein. When we replace meals with a protein bar or drink, we also risk missing out on the rich sources of antioxidants (抗氧化剂), vitamins and many other benefits of real food."
+  },
+  {
+    "set": 3,
+    "number": 1,
+    "part": "Part IV",
+    "section": null,
+    "context": "段落翻译",
+    "question": "近年来，中国新能源汽车产业发展迅速。目前，中国新能源汽车年产量已高达近千万辆，占全球市场份额超过，出口量不断创出新高。中国政府通过加大资金投入和政策引导，鼓励新能源汽车企业进行技术创新，不断提高产品在市场上的竞争力。中国新能源汽车产业的发展不仅有力推动了国内经济发展，也为全球新能源利用和环境保护做出了积极贡献。",
+    "options": [],
+    "type": "translation",
+    "passage": null
+  }
+]

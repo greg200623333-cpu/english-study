@@ -402,10 +402,16 @@ export const useStudyModeStore = create<StudyModeState>()(
             : state.hasSsaExchange || state.gdpHistory.length > 0
               ? [...state.gdpHistory.slice(-6), { label: 'Now', value: Math.round(displayGDP) }]
               : buildFlatHistory(displayGDP)
+
+          // If GDP is being set to a positive value, activate hasSsaExchange
+          // This ensures GDP from essays and other sources is properly displayed
+          const shouldActivateExchange = displayGDP > 0 && !state.hasSsaExchange
+
           return {
             baseAssets: nextBaseAssets,
             vocabularyGDP: displayGDP,
             gdpHistory: nextHistory,
+            ...(shouldActivateExchange ? { hasSsaExchange: true } : {}),
           }
         })
       },

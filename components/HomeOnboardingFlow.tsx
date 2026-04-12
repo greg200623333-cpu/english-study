@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { MissionBriefingModal } from '@/components/study-mode/MissionBriefingModal'
+import { OnboardingBriefingModal } from '@/components/study-mode/OnboardingBriefingModal'
 import { SelectionModal } from '@/components/study-mode/SelectionModal'
 import { type ExamType, useStudyModeStore } from '@/stores/useStudyModeStore'
 import { useSession } from '@/lib/useSession'
@@ -98,7 +98,7 @@ export function HomeOnboardingFlow() {
         进入学习模式
       </button>
 
-      <MissionBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
+      <OnboardingBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
 
       <SelectionModal
         open={showSelection}

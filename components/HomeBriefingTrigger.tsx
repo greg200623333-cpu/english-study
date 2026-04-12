@@ -30,17 +30,8 @@ export function HomeBriefingTrigger() {
     }
 
     const timer = setTimeout(() => {
-      const ls = safeLS()
-      // dev 模式每次刷新都弹出；生产环境只弹一次
-      const alreadySeen = !IS_DEV && ls?.getItem(BRIEFING_KEY) === 'true'
-      if (!alreadySeen) {
-        openBriefing()
-        try {
-          ls?.setItem(BRIEFING_KEY, 'true')
-        } catch {
-          // 无痕模式或存储已满时静默降级
-        }
-      }
+      // 每次访问落地页都弹出简报（不再永久屏蔽）
+      openBriefing()
     }, 800)
     return () => clearTimeout(timer)
   }, [openBriefing])
