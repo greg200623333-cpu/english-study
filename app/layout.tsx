@@ -21,6 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh" className="h-full">
+      <head>
+        <meta httpEquiv="Permissions-Policy" content="microphone=(self)" />
+      </head>
       <body className="min-h-full" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif', background: '#0a0b0f' }}>
         {children}
       </body>

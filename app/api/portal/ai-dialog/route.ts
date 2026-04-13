@@ -39,7 +39,7 @@ export async function GET() {
     const q = 'topics'
     const params = addAuthParams(APP_KEY, APP_SECRET, q)
 
-    const response = await fetch('http://openapi.youdao.com/ai_dialog/get_default_topic', {
+    const response = await fetch('https://openapi.youdao.com/ai_dialog/get_default_topic', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify({ ...params, q })
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     switch (action) {
       case 'generate_topic':
         // 生成场景
-        url = 'http://openapi.youdao.com/ai_dialog/generate_topic'
+        url = 'https://openapi.youdao.com/ai_dialog/generate_topic'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.topic),
           topic: requestData.topic
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
       case 'generate_dialog':
         // 生成对话
-        url = 'http://openapi.youdao.com/ai_dialog/generate_dialog'
+        url = 'https://openapi.youdao.com/ai_dialog/generate_dialog'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.taskId),
           taskId: requestData.taskId,
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
 
       case 'generate_recommendation':
         // 生成推荐
-        url = 'http://openapi.youdao.com/ai_dialog/generate_recommendation'
+        url = 'https://openapi.youdao.com/ai_dialog/generate_recommendation'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.taskId),
           taskId: requestData.taskId,
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
 
       case 'generate_report':
         // 生成报告
-        url = 'http://openapi.youdao.com/ai_dialog/generate_report'
+        url = 'https://openapi.youdao.com/ai_dialog/generate_report'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.taskId),
           taskId: requestData.taskId,

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import WelcomeScreen from '@/components/portal/WelcomeScreen'
 import ComputerWorkspace from '@/components/portal/ComputerWorkspace'
@@ -16,6 +16,16 @@ const pageVariants = {
 
 export default function PortalPage() {
   const [workspace, setWorkspace] = useState<Workspace>('welcome')
+
+  // 检查 localStorage 并自动导航到保存的工作台
+  useEffect(() => {
+    const savedWorkspace = localStorage.getItem('portal_workspace')
+    if (savedWorkspace === 'computer' || savedWorkspace === 'architecture') {
+      setWorkspace(savedWorkspace as Workspace)
+      // 清除标记，避免下次自动跳转
+      localStorage.removeItem('portal_workspace')
+    }
+  }, [])
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0b0f' }}>
@@ -39,7 +49,10 @@ export default function PortalPage() {
             animate="animate"
             exit="exit"
           >
-            <ComputerWorkspace onBack={() => setWorkspace('welcome')} />
+            <ComputerWorkspace onBack={() => {
+              localStorage.removeItem('portal_workspace')
+              setWorkspace('welcome')
+            }} />
           </motion.div>
         )}
         {workspace === 'architecture' && (
@@ -50,7 +63,10 @@ export default function PortalPage() {
             animate="animate"
             exit="exit"
           >
-            <ArchitectureWorkspace onBack={() => setWorkspace('welcome')} />
+            <ArchitectureWorkspace onBack={() => {
+              localStorage.removeItem('portal_workspace')
+              setWorkspace('welcome')
+            }} />
           </motion.div>
         )}
       </AnimatePresence>

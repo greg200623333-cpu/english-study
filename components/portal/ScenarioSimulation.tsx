@@ -14,7 +14,7 @@ export default function ScenarioSimulation({ onBack }: Props) {
   const router = useRouter()
 
   const handleScenarioSelect = (scenarioId: string) => {
-    router.push(`/portal/scenario/${scenarioId}`)
+    router.push(`/portal/scenario/${scenarioId}?from=computer`)
   }
 
   return (

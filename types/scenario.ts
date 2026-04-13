@@ -17,6 +17,13 @@ export interface ChatMessage {
   role: 'user' | 'assistant' | 'system'
   content: string
   timestamp: Date
+  audioBase64?: string // 用户消息的音频数据
+  ttsUrl?: string // AI 消息的 TTS 音频
+  grammarErrors?: Array<{
+    original: string
+    corrected: string
+    explanation: string
+  }>
 }
 
 // 有道 AI 对话历史格式

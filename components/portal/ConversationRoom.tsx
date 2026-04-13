@@ -3,10 +3,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Mic, Send, Menu, X, Volume2, VolumeX, Briefcase, Search, Mic as MicIcon, LucideIcon } from 'lucide-react'
+import { ArrowLeft, Mic, Send, Menu, X, Volume2, VolumeX, Briefcase, Search, Mic as MicIcon, LucideIcon, Award } from 'lucide-react'
 import { Scenario, ChatMessage } from '@/types/scenario'
 import { useYoudaoChat } from '@/hooks/useYoudaoChat'
+import { useAudioRecorder } from '@/hooks/useAudioRecorder'
+import { OralEvaluationResult } from '@/types/evaluation'
 import MarkdownMessage from './MarkdownMessage'
+import ScoreModal from './ScoreModal'
 
 interface Props {
   scenario: Scenario
@@ -21,18 +24,33 @@ const iconMap: Record<string, LucideIcon> = {
 export default function ConversationRoom({ scenario }: Props) {
   const router = useRouter()
   const [input, setInput] = useState('')
-  const [isRecording, setIsRecording] = useState(false)
   const [voiceOutputEnabled, setVoiceOutputEnabled] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
+  const [showScoreModal, setShowScoreModal] = useState(false)
+  const [evaluationResult, setEvaluationResult] = useState<OralEvaluationResult | null>(null)
+  const [isEvaluating, setIsEvaluating] = useState(false)
+  const [voice, setVoice] = useState('0') // 音色选择
 
-  const { messages, isLoading, initializeChat, sendMessage } = useYoudaoChat()
+  // 获取来源参数
+  const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '')
+  const fromWorkspace = searchParams.get('from') || 'welcome'
+
+  const { messages, isLoading, initializeChat, sendMessage, sendAudioMessage } = useYoudaoChat()
+  const {
+    recordingState,
+    audioBase64,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    error: recordError
+  } = useAudioRecorder()
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const recognitionRef = useRef<any>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const initializedRef = useRef(false)
+  const userAudioRecordsRef = useRef<string[]>([]) // 存储用户的所有音频记录
 
   const IconComponent = iconMap[scenario.icon] || Briefcase
 
@@ -61,57 +79,136 @@ export default function ConversationRoom({ scenario }: Props) {
       initializedRef.current = true
       const init = async () => {
         await initializeChat(scenario.topic)
-        // AI 自动发送欢迎消息
-        // 注意：这里需要直接添加到消息列表，而不是通过 sendMessage
       }
       init()
     }
   }, [scenario.topic, initializeChat])
 
-  // 初始化语音识别
+  // 处理音频录制完成
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition
-      recognitionRef.current = new SpeechRecognition()
-      recognitionRef.current.continuous = false
-      recognitionRef.current.interimResults = false
-      recognitionRef.current.lang = 'en-US'
-
-      recognitionRef.current.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript
-        setInput(transcript)
-        setIsRecording(false)
-      }
-
-      recognitionRef.current.onerror = () => {
-        setIsRecording(false)
-      }
-
-      recognitionRef.current.onend = () => {
-        setIsRecording(false)
-      }
+    if (audioBase64 && recordingState === 'idle') {
+      // 录制完成，发送音频消息
+      handleSendAudioMessage(audioBase64)
     }
+  }, [audioBase64, recordingState])
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
+  // 显示录制错误
+  useEffect(() => {
+    if (recordError) {
+      alert(recordError)
     }
-  }, [])
+  }, [recordError])
 
-  // 语音输入
-  const startVoiceInput = () => {
-    if (recognitionRef.current && !isRecording) {
-      setIsRecording(true)
-      recognitionRef.current.start()
+  // 处理语音按钮点击
+  const handleVoiceButtonClick = async () => {
+    if (recordingState === 'recording') {
+      await stopRecording()
+    } else if (recordingState === 'idle') {
+      await startRecording()
     }
   }
 
-  const stopVoiceInput = () => {
-    if (recognitionRef.current && isRecording) {
-      recognitionRef.current.stop()
-      setIsRecording(false)
+  // 发送音频消息
+  const handleSendAudioMessage = async (audioBase64: string) => {
+    // 存储音频记录用于最终评分
+    userAudioRecordsRef.current.push(audioBase64)
+
+    // 调用 AI Chat API 发送音频
+    await sendAudioMessage(audioBase64, voice)
+
+    // 清除录音数据
+    clearRecording()
+  }
+
+  // 结束练习并生成报告
+  const handleFinishPractice = async () => {
+    if (messages.length < 2) {
+      alert('请至少进行一轮对话后再结束练习')
+      return
+    }
+
+    const confirmed = confirm('确定要结束练习并生成报告吗？')
+    if (!confirmed) return
+
+    setIsEvaluating(true)
+
+    try {
+      // 如果有音频记录，使用最后几条进行评测
+      if (userAudioRecordsRef.current.length > 0) {
+        // 取最后 3 条音频或全部（如果少于 3 条）
+        const audioSamples = userAudioRecordsRef.current.slice(-3)
+
+        // 合并音频或选择最长的一条
+        const longestAudio = audioSamples.reduce((longest, current) =>
+          current.length > longest.length ? current : longest
+        )
+
+        const response = await fetch('/api/youdao/oraleval', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            audio: longestAudio,
+            langType: 'en',
+            audioType: 'wav'
+          })
+        })
+
+        const data = await response.json()
+
+        if (data.errorCode === '0' && data.result) {
+          // 转换为我们的评分格式
+          const score = data.result.overall || 0
+          const result: OralEvaluationResult = {
+            overall: {
+              grade: score >= 90 ? 'S' : score >= 80 ? 'A' : score >= 70 ? 'B' : score >= 60 ? 'C' : 'D',
+              score: score
+            },
+            dimensions: {
+              pronunciation: data.result.pronunciation || 0,
+              fluency: data.result.fluency || 0,
+              accuracy: data.result.integrity || 0
+            },
+            suggestions: [
+              '继续保持练习，多听多说',
+              '注意语音语调的自然度',
+              '尝试使用更多专业术语'
+            ],
+            grammarErrors: []
+          }
+
+          setEvaluationResult(result)
+          setShowScoreModal(true)
+        } else {
+          throw new Error(data.error || '评测失败')
+        }
+      } else {
+        // 没有音频记录，生成模拟评分
+        const mockResult: OralEvaluationResult = {
+          overall: {
+            grade: 'B',
+            score: 75
+          },
+          dimensions: {
+            pronunciation: 72,
+            fluency: 78,
+            accuracy: 75
+          },
+          suggestions: [
+            '建议使用语音输入功能进行练习，以获得更准确的评分',
+            '多进行口语练习，提高流利度',
+            '注意专业术语的发音'
+          ],
+          grammarErrors: []
+        }
+
+        setEvaluationResult(mockResult)
+        setShowScoreModal(true)
+      }
+    } catch (error) {
+      console.error('生成报告失败:', error)
+      alert('生成报告失败，请重试')
+    } finally {
+      setIsEvaluating(false)
     }
   }
 
@@ -206,9 +303,59 @@ export default function ConversationRoom({ scenario }: Props) {
 
     const lastMessage = messages[messages.length - 1]
     if (lastMessage && lastMessage.role === 'assistant' && !isLoading) {
-      speakText(lastMessage.content)
+      // 优先使用 TTS URL（来自音频对话）
+      if (lastMessage.ttsUrl) {
+        playTTSAudio(lastMessage.ttsUrl)
+      } else {
+        // 降级到文本转语音
+        speakText(lastMessage.content)
+      }
     }
   }, [messages, voiceOutputEnabled, isLoading])
+
+  // 播放 TTS 音频
+  const playTTSAudio = async (ttsUrl: string) => {
+    try {
+      setIsSpeaking(true)
+
+      // 停止当前播放
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
+
+      // 如果是 Base64，转换为 Blob URL
+      let audioUrl = ttsUrl
+      if (ttsUrl.startsWith('data:') || !ttsUrl.startsWith('http')) {
+        const base64Data = ttsUrl.includes(',') ? ttsUrl.split(',')[1] : ttsUrl
+        const binaryData = atob(base64Data)
+        const bytes = new Uint8Array(binaryData.length)
+        for (let i = 0; i < binaryData.length; i++) {
+          bytes[i] = binaryData.charCodeAt(i)
+        }
+        const blob = new Blob([bytes], { type: 'audio/mpeg' })
+        audioUrl = URL.createObjectURL(blob)
+      }
+
+      audioRef.current = new Audio(audioUrl)
+      audioRef.current.onended = () => {
+        setIsSpeaking(false)
+        if (audioUrl.startsWith('blob:')) {
+          URL.revokeObjectURL(audioUrl)
+        }
+      }
+      audioRef.current.onerror = () => {
+        setIsSpeaking(false)
+        if (audioUrl.startsWith('blob:')) {
+          URL.revokeObjectURL(audioUrl)
+        }
+      }
+
+      await audioRef.current.play()
+    } catch (error) {
+      console.error('TTS 播放失败:', error)
+      setIsSpeaking(false)
+    }
+  }
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e]">
@@ -231,7 +378,16 @@ export default function ConversationRoom({ scenario }: Props) {
         {/* 返回按钮 */}
         <div className="p-4 sm:p-6 border-b border-white/10">
           <button
-            onClick={() => router.push('/portal')}
+            onClick={() => {
+              // 根据来源返回到对应的页面
+              if (fromWorkspace === 'computer') {
+                // 使用 localStorage 来触发返回到 computer 工作台
+                localStorage.setItem('portal_workspace', 'computer')
+                router.push('/portal')
+              } else {
+                router.push('/portal')
+              }
+            }}
             className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -259,6 +415,23 @@ export default function ConversationRoom({ scenario }: Props) {
                 <p className="text-sm text-purple-400">{scenario.subtitle}</p>
               </div>
             </div>
+
+            {/* 音色选择 */}
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <label className="block text-xs font-medium text-slate-400 mb-2">
+                AI 音色
+              </label>
+              <select
+                value={voice}
+                onChange={(e) => setVoice(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              >
+                <option value="0">美式英语 - 女声</option>
+                <option value="1">美式英语 - 男声</option>
+                <option value="2">英式英语 - 女声</option>
+                <option value="3">英式英语 - 男声</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -277,6 +450,18 @@ export default function ConversationRoom({ scenario }: Props) {
               ))}
             </ul>
           </div>
+        </div>
+
+        {/* 结束练习按钮 */}
+        <div className="p-4 sm:p-6 border-t border-white/10">
+          <button
+            onClick={handleFinishPractice}
+            disabled={isEvaluating || messages.length < 2}
+            className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Award className="w-5 h-5" />
+            {isEvaluating ? '生成报告中...' : '结束练习并生成报告'}
+          </button>
         </div>
       </motion.aside>
 
@@ -337,7 +522,7 @@ export default function ConversationRoom({ scenario }: Props) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}
                 >
                   <div
                     className={`
@@ -361,6 +546,33 @@ export default function ConversationRoom({ scenario }: Props) {
                       {message.timestamp.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
+
+                  {/* 语法错误提示 */}
+                  {message.role === 'user' && message.grammarErrors && message.grammarErrors.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="mt-2 max-w-[85%] sm:max-w-[80%]"
+                    >
+                      <details className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3 text-xs">
+                        <summary className="cursor-pointer text-orange-400 font-medium flex items-center gap-2">
+                          💡 查看语法建议 ({message.grammarErrors.length})
+                        </summary>
+                        <div className="mt-2 space-y-2">
+                          {message.grammarErrors.map((error, idx) => (
+                            <div key={idx} className="text-slate-300">
+                              <div className="flex items-center gap-2">
+                                <span className="text-red-400 line-through">{error.original}</span>
+                                <span className="text-slate-500">→</span>
+                                <span className="text-green-400">{error.corrected}</span>
+                              </div>
+                              <p className="text-slate-400 mt-1">{error.explanation}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </details>
+                    </motion.div>
+                  )}
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -406,17 +618,19 @@ export default function ConversationRoom({ scenario }: Props) {
             <div className="flex items-center gap-2 sm:gap-3">
               {/* 语音输入按钮 */}
               <button
-                onClick={isRecording ? stopVoiceInput : startVoiceInput}
-                disabled={isLoading}
+                onClick={handleVoiceButtonClick}
+                disabled={isLoading || recordingState === 'processing'}
                 className={`
                   flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl transition-all flex-shrink-0 touch-manipulation
-                  ${isRecording
+                  ${recordingState === 'recording'
                     ? 'bg-red-500/20 text-red-400 animate-pulse'
+                    : recordingState === 'processing'
+                    ? 'bg-yellow-500/20 text-yellow-400'
                     : 'bg-white/5 text-slate-400 hover:bg-white/10 active:bg-white/15'
                   }
                   disabled:opacity-50 disabled:cursor-not-allowed
                 `}
-                aria-label={isRecording ? '停止录音' : '开始录音'}
+                aria-label={recordingState === 'recording' ? '停止录音' : '开始录音'}
               >
                 <Mic className="h-5 w-5" />
               </button>
@@ -455,7 +669,7 @@ export default function ConversationRoom({ scenario }: Props) {
             </div>
 
             {/* 提示文字 */}
-            {isRecording && (
+            {recordingState === 'recording' && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -464,9 +678,25 @@ export default function ConversationRoom({ scenario }: Props) {
                 🎤 正在录音...请用英语说话
               </motion.p>
             )}
+            {recordingState === 'processing' && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-2 text-center text-xs text-yellow-400"
+              >
+                ⏳ 处理音频中...
+              </motion.p>
+            )}
           </div>
         </div>
       </div>
+
+      {/* 评分看板 */}
+      <ScoreModal
+        isOpen={showScoreModal}
+        onClose={() => setShowScoreModal(false)}
+        result={evaluationResult}
+      />
     </div>
   )
 }
