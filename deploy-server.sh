@@ -89,8 +89,30 @@ echo_info "安装依赖..."
 pnpm install --frozen-lockfile
 
 ###############################################################################
-# 5. 构建生产版本
+# 5. 加载环境变量并构建生产版本
 ###############################################################################
+
+echo_info "加载环境变量..."
+
+# 检查 .env.production 是否存在
+if [ ! -f ".env.production" ]; then
+    echo_error ".env.production 文件不存在，无法构建"
+    exit 1
+fi
+
+# 读取并导出环境变量（过滤注释和空行）
+set -a  # 自动导出所有变量
+source <(grep -v '^#' .env.production | grep -v '^$' | sed 's/\r$//')
+set +a  # 关闭自动导出
+
+# 验证关键环境变量
+if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ] || [ -z "$NEXT_PUBLIC_SUPABASE_ANON_KEY" ]; then
+    echo_error "关键环境变量缺失，请检查 .env.production"
+    exit 1
+fi
+
+echo_info "环境变量已加载"
+echo_info "SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:0:30}..."
 
 echo_info "开始构建生产版本..."
 NODE_ENV=production pnpm build
