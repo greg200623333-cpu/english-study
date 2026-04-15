@@ -1,10 +1,20 @@
 import OpenAI from 'openai'
 import { NextResponse } from 'next/server'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟初始化客户端
+function getClient() {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) {
+    throw new Error('DEEPSEEK_API_KEY is not configured')
+  }
+  return new OpenAI({
+    apiKey,
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 type WordPayload = {
   word: string
@@ -14,6 +24,8 @@ type WordPayload = {
 
 export async function POST(req: Request) {
   try {
+    const client = getClient()
+
     const { exam, tier, bucketLabel, words } = (await req.json()) as {
       exam?: string
       tier?: 'core' | 'full'

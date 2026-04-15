@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟初始化客户端
+function getClient() {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) {
+    throw new Error('DEEPSEEK_API_KEY is not configured')
+  }
+  return new OpenAI({
+    apiKey,
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 const SYSTEM_PROMPT = `你是一位专业的英语技术文档分析助手。用户会给你一段英文技术文档或代码注释。请你分析后，返回一个 JSON 对象，包含以下四个部分：
 
@@ -35,6 +45,8 @@ const SYSTEM_PROMPT = `你是一位专业的英语技术文档分析助手。用
 
 export async function POST(req: NextRequest) {
   try {
+    const client = getClient()
+
     const { text } = await req.json()
 
     if (!text || typeof text !== 'string') {

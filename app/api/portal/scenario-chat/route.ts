@@ -1,13 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟初始化客户端
+function getClient() {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) {
+    throw new Error('DEEPSEEK_API_KEY is not configured')
+  }
+  return new OpenAI({
+    apiKey,
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const client = getClient()
     const { messages, userMessage, systemPrompt } = await req.json()
 
     if (!userMessage || !systemPrompt) {

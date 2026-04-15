@@ -3,6 +3,9 @@ import { createClient } from '@/lib/supabase/server'
 import { createSessionToken } from '@/lib/session'
 import bcrypt from 'bcryptjs'
 
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json()
 

@@ -2,10 +2,20 @@ import OpenAI from 'openai'
 import { NextResponse } from 'next/server'
 import { getSession } from '@/lib/session'
 
-const client = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
-})
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟初始化客户端
+function getClient() {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) {
+    throw new Error('DEEPSEEK_API_KEY is not configured')
+  }
+  return new OpenAI({
+    apiKey,
+    baseURL: 'https://api.deepseek.com',
+  })
+}
 
 const VALID_EXAMS = ['CET-4 基础建设', 'CET-6 全面扩张', '考研英语 核心攻坚', 'cet4', 'cet6', 'kaoyan']
 
@@ -16,6 +26,8 @@ export async function POST(req: Request) {
   }
 
   try {
+    const client = getClient()
+
     const body = await req.json()
 
     const exam = VALID_EXAMS.includes(body.exam) ? String(body.exam) : 'CET-4'

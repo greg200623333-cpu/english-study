@@ -3,9 +3,16 @@ import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
 import { getSession } from '@/lib/session'
 
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
 function getClient() {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) {
+    throw new Error('DEEPSEEK_API_KEY is not configured')
+  }
   return new OpenAI({
-    apiKey: process.env.DEEPSEEK_API_KEY || '',
+    apiKey,
     baseURL: 'https://api.deepseek.com',
   })
 }

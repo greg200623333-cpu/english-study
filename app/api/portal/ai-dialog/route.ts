@@ -1,8 +1,21 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
-const APP_KEY = process.env.YOUDAO_APP_KEY!
-const APP_SECRET = process.env.YOUDAO_APP_SECRET!
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟获取环境变量，避免构建时访问
+function getAppKey(): string {
+  const key = process.env.YOUDAO_APP_KEY
+  if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
+  return key
+}
+
+function getAppSecret(): string {
+  const secret = process.env.YOUDAO_APP_SECRET
+  if (!secret) throw new Error('YOUDAO_APP_SECRET is not configured')
+  return secret
+}
 
 function getInput(input: string | null): string | null {
   if (!input) return input
@@ -36,6 +49,8 @@ function addAuthParams(appKey: string, appSecret: string, q: string) {
 // 获取默认场景列表
 export async function GET() {
   try {
+    const APP_KEY = getAppKey()
+    const APP_SECRET = getAppSecret()
     const q = 'topics'
     const params = addAuthParams(APP_KEY, APP_SECRET, q)
 
@@ -56,6 +71,8 @@ export async function GET() {
 // AI 对话相关操作
 export async function POST(request: NextRequest) {
   try {
+    const APP_KEY = getAppKey()
+    const APP_SECRET = getAppSecret()
     const body = await request.json()
     const { action, ...requestData } = body
 

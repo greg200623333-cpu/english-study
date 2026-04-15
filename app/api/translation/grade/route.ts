@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟初始化客户端
+function getClient() {
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) {
+    throw new Error('ANTHROPIC_API_KEY is not configured')
+  }
+  return new Anthropic({ apiKey })
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const anthropic = getClient()
     const { chinese, translation, category } = await req.json()
 
     if (!chinese || !translation) {

@@ -1,8 +1,21 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
-const APP_KEY = process.env.YOUDAO_APP_KEY!
-const APP_SECRET = process.env.YOUDAO_APP_SECRET!
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
+// 延迟获取环境变量
+function getAppKey(): string {
+  const key = process.env.YOUDAO_APP_KEY
+  if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
+  return key
+}
+
+function getAppSecret(): string {
+  const secret = process.env.YOUDAO_APP_SECRET
+  if (!secret) throw new Error('YOUDAO_APP_SECRET is not configured')
+  return secret
+}
 
 function getInput(input: string): string {
   const inputLen = input.length
@@ -34,6 +47,9 @@ function addAuthParams(appKey: string, appSecret: string, q: string) {
  */
 export async function POST(request: NextRequest) {
   try {
+    const APP_KEY = getAppKey()
+    const APP_SECRET = getAppSecret()
+
     const body = await request.json()
     const { taskId, scene, userLevel = '0', history = [] } = body
 

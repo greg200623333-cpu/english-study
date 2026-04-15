@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateArchitectureImage } from '@/lib/imageGeneration'
 
+// 防止构建时预渲染
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     const { term } = await req.json()
