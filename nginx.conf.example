@@ -1,0 +1,38 @@
+server {
+    listen 80;
+    server_name 39.106.99.34;  # 你的服务器IP或域名
+
+    # 客户端上传大小限制（用于音频上传）
+    client_max_body_size 10M;
+
+    # 代理到 Next.js 应用
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+
+        # 超时设置（用于长时间 API 调用）
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    # 可选：如果你想让 Nginx 直接托管静态文件（性能更好）
+    # location /_next/static {
+    #     alias /path/to/deploy/.next/static;
+    #     expires 365d;
+    #     access_log off;
+    # }
+
+    # location /public {
+    #     alias /path/to/deploy/public;
+    #     expires 30d;
+    #     access_log off;
+    # }
+}
