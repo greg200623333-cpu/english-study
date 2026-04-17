@@ -89,9 +89,11 @@ nano /www/wwwroot/english-study/deploy/.env.production
 # 数据库
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
 # AI API
 DEEPSEEK_API_KEY=your_deepseek_key
+ANTHROPIC_API_KEY=your_anthropic_key
 DOUBAO_API_KEY=your_doubao_key
 DOUBAO_ENDPOINT_ID=your_endpoint_id
 YOUDAO_APP_KEY=your_youdao_key
@@ -100,6 +102,17 @@ YOUDAO_APP_SECRET=your_youdao_secret
 # 安全
 SESSION_SECRET=your_session_secret
 PASSWORD_SALT=your_password_salt
+COOKIE_SECURE=false
+```
+
+生成随机密钥：
+
+```bash
+# 生成 SESSION_SECRET
+openssl rand -base64 32
+
+# 生成 PASSWORD_SALT
+openssl rand -base64 16
 ```
 
 ## 🔍 常用命令

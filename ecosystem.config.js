@@ -17,9 +17,13 @@ module.exports = {
         // Supabase 配置
         NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
         NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+        SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
 
         // DeepSeek API
         DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY || '',
+
+        // Anthropic API (Claude)
+        ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY || '',
 
         // 豆包 API
         DOUBAO_API_KEY: process.env.DOUBAO_API_KEY || '',

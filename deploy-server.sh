@@ -3,7 +3,8 @@
 ###############################################################################
 # Next.js Standalone 自动部署脚本
 # 用途: 在阿里云服务器上自动部署 Next.js 应用
-# 使用: bash deploy-server.sh
+# 使用: bash deploy-server.sh [--clean]
+# 选项: --clean 强制清除所有缓存（解决更新不生效问题）
 ###############################################################################
 
 set -e  # 遇到错误立即退出
@@ -34,6 +35,13 @@ PROJECT_DIR="/www/wwwroot/english-study"
 APP_NAME="ssa-app"
 DEPLOY_DIR="${PROJECT_DIR}/deploy"
 BACKUP_DIR="${PROJECT_DIR}/backups"
+
+# 检查是否使用 --clean 参数
+CLEAN_BUILD=false
+if [[ "$1" == "--clean" ]]; then
+    CLEAN_BUILD=true
+    echo_warn "使用 --clean 模式，将清除所有缓存"
+fi
 
 ###############################################################################
 # 1. 检查环境
@@ -80,6 +88,15 @@ fi
 
 echo_info "清理旧构建..."
 rm -rf .next deploy
+
+# 如果使用 --clean 参数，清除所有缓存
+if [ "$CLEAN_BUILD" = true ]; then
+    echo_info "清除所有缓存（--clean 模式）..."
+    rm -rf node_modules/.cache
+    rm -rf .next/cache
+    pnpm store prune || true
+    echo_info "缓存已清除"
+fi
 
 ###############################################################################
 # 4. 安装依赖
@@ -182,12 +199,17 @@ done
 echo_info "部署文件验证通过"
 
 ###############################################################################
-# 8. 停止旧服务
+# 8. 停止旧服务并清理端口
 ###############################################################################
 
 echo_info "停止旧服务..."
 pm2 stop ${APP_NAME} 2>/dev/null || echo_warn "未找到运行中的 ${APP_NAME}"
 pm2 delete ${APP_NAME} 2>/dev/null || true
+
+# 强制清理 3000 端口占用
+echo_info "清理 3000 端口占用..."
+fuser -k 3000/tcp 2>/dev/null || true
+sleep 2  # 等待进程完全退出
 
 ###############################################################################
 # 9. 启动新服务
