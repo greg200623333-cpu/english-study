@@ -33,7 +33,7 @@ const onboardingSteps = [
   {
     selector: '#input-area',
     title: '题干录入区',
-    description: '在此处输入英文原题。点击解析，开启 AI 深度学习模式。',
+    description: '在此处输入英文原题，选择你偏好的编程语言（支持 Python、JavaScript、Java、C++、Go、Rust、C），点击解析开启 AI 深度学习模式。',
   },
   {
     selector: '.highlighted-term',
@@ -43,7 +43,7 @@ const onboardingSteps = [
   {
     selector: '.monaco-editor-wrapper',
     title: '代码参考区',
-    description: '对照参考实现，同步磨炼您的代码功底与专业语感。',
+    description: 'AI 根据你选择的语言生成参考实现。对照代码，同步磨炼您的代码功底与专业语感。',
   },
   {
     selector: '#terminal-drill',
