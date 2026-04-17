@@ -16,12 +16,24 @@ function getClient() {
   })
 }
 
-const SYSTEM_PROMPT = `你是一个算法英语沉浸阅读引擎。用户会给你一整段英文算法题目，请你返回严格 JSON：
+const languageInstructions: Record<string, string> = {
+  c: 'C 语言',
+  python: 'Python 语言',
+  javascript: 'JavaScript 语言',
+  java: 'Java 语言',
+  cpp: 'C++ 语言',
+  go: 'Go 语言',
+  rust: 'Rust 语言',
+}
+
+function getSystemPrompt(language: string): string {
+  const langName = languageInstructions[language] || 'Python 语言'
+  return `你是一个算法英语沉浸阅读引擎。用户会给你一整段英文算法题目，请你返回严格 JSON：
 {
   "title": "提炼后的英文题目标题",
   "summary": "中文战术摘要，说明题意、关键约束、核心解法方向",
   "highlightedTerms": ["需要在题干中高亮的英文术语或短语", "..."],
-  "codeSolution": "完整可读的 C 语言参考实现，带少量关键注释",
+  "codeSolution": "完整可读的 ${langName} 参考实现，带少量关键注释",
   "quizzes": [
     {"id": "q1", "prompt": "纯英文填空题，用 _____ 表示空格", "answer": "单词或短语答案", "hint": "英文提示", "cnConcept": "简短中文概念标签（4-8字）", "cnHint": "中文解释，说明这道题考察的核心算法知识点（30-60字）"},
     {"id": "q2", "prompt": "纯英文填空题，用 _____ 表示空格", "answer": "单词或短语答案", "hint": "英文提示", "cnConcept": "简短中文概念标签", "cnHint": "中文解释"},
@@ -31,13 +43,14 @@ const SYSTEM_PROMPT = `你是一个算法英语沉浸阅读引擎。用户会给
 要求：
 1. highlightedTerms 返回 4-8 个术语。
 2. quizzes 返回 3 题，答案尽量是单词或简短术语，便于终端输入校验。
-3. codeSolution 必须是 C 语言，不要 markdown。
+3. codeSolution 必须是 ${langName}，不要 markdown 代码块标记。
 4. cnConcept 是该题考点的简短中文标签，例如"二分查找"、"时间复杂度 O(log n)"、"子序列 vs 子数组"。
 5. cnHint 是中文解释，帮助学生理解英文填空题背后的算法原理。
 6. 只返回 JSON，不要额外解释。`
+}
 
 const fallback = {
-  title: 'Longest Increasing Subsequence',
+  title: 'Analysis of Algorithm Problems',
   summary:
     '题目要求在严格递增子序列语境下满足 O(n log n) 复杂度，重点理解 subsequence 与 subarray 的区别、binary search 的替换策略，以及 tails array 如何维护每个长度的最优结尾。',
   highlightedTerms: ['strictly increasing subsequence', 'O(n log n)', 'binary search', 'tails array'],
@@ -75,18 +88,20 @@ export async function POST(req: NextRequest) {
   try {
     const client = getClient()
 
-    const { problem } = await req.json()
+    const { problem, language = 'python' } = await req.json()
 
     if (!problem || typeof problem !== 'string') {
       return NextResponse.json({ error: 'Missing problem' }, { status: 400 })
     }
+
+    const systemPrompt = getSystemPrompt(language)
 
     const completion = await client.chat.completions.create({
       model: 'deepseek-chat',
       temperature: 0.35,
       max_tokens: 1800,
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: systemPrompt },
         { role: 'user', content: problem },
       ],
     })

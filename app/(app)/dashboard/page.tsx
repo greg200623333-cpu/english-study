@@ -103,21 +103,6 @@ export default function DashboardPage() {
   const _hasHydrated = useStudyModeStore((state) => state._hasHydrated)
   const [user, setUser] = useState<{ id: string; username: string } | null | undefined>(undefined)
   const [stats, setStats] = useState<DashboardStats | null>(null)
-
-  // ── Hydration guard: render skeleton until Zustand has rehydrated from localStorage ──
-  // Without this, persisted values (vocabularyGDP, laws, etc.) would flash
-  // as zeros on the first paint, causing a visible layout jump.
-  if (!_hasHydrated) {
-    return (
-      <div className="space-y-4 animate-pulse">
-        <div className="h-10 w-72 rounded-2xl bg-white/5" />
-        <div className="grid gap-4 lg:grid-cols-4">
-          {[...Array(4)].map((_, i) => <div key={i} className="h-32 rounded-[1.5rem] bg-white/5" />)}
-        </div>
-        <div className="h-64 rounded-[1.75rem] bg-white/5" />
-      </div>
-    )
-  }
   const [profile, setProfile] = useState<StudyProfile | null>(null)
   const [trends, setTrends] = useState<TrendRow[]>([])
   const [winRates, setWinRates] = useState<WinRateRow[]>([])
@@ -127,26 +112,16 @@ export default function DashboardPage() {
 
   // Auto-trigger briefing for new users redirected from register
   useEffect(() => {
+    if (!_hasHydrated) return
     if (!user || !_hasHydrated) return
     const params = new URLSearchParams(window.location.search)
-    if (params.get('onboarding') === '1' && !hasSeenBriefing) {
+    if (params.get('onboarding') === '1') {
       setShowBriefing(true)
     }
-  }, [user, _hasHydrated, hasSeenBriefing])
-
-  function handleBriefingComplete() {
-    setHasSeenBriefing(true)
-    setShowBriefing(false)
-    setShowSelection(true)
-  }
-
-  function handleExamSelect(exam: ExamType) {
-    initializeCampaign(exam)
-    setShowSelection(false)
-    if (user) void saveStudyModeProfile(user.id).catch(() => {})
-  }
+  }, [user, _hasHydrated])
 
   useEffect(() => {
+    if (!_hasHydrated) return
     async function load() {
       // 获取 session
       const sessionRes = await fetch('/api/auth/session')
@@ -246,6 +221,37 @@ export default function DashboardPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExam, selectedWordTier, dailyWordTarget])
 
+  const lawCount = useMemo(() => Object.values(laws ?? {}).filter(Boolean).length, [laws])
+
+  console.log('[Dashboard] Render state:', { _hasHydrated, user })
+
+  // ── Hydration guard: render skeleton until Zustand has rehydrated from localStorage ──
+  // Without this, persisted values (vocabularyGDP, laws, etc.) would flash
+  // as zeros on the first paint, causing a visible layout jump.
+  if (!_hasHydrated) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-10 w-72 rounded-2xl bg-white/5" />
+        <div className="grid gap-4 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => <div key={i} className="h-32 rounded-[1.5rem] bg-white/5" />)}
+        </div>
+        <div className="h-64 rounded-[1.75rem] bg-white/5" />
+      </div>
+    )
+  }
+
+  function handleBriefingComplete() {
+    setHasSeenBriefing(true)
+    setShowBriefing(false)
+    setShowSelection(true)
+  }
+
+  function handleExamSelect(exam: ExamType) {
+    initializeCampaign(exam)
+    setShowSelection(false)
+    if (user) void saveStudyModeProfile(user.id).catch(() => {})
+  }
+
   async function runRiskAnalysis() {
     if (!selectedExam || !stats) return
     setRiskLoading(true)
@@ -274,7 +280,6 @@ export default function DashboardPage() {
     }
   }
 
-  const lawCount = useMemo(() => Object.values(laws ?? {}).filter(Boolean).length, [laws])
   const currentTierLabel = selectedWordTier === 'core' ? '核心词汇' : '总词汇'
   const currentExamLabel = examLabel || (selectedExam === 'cet4' ? 'CET-4 基础建设' : selectedExam === 'cet6' ? 'CET-6 全面扩张' : selectedExam === 'kaoyan' ? '考研英语 核心攻坚' : '待签署动员令')
   const historyData = hasSsaExchange ? gdpHistory : []

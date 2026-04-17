@@ -47,14 +47,16 @@ const CAMPAIGN_OPTIONS: { key: ExamType; label: string }[] = [
   { key: 'kaoyan', label: '考研英语' },
 ]
 
-const NOW = Date.now()
-const fallbackWords: SsaWord[] = [
-  { id: 1, word: 'consistent', phonetic: '/kənˈsɪstənt/', meaning: '一致的；持续稳定的', category: 'cet6', tier: 'core', status: 'new', wordType: 'new', frequency: 92, rootHint: 'sist / stand', example: 'Consistent practice builds strategic memory.', stability: 1, difficulty: 1.5, last_review: NOW, next_review: NOW },
-  { id: 2, word: 'allocate', phonetic: '/ˈæləkeɪt/', meaning: '分配；调拨', category: 'cet6', tier: 'core', status: 'learning', wordType: 'review', frequency: 84, rootHint: 'loc / place', example: 'The ministry allocates funds to reading infrastructure.', stability: 2, difficulty: 1.5, last_review: NOW, next_review: NOW },
-  { id: 3, word: 'possession', phonetic: '/pəˈzeʃən/', meaning: '拥有；财产', category: 'cet4', tier: 'full', status: 'new', wordType: 'new', frequency: 78, rootHint: 'sess / hold', example: 'Vocabulary possession requires repeated review.', stability: 1, difficulty: 1.5, last_review: NOW, next_review: NOW },
-  { id: 4, word: 'compile', phonetic: '/kəmˈpaɪl/', meaning: '编译；汇编', category: 'kaoyan', tier: 'full', status: 'new', wordType: 'new', frequency: 75, rootHint: 'pil / pile', example: 'Compile your language assets into active output.', stability: 1, difficulty: 1.5, last_review: NOW, next_review: NOW },
-  { id: 5, word: 'recursion', phonetic: '/rɪˈkɜːʒən/', meaning: '递归', category: 'kaoyan', tier: 'core', status: 'learning', wordType: 'review', frequency: 88, rootHint: 'curs / run', example: 'Recursion revisits smaller subproblems.', stability: 2, difficulty: 1.5, last_review: NOW, next_review: NOW },
-]
+function getFallbackWords(): SsaWord[] {
+  const NOW = Date.now()
+  return [
+    { id: 1, word: 'consistent', phonetic: '/kənˈsɪstənt/', meaning: '一致的；持续稳定的', category: 'cet6', tier: 'core', status: 'new', wordType: 'new', frequency: 92, rootHint: 'sist / stand', example: 'Consistent practice builds strategic memory.', stability: 1, difficulty: 1.5, last_review: NOW, next_review: NOW },
+    { id: 2, word: 'allocate', phonetic: '/ˈæləkeɪt/', meaning: '分配；调拨', category: 'cet6', tier: 'core', status: 'learning', wordType: 'review', frequency: 84, rootHint: 'loc / place', example: 'The ministry allocates funds to reading infrastructure.', stability: 2, difficulty: 1.5, last_review: NOW, next_review: NOW },
+    { id: 3, word: 'possession', phonetic: '/pəˈzeʃən/', meaning: '拥有；财产', category: 'cet4', tier: 'full', status: 'new', wordType: 'new', frequency: 78, rootHint: 'sess / hold', example: 'Vocabulary possession requires repeated review.', stability: 1, difficulty: 1.5, last_review: NOW, next_review: NOW },
+    { id: 4, word: 'compile', phonetic: '/kəmˈpaɪl/', meaning: '编译；汇编', category: 'kaoyan', tier: 'full', status: 'new', wordType: 'new', frequency: 75, rootHint: 'pil / pile', example: 'Compile your language assets into active output.', stability: 1, difficulty: 1.5, last_review: NOW, next_review: NOW },
+    { id: 5, word: 'recursion', phonetic: '/rɪˈkɜːʒən/', meaning: '递归', category: 'kaoyan', tier: 'core', status: 'learning', wordType: 'review', frequency: 88, rootHint: 'curs / run', example: 'Recursion revisits smaller subproblems.', stability: 2, difficulty: 1.5, last_review: NOW, next_review: NOW },
+  ]
+}
 
 function toStatusLabel(status: SsaWord['status']) {
   if (status === 'known') return 'Mastered'
@@ -324,18 +326,17 @@ export function SsaCommandCenter() {
     setDailyWordTarget,
     _hasHydrated,
   } = useStudyModeStore()
-  const [words, setWords] = useState<SsaWord[]>(fallbackWords)
+  const [words, setWords] = useState<SsaWord[]>([])
   const [index, setIndex] = useState(0)
-  // Start as false — we'll set true once we know hydration is done and no wordbook is selected
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [revealed, setRevealed] = useState(false)
   const [deploying, setDeploying] = useState(false)
   const [techLabWord, setTechLabWord] = useState<TechModalWord | null>(null)
   const [poolMeta, setPoolMeta] = useState({ loaded: 0, hasMore: false })
-  const [mountModalOpen, setMountModalOpen] = useState(ssaMountRequired)
+  const [mountModalOpen, setMountModalOpen] = useState(false)
   const [mountingBook, setMountingBook] = useState(false)
-  const [pendingTier, setPendingTier] = useState<WordTier>(selectedWordTier)
-  const [pendingExam, setPendingExam] = useState<ExamType | null>(selectedExam)
+  const [pendingTier, setPendingTier] = useState<WordTier>('core')
+  const [pendingExam, setPendingExam] = useState<ExamType | null>(null)
   const [hasMountedWordbook, setHasMountedWordbook] = useState(false)
   const [combatFeed, setCombatFeed] = useState<string[]>([
     '战略勤务局已接管前线序列。',
@@ -391,7 +392,9 @@ export function SsaCommandCenter() {
 
   useEffect(() => {
     setMountModalOpen(ssaMountRequired)
-  }, [ssaMountRequired])
+    setPendingTier(selectedWordTier)
+    setPendingExam(selectedExam)
+  }, [ssaMountRequired, selectedWordTier, selectedExam])
 
   // Auto-reload words once Zustand has hydrated from localStorage
   const hasMountedRef = useRef(false)
@@ -399,6 +402,12 @@ export function SsaCommandCenter() {
     if (!_hasHydrated) return
     if (hasMountedRef.current) return
     hasMountedRef.current = true
+
+    // Initialize words with fallback if needed
+    if (words.length === 0) {
+      setWords(getFallbackWords())
+    }
+
     if (!ssaMountRequired && selectedExam) {
       void mountWordbook(selectedExam, selectedWordTier).then(() => setHasMountedWordbook(true))
     } else {
@@ -526,6 +535,7 @@ export function SsaCommandCenter() {
     }
 
     const supabase = createClient()
+    const fallbackWords = getFallbackWords()
     const now = Date.now()
     const quota = dailyWordTarget
 
@@ -882,6 +892,18 @@ export function SsaCommandCenter() {
     syncReviewDeficitFromLearning(nextWords.filter((item) => item.status === 'learning').length, { source: 'recon' })
     pushFeed(`词汇 [${word.word}] 已进入侦察推进状态。`)
     await persistStatus(word.id, 'learning')
+  }
+
+  // Wait for Zustand hydration before rendering
+  if (!_hasHydrated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950">
+        <div className="text-center">
+          <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-cyan-300/20 border-t-cyan-300 mx-auto" />
+          <p className="text-sm text-slate-400">Initializing SSA Command Center...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

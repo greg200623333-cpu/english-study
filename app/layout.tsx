@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh" className="h-full">
+    <html lang="zh" className="h-full" data-scroll-behavior="smooth">
       <head>
         <meta httpEquiv="Permissions-Policy" content="microphone=(self)" />
       </head>

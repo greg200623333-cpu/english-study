@@ -70,14 +70,20 @@ export function HomeOnboardingFlow() {
     router.push('/dashboard')
   }
 
-  function handleStartWithHydrationCheck() {
+  async function handleStartWithHydrationCheck() {
     if (sessionLoading || !_hasHydrated || !profileLoaded) {
       requestAnimationFrame(handleStartWithHydrationCheck)
       return
     }
 
     if (!session) {
-      router.push('/login')
+      // Check if there's a stored username from previous login
+      const storedUsername = localStorage.getItem('last_username')
+      if (storedUsername) {
+        router.push(`/login?username=${encodeURIComponent(storedUsername)}`)
+      } else {
+        router.push('/login')
+      }
       return
     }
 

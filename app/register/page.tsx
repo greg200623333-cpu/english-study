@@ -24,21 +24,31 @@ export default function RegisterPage() {
     setLoading(true)
     setError('')
 
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    })
-    const data = await res.json()
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
+      const data = await res.json()
 
-    if (!res.ok) {
-      setError(data.error ?? '注册失败')
+      if (!res.ok) {
+        setError(data.error ?? '注册失败')
+        setLoading(false)
+        return
+      }
+
+      setSuccess(true)
+      // 标记需要重置数据
+      sessionStorage.setItem('force-reset-store', 'true')
+      // 延迟跳转，确保 cookie 已设置
+      setTimeout(() => {
+        router.push('/dashboard?onboarding=1')
+      }, 800)
+    } catch (err) {
+      setError('网络错误，请重试')
       setLoading(false)
-      return
     }
-
-    setSuccess(true)
-    setTimeout(() => router.push('/dashboard?onboarding=1'), 800)
   }
 
   return (

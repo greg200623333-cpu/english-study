@@ -93,7 +93,16 @@ export async function saveStudyModeProfile(userId: string) {
     const { error } = await supabase.from('study_mode_profiles').upsert(mutablePayload, { onConflict: 'user_id' })
     if (!error) return
 
-    if (error.code !== 'PGRST204') throw new Error(error.message)
+    // Log detailed error information
+    console.error('[saveStudyModeProfile] Error:', {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      payload: mutablePayload,
+    })
+
+    if (error.code !== 'PGRST204') throw new Error(`${error.message} (code: ${error.code})`)
 
     const missingColumn = extractMissingColumn(error)
     if (!missingColumn || !(missingColumn in mutablePayload)) throw new Error(error.message)
@@ -177,11 +186,14 @@ export function applyRemoteStudyModeProfile(profile: {
 }
 
 function buildProfilePayload(userId: string, snapshot: StudyModeSnapshot) {
+  // Ensure selectedWordTier is valid (database constraint: must be 'core' or 'full')
+  const validTier = snapshot.selectedWordTier === 'core' || snapshot.selectedWordTier === 'full' ? snapshot.selectedWordTier : 'core'
+
   return {
     user_id: userId,
     has_seen_briefing: snapshot.hasSeenBriefing,
     selected_exam: snapshot.selectedExam,
-    selected_word_tier: snapshot.selectedWordTier,
+    selected_word_tier: validTier,
     exam_label: snapshot.examLabel,
     days_to_exam: snapshot.daysToExam,
     administrative_power: snapshot.administrativePower,

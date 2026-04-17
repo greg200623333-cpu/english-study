@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -11,25 +11,49 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  // Load username from URL params or localStorage
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const urlUsername = params.get('username')
+    if (urlUsername) {
+      setUsername(decodeURIComponent(urlUsername))
+    } else {
+      const storedUsername = localStorage.getItem('last_username')
+      if (storedUsername) {
+        setUsername(storedUsername)
+      }
+    }
+  }, [])
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError('')
 
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, rememberMe }),
-    })
-    const data = await res.json()
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, rememberMe }),
+      })
+      const data = await res.json()
 
-    if (!res.ok) {
-      setError(data.error ?? '登录失败')
+      if (!res.ok) {
+        setError(data.error ?? '登录失败')
+        setLoading(false)
+        return
+      }
+
+      // Save username to localStorage for future logins
+      localStorage.setItem('last_username', username)
+
+      // 标记需要检查用户切换
+      sessionStorage.setItem('force-reset-store', 'true')
+      router.push('/dashboard')
+    } catch (err) {
+      setError('网络错误，请重试')
       setLoading(false)
-      return
     }
-
-    router.push('/dashboard')
   }
 
   return (

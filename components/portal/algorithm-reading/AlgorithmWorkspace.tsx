@@ -15,6 +15,18 @@ type WorkspacePayload = {
   quizzes: QuizItem[]
 }
 
+type ProgrammingLanguage = 'c' | 'python' | 'javascript' | 'java' | 'cpp' | 'go' | 'rust'
+
+const languageOptions: { value: ProgrammingLanguage; label: string; monacoLang: string }[] = [
+  { value: 'c', label: 'C', monacoLang: 'c' },
+  { value: 'python', label: 'Python', monacoLang: 'python' },
+  { value: 'javascript', label: 'JavaScript', monacoLang: 'javascript' },
+  { value: 'java', label: 'Java', monacoLang: 'java' },
+  { value: 'cpp', label: 'C++', monacoLang: 'cpp' },
+  { value: 'go', label: 'Go', monacoLang: 'go' },
+  { value: 'rust', label: 'Rust', monacoLang: 'rust' },
+]
+
 const ONBOARDING_STORAGE_KEY = 'hasFinishedAlgoOnboarding'
 
 const onboardingSteps = [
@@ -31,7 +43,7 @@ const onboardingSteps = [
   {
     selector: '.monaco-editor-wrapper',
     title: '代码参考区',
-    description: '对照 C 语言参考实现，同步磨炼您的代码功底与专业语感。',
+    description: '对照参考实现，同步磨炼您的代码功底与专业语感。',
   },
   {
     selector: '#terminal-drill',
@@ -46,7 +58,7 @@ A subsequence is a sequence that can be derived from an array by deleting some o
 You must design an algorithm that runs in O(n log n) time complexity.`
 
 const fallbackPayload: WorkspacePayload = {
-  title: 'Longest Increasing Subsequence',
+  title: 'Analysis of Algorithm Problems',
   summary:
     'Focus on subsequence semantics, O(n log n) constraints, binary search replacement logic, and why the tails array preserves the minimum possible ending value for each length.',
   highlightedTerms: ['strictly increasing subsequence', 'O(n log n)', 'binary search', 'tails array'],
@@ -115,6 +127,7 @@ export default function AlgorithmWorkspace() {
   const [analysis, setAnalysis] = useState<WorkspacePayload>(fallbackPayload)
   const [isGenerating, setIsGenerating] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [selectedLanguage, setSelectedLanguage] = useState<ProgrammingLanguage>('python')
   const [summaryOpen, setSummaryOpen] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [tooltipOpen, setTooltipOpen] = useState(false)
@@ -154,7 +167,7 @@ export default function AlgorithmWorkspace() {
       const response = await fetch('/api/portal/algorithm-workspace', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ problem: trimmedProblem }),
+        body: JSON.stringify({ problem: trimmedProblem, language: selectedLanguage }),
       })
 
       if (!response.ok) {
@@ -256,13 +269,26 @@ export default function AlgorithmWorkspace() {
                     className="h-40 w-full resize-none rounded-[1rem] border border-white/8 bg-[#020617] px-4 py-3 text-sm leading-7 text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-cyan-300/25 focus:bg-slate-950"
                     placeholder="Paste the original English algorithm problem here"
                   />
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm leading-6 text-slate-400">提交后将自动抽取重点术语、生成中文战术摘要、构建 C 语言参考实现与终端测验。</p>
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs uppercase tracking-[0.25em] text-slate-500">Language</label>
+                      <select
+                        value={selectedLanguage}
+                        onChange={(e) => setSelectedLanguage(e.target.value as ProgrammingLanguage)}
+                        className="rounded-lg border border-white/10 bg-slate-950 px-3 py-1.5 text-sm text-slate-200 outline-none transition focus:border-cyan-300/25"
+                      >
+                        {languageOptions.map((lang) => (
+                          <option key={lang.value} value={lang.value}>
+                            {lang.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                     <button
                       type="button"
                       onClick={handleGenerateWorkspace}
                       disabled={isGenerating}
-                      className="rounded-xl border border-fuchsia-400/25 bg-fuchsia-400/12 px-5 py-2.5 text-sm font-semibold text-fuchsia-100 transition hover:border-fuchsia-300/35 hover:bg-fuchsia-400/20 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="ml-auto rounded-xl border border-fuchsia-400/25 bg-fuchsia-400/12 px-5 py-2.5 text-sm font-semibold text-fuchsia-100 transition hover:border-fuchsia-300/35 hover:bg-fuchsia-400/20 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {isGenerating ? 'AI 解析中...' : '启动 AI 战术解析'}
                     </button>
@@ -315,7 +341,7 @@ export default function AlgorithmWorkspace() {
               <div className="mb-4 flex items-center justify-between gap-4 border-b border-white/8 pb-4">
                 <div>
                   <div className="text-xs uppercase tracking-[0.3em] text-emerald-300/80">Source Lens</div>
-                  <h2 className="mt-2 text-2xl font-black text-slate-50">C Reference Implementation</h2>
+                  <h2 className="mt-2 text-2xl font-black text-slate-50">Reference implementation of the algorithm</h2>
                 </div>
                 <div className="rounded-full border border-emerald-400/15 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-200">
                   AI generated / Monaco / read-only
@@ -338,7 +364,7 @@ export default function AlgorithmWorkspace() {
               <div className="monaco-editor-wrapper min-h-0 flex-1 overflow-hidden rounded-[1.25rem] border border-white/8 bg-[#020617]">
                 <Editor
                   height="100%"
-                  defaultLanguage="c"
+                  defaultLanguage={languageOptions.find(l => l.value === selectedLanguage)?.monacoLang || 'python'}
                   theme="vs-dark"
                   value={analysis.codeSolution}
                   options={{

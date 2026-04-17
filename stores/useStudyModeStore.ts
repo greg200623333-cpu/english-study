@@ -42,6 +42,7 @@ export type GdpHistoryPoint = {
 }
 
 export type StudyModeSnapshot = {
+  lastUserId: string | null
   hasSeenBriefing: boolean
   selectedExam: ExamType | null
   selectedWordTier: WordTier
@@ -160,6 +161,7 @@ export type StudyModeState = StudyModeSnapshot & {
   openBriefing: () => void
   closeBriefing: () => void
   resetForUserSwitch: () => void
+  checkUserSwitch: (currentUserId: string | null) => boolean
 }
 
 const emptyLaws: LawState = {
@@ -234,6 +236,7 @@ function buildDeficitNotice(deficit: number, source: 'recon' | 'overdue' | 'manu
 
 export function getStudyModeSnapshot(state: StudyModeState): StudyModeSnapshot {
   return {
+    lastUserId: state.lastUserId,
     hasSeenBriefing: state.hasSeenBriefing,
     selectedExam: state.selectedExam,
     selectedWordTier: state.selectedWordTier,
@@ -277,6 +280,7 @@ export const useStudyModeStore = create<StudyModeState>()(
       isBriefingOpen: false,
       openBriefing: () => set({ isBriefingOpen: true }),
       closeBriefing: () => set({ isBriefingOpen: false }),
+      lastUserId: null,
       hasSeenBriefing: false,
       selectedExam: null,
       selectedWordTier: 'core',
@@ -488,6 +492,7 @@ export const useStudyModeStore = create<StudyModeState>()(
       setDailyWordTarget: (target) => set({ dailyWordTarget: Math.max(1, Math.min(200, target)) }),
       resetForUserSwitch: () => {
         set({
+          lastUserId: null,
           hasSeenBriefing: false,
           selectedExam: null,
           selectedWordTier: 'core',
@@ -525,18 +530,42 @@ export const useStudyModeStore = create<StudyModeState>()(
           localStorage.removeItem('study-mode-war-room')
         }
       },
+      checkUserSwitch: (currentUserId: string | null) => {
+        const state = get()
+        const storedUserId = state.lastUserId
+
+        // 如果当前用户 ID 与存储的不同，说明用户切换了
+        if (storedUserId && currentUserId && storedUserId !== currentUserId) {
+          // 重置所有数据
+          get().resetForUserSwitch()
+          // 设置新的用户 ID
+          set({ lastUserId: currentUserId })
+          return true
+        }
+
+        // 如果是首次登录或者用户 ID 相同，更新存储的用户 ID
+        if (currentUserId && currentUserId !== storedUserId) {
+          set({ lastUserId: currentUserId })
+        }
+
+        return false
+      },
     }),
     {
       name: 'study-mode-war-room',
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
       migrate: (persistedState) => {
         const state = persistedState as Partial<StudyModeState> | undefined
         if (!state) return persistedState as StudyModeState
 
+        // Ensure selectedWordTier has a valid value (database constraint: must be 'core' or 'full')
+        const validTier = state.selectedWordTier === 'core' || state.selectedWordTier === 'full' ? state.selectedWordTier : 'core'
+
         if (!hasInitializedGdpProgress({ hasSsaExchange: state.hasSsaExchange, sessionGains: state.sessionGains })) {
           return {
             ...state,
+            selectedWordTier: validTier,
             baseAssets: 0,
             sessionGains: 0,
             lastSessionGain: 0,
@@ -546,9 +575,13 @@ export const useStudyModeStore = create<StudyModeState>()(
           } as StudyModeState
         }
 
-        return persistedState as StudyModeState
+        return {
+          ...state,
+          selectedWordTier: validTier,
+        } as StudyModeState
       },
       partialize: (state) => ({
+        lastUserId: state.lastUserId,
         hasSeenBriefing: state.hasSeenBriefing,
         selectedExam: state.selectedExam,
         selectedWordTier: state.selectedWordTier,
