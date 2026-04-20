@@ -63,7 +63,7 @@ ${translation}
     const score = scoreMatch ? parseInt(scoreMatch[1]) : 0
 
     // 提取参考译文
-    const referenceMatch = result.match(/参考译文[：:]\s*(.+?)(?=\n\n|$)/is)
+    const referenceMatch = result.match(/参考译文[：:]\s*(.+?)(?=\n\n|$)/i)
     const reference = referenceMatch ? referenceMatch[1].trim() : ''
 
     return NextResponse.json({

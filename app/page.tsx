@@ -30,7 +30,7 @@ export default function Home() {
               <span className="relative z-10 text-sm font-bold text-white">英</span>
             </div>
             <div>
-              <div className="text-base font-bold text-white md:text-lg">大战略备考平台</div>
+              <div className="text-base font-bold text-white md:text-lg">战略英语 WarRoom English</div>
               <div className="hidden text-xs text-slate-500 sm:block">Study Mode: War Room Edition</div>
             </div>
           </Link>
@@ -116,7 +116,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-white/8 py-8 text-center text-sm text-slate-500">© 2026 大战略备考平台 · Strategy Mode Active</footer>
+      <footer className="border-t border-white/8 py-8 text-center text-sm text-slate-500">© 2026 战略英语 WarRoom English · Strategy Mode Active</footer>
     </main>
   )
 }

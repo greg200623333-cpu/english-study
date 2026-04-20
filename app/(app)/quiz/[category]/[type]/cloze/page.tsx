@@ -104,6 +104,7 @@ export default function ClozePage() {
 
   // 渲染文章，将数字26-35替换为可填空的输入框或下拉选择
   function renderPassage() {
+    if (!question) return ''
     let text = question.question
     blanks.forEach(num => {
       const answer = answers[num] || ''

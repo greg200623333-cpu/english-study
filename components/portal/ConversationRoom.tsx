@@ -182,21 +182,21 @@ export default function ConversationRoom({ scenario }: Props) {
           throw new Error(data.error || '评测失败')
         }
       } else {
-        // 没有音频记录，生成模拟评分
+        // 没有音频记录，评分为 0
         const mockResult: OralEvaluationResult = {
           overall: {
-            grade: 'B',
-            score: 75
+            grade: 'D' as const,
+            score: 0
           },
           dimensions: {
-            pronunciation: 72,
-            fluency: 78,
-            accuracy: 75
+            pronunciation: 0,
+            fluency: 0,
+            accuracy: 0
           },
           suggestions: [
-            '建议使用语音输入功能进行练习，以获得更准确的评分',
-            '多进行口语练习，提高流利度',
-            '注意专业术语的发音'
+            '未检测到语音输入',
+            '建议使用语音输入功能进行练习，以获得准确的评分',
+            '点击麦克风按钮开始语音对话'
           ],
           grammarErrors: []
         }

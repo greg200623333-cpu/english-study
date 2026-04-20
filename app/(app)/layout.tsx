@@ -43,12 +43,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <NoticeModal />
       <aside className="glass fixed z-20 hidden h-full w-64 flex-col md:flex" style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="p-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <Link href="/dashboard" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="btn-glow flex h-10 w-10 items-center justify-center rounded-xl">
               <span className="relative z-10 text-sm font-bold text-white">英</span>
             </div>
             <div>
-              <div className="text-sm font-bold leading-tight text-white">大战略备考指挥部</div>
+              <div className="text-sm font-bold leading-tight text-white">战略英语 WarRoom</div>
               <div className="text-xs" style={{ color: '#475569' }}>CET-4 / CET-6 / 考研英语</div>
             </div>
           </Link>
@@ -92,11 +92,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       <header className="glass fixed left-0 right-0 top-0 z-20 flex items-center justify-between px-4 py-3 md:hidden" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
-        <Link href="/dashboard" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="btn-glow flex h-8 w-8 items-center justify-center rounded-xl">
             <span className="relative z-10 text-xs font-bold text-white">英</span>
           </div>
-          <span className="text-sm font-bold text-white">大战略备考</span>
+          <span className="text-sm font-bold text-white">战略英语</span>
         </Link>
         <div className="flex items-center gap-2">
           <button

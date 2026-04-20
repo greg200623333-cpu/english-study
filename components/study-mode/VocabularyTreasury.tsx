@@ -311,21 +311,15 @@ function GrowthForecast({ points, buffRate, isInitialized }: { points: ForecastP
     </section>
   )
 }
-function RiskAnalysis({ buckets, onAction }: { buckets: AssetBucket[]; onAction: (label: string) => void }) {
+function RiskAnalysis({ buckets, onAction }: { buckets: AssetBucket[]; onAction?: (label: string) => void }) {
   const alerts = buckets
     .filter((bucket) => bucket.risk > 0 || bucket.fading > 0)
     .slice(0, 4)
     .map((bucket) => ({
       title: `${bucket.label} 出现战略衰减`,
-      detail: `${Math.max(bucket.risk, bucket.fading)}% 资产处于不稳定区，建议立即回补。`,
+      detail: `${Math.max(bucket.risk, bucket.fading)}% 资产处于不稳定区，需要立即回补。`,
       level: bucket.risk > bucket.fading ? '高危' : '观察',
     }))
-
-  const actions = [
-    '追加高频动词再投资',
-    '重启学术名词巩固方案',
-    '签署衰减冻结法案',
-  ]
 
   return (
     <section className="glass rounded-[1.75rem] border border-white/10 p-6">
@@ -348,22 +342,6 @@ function RiskAnalysis({ buckets, onAction }: { buckets: AssetBucket[]; onAction:
             </div>
           </div>
         )) : <div className="rounded-[1.25rem] border border-emerald-400/15 bg-emerald-400/10 p-4 text-sm text-emerald-100">前线资产结构稳定，暂无类别级风险预警。</div>}
-      </div>
-      <div className="mt-6">
-        <div className="flex items-center gap-2 text-sm font-semibold text-slate-200"><Sparkles className="h-4 w-4 text-cyan-300" />建议投资</div>
-        <div className="mt-3 space-y-3">
-          {actions.map((action) => (
-            <button
-              key={action}
-              type="button"
-              onClick={() => onAction(action)}
-              className="flex w-full items-center justify-between rounded-[1.15rem] border border-cyan-300/12 bg-cyan-300/5 px-4 py-3 text-left text-sm text-slate-200 transition hover:border-cyan-300/25 hover:bg-cyan-300/10"
-            >
-              <span>{action}</span>
-              <ChevronRight className="h-4 w-4 text-cyan-300" />
-            </button>
-          ))}
-        </div>
       </div>
     </section>
   )

@@ -13,9 +13,9 @@ export default function MarkdownMessage({ content }: Props) {
     <ReactMarkdown
       rehypePlugins={[rehypeHighlight]}
       components={{
-        code({ node, inline, className, children, ...props }) {
-          const match = /language-(\w+)/.exec(className || '')
-          return !inline ? (
+        code({ className, children, ...props }) {
+          const isInline = !className || !className.includes('language-')
+          return !isInline ? (
             <code
               className={`${className} block bg-black/50 rounded-lg p-3 my-2 text-xs sm:text-sm overflow-x-auto`}
               {...props}

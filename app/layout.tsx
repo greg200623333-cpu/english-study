@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "英语学习平台 - 四六级 & 考研",
+  title: "战略英语 WarRoom English - 四六级 & 考研",
   description: "四六级、考研英语刷题、单词、作文一站式学习平台",
 };
 

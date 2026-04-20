@@ -92,9 +92,40 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
     }
   }, [])
 
+  // 检测是否为英文输入
+  const isEnglishInput = (text: string): boolean => {
+    // 移除空格、标点符号后检查
+    const cleanText = text.replace(/[\s\p{P}]/gu, '')
+    if (!cleanText) return false
+
+    // 检查是否包含中文字符
+    const hasChinese = /[\u4e00-\u9fa5]/.test(cleanText)
+    if (hasChinese) return false
+
+    // 检查是否主要是英文字符（至少50%是英文字母）
+    const englishChars = cleanText.match(/[a-zA-Z]/g)
+    const englishRatio = englishChars ? englishChars.length / cleanText.length : 0
+
+    return englishRatio >= 0.5
+  }
+
   // 发送消息
   const sendMessage = useCallback(async (content: string) => {
     if (!session || !content.trim()) return
+
+    // 检查是否为英文输入
+    if (!isEnglishInput(content.trim())) {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          role: 'system',
+          content: '请使用英文进行对话',
+          timestamp: new Date()
+        }
+      ])
+      return
+    }
 
     // 添加用户消息
     const userMessage: ChatMessage = {

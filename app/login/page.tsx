@@ -70,7 +70,7 @@ export default function LoginPage() {
             <div className="w-10 h-10 rounded-xl flex items-center justify-center btn-glow">
               <span className="text-white font-bold relative z-10">英</span>
             </div>
-            <span className="font-bold text-white text-xl">英语学习平台</span>
+            <span className="font-bold text-white text-xl">战略英语 WarRoom English</span>
           </Link>
           <h1 className="text-3xl font-extrabold mb-2" style={{ color: '#f1f5f9' }}>欢迎回来</h1>
           <p style={{ color: '#64748b' }}>登录账号，继续你的备考之旅</p>
