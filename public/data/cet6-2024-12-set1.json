@@ -514,6 +514,816 @@
   },
   {
     "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "O",
+    "explanation": "26.【解析】O）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "27.【解析】B）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "28.【解析】A）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "J",
+    "explanation": "29.【解析】J）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "L",
+    "explanation": "30.【解析】L）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "31.【解析】D）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "E",
+    "explanation": "32.【解析】E）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "K",
+    "explanation": "33.【解析】K）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "N",
+    "explanation": "34.【解析】N）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "With the rapid progress in the economy, it is natural that people's ideology is bound for change. Being 26 is no longer a virtue to some people, and they are not alone in holding this view. Each might have different viewpoints on how to lead one's lifestyle: some prefer simplicity, some love luxuries, some spend 27, some accumulate as much as they can like a country mouse. As I was born poor and in the countryside, the simple rural life seldom loses its 28 to me, but as my station changes, I have an opportunity to 29 with the newly rich, an experience which has revolutionized my view of lifestyle.\n\nIt is evil or sinful to spend little and to save much, an idea only recently being revealed to me. Actually the whole world is in a\n\nto borrow and to spend, with the USA leading the trend. The USA is still the richest and most powerful country in the world, but the\n\nis that they borrow money from us. Though a\n\nof economics, at least I know that investing with borrowed money will turn the borrower into the\n\nrather than the decent and kind lender. An apparent case is real estate. Those who are\n\nand have got loans from the bank become relatively rich by selling their purchased home at a price several folds higher. Even education is not immune from this theory. Many of those poor parents who have the vision to send their children to college have benefited from this investment, even though they have to\n\na living. It is reasonable to conclude that spending is praiseworthy, supposing it is not beyond your means.",
+    "options": [
+      "A) appeal",
+      "I) meadow",
+      "B) extravagantly",
+      "J) mingle",
+      "C) intrinsically",
+      "D) irony",
+      "L) rage",
+      "M) scrape",
+      "F) literally",
+      "N) shrewd",
+      "G) majestic",
+      "O) thrifty",
+      "H) malicious"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "appeal"
+      },
+      {
+        "letter": "I",
+        "word": "meadow"
+      },
+      {
+        "letter": "B",
+        "word": "extravagantly"
+      },
+      {
+        "letter": "J",
+        "word": "mingle"
+      },
+      {
+        "letter": "C",
+        "word": "intrinsically"
+      },
+      {
+        "letter": "D",
+        "word": "irony"
+      },
+      {
+        "letter": "L",
+        "word": "rage"
+      },
+      {
+        "letter": "M",
+        "word": "scrape"
+      },
+      {
+        "letter": "F",
+        "word": "literally"
+      },
+      {
+        "letter": "N",
+        "word": "shrewd"
+      },
+      {
+        "letter": "G",
+        "word": "majestic"
+      },
+      {
+        "letter": "O",
+        "word": "thrifty"
+      },
+      {
+        "letter": "H",
+        "word": "malicious"
+      }
+    ],
+    "correctAnswer": "M",
+    "explanation": "35.【解析】M）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 1,
     "number": 36,
     "part": "Part III",
     "section": "Section B",
@@ -533,8 +1343,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "B",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "F",
     "explanation": "27.【解析】B）空前是动词 spend，空后是逗号，分析句子可知，空格处可以填副词，修饰该动词；或者填名词，构成动宾结构。本句冒号后列举了人们不同的生活方式，其中 simplicity 与 luxuries 互为"
   },
   {
@@ -558,8 +1368,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "A",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "C",
     "explanation": "28.【解析】A）空前的its与空格作动词loses的宾语，分析句子可知，空格处可以填名词。As引导原因状语从句，从句中作者提到：因为自己出身贫寒，生在农村。从句和主句的逻辑关系是：因为“我”出身贫寒，生在农村，所以朴素的农村生活对我总是有吸引力，备选的选项中符合语义的为A) appeal(吸引力)，同时与空后的to构成了固定搭配appeal to sb.“对某人的吸引力”。"
   },
   {
@@ -583,8 +1393,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "D",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "G",
     "explanation": "31.【解析】D）空前的the与空格作后半句的主语，分析句子可知，空格处可以填名词。前半句提到，美国仍然是世界上最富有、最强大的国家，由转折连词but可知，后半句的语义与前半句形成对比关系。此句的语境为：虽然美国仍然是世界上最富有、最强大的国家，但具有讽刺意味的是，他们从我们这里借钱。备选的选项中符合语义的为D)irony(具有讽刺意味的事）。"
   },
   {
@@ -608,8 +1418,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "C",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "J",
     "explanation": "【解析】C）该段第1句提到，世界粮食供应的三分之二仅由四种作物提供；而第3句提到，有7000种作物人类已经种植了数千年。由此可知，题干中的Most of the world's food supply对应原文中的two-thirds of the world's food supply；题干中的thousands of crops对应原文中的7,000 crops；题干中的have been grown for centuries则对应原文中的have been farming for thousands of years。"
   },
   {
@@ -633,8 +1443,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "D",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "H",
     "explanation": "【解析】D）该段第3句提到，到2050年，世界必须多生产 "
   },
   {
@@ -658,8 +1468,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "B",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "O",
     "explanation": "【解析】B）文章前两段描绘了外星人看到人类在电影院看恐怖片的场景。第3段第1句表明观众处于高度兴奋状态，其中they指代的是上文中看电影的观众，即题干中的the audience in the movie theatre，B)项extreme excitement是对原文中high arousal的同义转述，故为答案。"
   },
   {
@@ -683,8 +1493,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "B",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "D",
     "explanation": "【解析】B）第6段提出到作者对许多人寻求恐怖娱乐这件奇怪的事感兴趣，第7段提到对这一问题的答案，第8段首句提到作者的研究表明人类在进化过程中，愿意在安全的环境中体验负面情绪，从而找到快乐。由此可知，寻求恐怖娱乐是为了在安全情境下模拟恐怖经历并从中获得快乐，其中find pleasure对应选项中的find joy，B)项是对该句的同义转述，故为答案。"
   },
   {
@@ -708,8 +1518,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "A",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "I",
     "explanation": "【解析】A）第9段首句提到，这种模拟为儿童提供了关于如何避免成为猎物的重要信息，A)项是该句的同义转述，故为答案。"
   },
   {
@@ -733,8 +1543,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "C",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "E",
     "explanation": "【解析】C）该段表明恐怖能让人们与负面情绪共处，并发展应对策略，随后提到我们了解到恐惧是什么感受及学会如何处理负面情绪。C)项是对该段最后一句的同义转述，故为答案。"
   },
   {
@@ -758,8 +1568,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "D",
+    "passage": "Section B - 段落匹配\nDirections: In this section, you are going to read a passage with ten statements attached to it. Each statement contains information given in one of the paragraphs. Identify the paragraph from which the information is derived. You may choose a paragraph more than once. Each paragraph is marked with a letter. Answer the questions by marking the corresponding letter on Answer Sheet 2.\n\nAre Forgotten Crops the Future of Food?\n\n[A] On a small fruit farm near the Straits of Malacca, Lim Kok Ann is down to just one tree growing kedondong, a crunchy, sour berry that Malaysians mostly use in pickles (腌菜) and salads. \"It's not very well-known,\" says the 45-year-old, who is instead focusing on longan (龙眼) berries and pineapples, which have bigger markets. \"We have to grow what is profitable,\" he says.\n\n[B] But less than an hour away in the Malaysian countryside, inside three giant, silver domes, scientists are trying to change the future of food. They're pushing the boundaries of what humans eat by growing and processing so-called \"alternative\" crops—such as kedondong. At the headquarters of global research centre Crops For the Future (CFF) this particular under-used fruit has been turned into a sugar-free juice, high in vitamin C and getting top marks in sensory evaluations. \"Anything you see here is a forgotten crop,\" says Sayed Azam-Ali of the abundant plants weaving through the gardens of CFF outside Malaysia's capital Kuala Lumpur.\n\n[C] Prof Azam-Ali explains that just four crops—wheat, maize, rice and soybean—provide two-thirds of the world's food supply. \"We're dependent on these four,\" he says. \"But actually there're 7,000 crops we've been farming for thousands of years. We ignore all of those.\" Researchers are trying to unlock the potential of these ignored crops—plants they describe as forgotten, under-used or \"alternative\" as they are displaced by increasingly uniform diets fuelled by processed ingredients from the major crops.\n\n[D] It's a timely quest. The food sector is already responsible for nearly a third of global greenhouse gas emissions. By 2050 it estimates the world must produce 50% more food to feed the projected global population of 10 billion. Meeting this demand without contributing to climate change calls for urgent solutions.\n\n[E] Forgotten crops hold key answers. By investing in neglected local plants, countries can reduce their reliance on imported crops and their carbon-heavy supply chains. Bringing back the variety of crops humans once ate also boosts food security at a time warming climates threaten existing crops. On top of that forgotten crops are among the most climate-resilient (具有气候韧性的) and nutritious, argues Azam-Ali. His summary is plain: \"Dietary diversification is critical to the future of humanity.\"\n\n[F] Food security experts agree. \"There is no food insecurity in the world, there is food ignorance,\" says Cecilia Tortajada, a senior research fellow at the Institute of Water Policy at the National University of Singapore. \"Whenever we have native crops we tend to disregard them as if they were not valuable but they are,\" she adds.\n\n[G] Azam-Ali knows that scepticism firsthand. He came across alternative crops in the 1980s through the work of women farmers he met in Niger. The then-PhD student remembers marvelling at the crops they grew in their backyards, without the benefits of technology, to feed their families when the big crops failed. He saw a tremendous opportunity to build alternative food systems. But \"the resistance was enormous,\" he recalls.\n\n[H] Undeterred, he ploughed on. Project after project helped prove these crops were viable in different environments as alternatives to the staple ones. But the question of whether these crops would be marketable remained. \"That's the critical thing,\" he says. In one of the centre's domes, food technologist Tan Xinlin uses powdered moringa (辣木) leaves in place of some wheat flour to bake a cake lower in gluten (谷胶) and higher in nutrients. Tan's job is to create recipes with these still-unfamiliar ingredients that will appeal to both local and international tastes. In recent years she has used some of the forgotten crops grown at CFF, such as moringa and bambara groundnut, to make everything from instant soup to Indian snacks. \"I try to modernise forgotten crops instead of using old recipes.\" says Tan, who is also a trained chef. It's a strategy to appeal to the world's growing middle classes who are increasingly turning to the fast and processed food industries. It's also a way to help counter perceptions of local crops as \"old or poor people's food\" or as inferior \"women's crops\", adds Tan.\n\n[I] The roots of these connotations about local foods can run deep. The bambara groundnut, a protein-rich native crop of sub-Saharan Africa that is also grown in parts of southeast Asia, can trace its marginalisation to colonial rule. \"African women who grew bambara groundnut were actually punished for growing it,\" says Azam-Ali. \"Colonial powers said you can't grow that because there's no oil. We can't get a market for it.\" But today the bambara murukku is one of CFF's best reviewed foods and they are aiming to get it into grocery stores, pointing to the success of crops like quinoa to potential investors. Some 30 years ago, quinoa was virtually unheard of outside its native mountains in Bolivia and Peru. Today the nutritious grain is found on the menus of lavish restaurants across the world.\n\n[J] Measuring crops by nutrition instead of yield is at the heart of the forgotten foods enterprise. Ever since the \"green revolution\" of the 1960s, high-yielding crops have dominated modern agriculture. That was in part a crucial response to devastating famines at a time when the world needed to increase its food supply. Today \"nutrition is becoming a time bomb\", says Azam-Ali, as growing carbon dioxide levels strip crops of their minerals. Instead of bio-fortifying major crops we should be investing in those forgotten crops that are already more nutritious, he asserts.\n\n[K] In the bowels of CFF's third dome, lab manager Gomathy Sethuraman opens a window into the centre's \"crown jewels\", revealing vines of winged beans growing under a bright yellow light. It's one of multiple chambers where scientists are studying the impact of higher temperatures and carbon dioxide levels on the nutritional make-up of alternative crops. This research is \"the game changer\", says Azam-Ali, ensuring that \"future crops\" are also the healthiest ones in warmer climates.\n\n[L] There is a growing global momentum around forgotten foods, says Danielle Nierenberg, president of Food Tank, a US-based think tank. Other than CFF, which bills itself as the world's first research centre dedicated solely to under-utilised crops, there are other key groups championing agricultural diversity including Crop Trust, Slow Food, Icrisat and Bioversity International. Add to that more middle-income consumers searching for nutritious foods and others eager to try the unprocessed foods their grandparents once ate, she says.\n\n[M] But the rising interest in forgotten foods in some quarters is overtaken by the global spread of Western-style diets heavy in sugar, fat and processed foods in others.\n\n[N] A key obstacle to promoting fading local crops in Malaysia, for example, is \"the obsession with imported products\", says Jenifer Kuah, co-founder of a restaurant that champions locally-sourced food in an affluent suburb of Kuala Lumpur. Customers at Sitka, regarded as a pioneer in the country's small farm-to-table dining scene, still seek foreign ingredients as a \"status symbol\", she says.\n\n[O] The argument for forgotten foods feels intuitive. Some analysts say it is in fact inevitable. \"Climate change is going to mean almost certainly tastes are going to be forced to change,\" says Tim Lang, professor of food policy at City, University of London. We \"have to get used to eating other crops\" as yields of staple crops fall, he says.",
+    "correctAnswer": "K",
     "explanation": "【解析】D）尾段第2句表明，如果你能完整地看完这部电影，你可能会体验到一种强烈的驾驭感，a strong sense of mastery与D)项A strong sense of being in control意思相符，故为答案。"
   },
   {

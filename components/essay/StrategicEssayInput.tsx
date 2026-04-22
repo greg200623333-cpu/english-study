@@ -50,6 +50,7 @@ export default function StrategicEssayInput() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const contentInputRef = useRef<HTMLTextAreaElement>(null)
   const titleInputRef = useRef<HTMLTextAreaElement>(null)
+  const prevActiveTopicRef = useRef<string>('')
 
   const { dailyImageQuota, decrementImageQuota, activeTopic, clearTopic, getPolicyCode } = useEssayStore()
   const { syncEssayCompletion } = useWarRoomSync()
@@ -60,7 +61,12 @@ export default function StrategicEssayInput() {
 
   // 载入 activeTopic 并自动聚焦
   useEffect(() => {
-    if (activeTopic) {
+    console.log('[StrategicEssayInput] activeTopic changed:', activeTopic)
+    console.log('[StrategicEssayInput] prevActiveTopicRef.current:', prevActiveTopicRef.current)
+    // 只有当 activeTopic 改变且不为空时才更新
+    if (activeTopic && activeTopic !== prevActiveTopicRef.current) {
+      console.log('[StrategicEssayInput] Updating topicTitle to:', activeTopic)
+      prevActiveTopicRef.current = activeTopic
       setTopicTitle(activeTopic)
       setShowPulse(true)
 

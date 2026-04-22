@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useYoudaoTTS } from '@/lib/useYoudaoTTS'
 import { useWarRoomSync } from '@/hooks/useWarRoomSync'
+import { useMissionStore } from '@/stores/useMissionStore'
 
 type ListeningQuestion = {
   content: string
@@ -81,6 +82,14 @@ export default function ListeningPage() {
   const [playingIdx, setPlayingIdx] = useState<number | null>(null)
   const [speed, setSpeed] = useState(0.9)
   const { syncQuizAttempt } = useWarRoomSync()
+  const { activeMission } = useMissionStore()
+
+  // Auto-generate in AI mode
+  useEffect(() => {
+    if (activeMission?.isAiMode && !archiveId && passages.length === 0) {
+      generate()
+    }
+  }, [activeMission]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Load archive questions on mount if archiveId is present
   useEffect(() => {

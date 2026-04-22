@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { useMissionStore } from '@/stores/useMissionStore'
 
 type WordBankItem = {
   letter: string
@@ -36,8 +38,15 @@ export default function ClozePage() {
   const [question, setQuestion] = useState<ClozeQuestion | null>(null)
   const [mode, setMode] = useState<'fill' | 'select'>('fill') // fill=整篇填空, select=逐题选择
   const [answers, setAnswers] = useState<Record<number, string>>({}) // 26-35的答案
+  const [correctAnswers, setCorrectAnswers] = useState<Record<number, string>>({}) // 正确答案
+  const [selectedBlank, setSelectedBlank] = useState<number | null>(null) // 当前选中的空格
+  const [aiAnalysis, setAiAnalysis] = useState<Record<number, string>>({}) // AI解析
+  const [loadingAi, setLoadingAi] = useState<Record<number, boolean>>({}) // AI加载状态
   const [showResult, setShowResult] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [generating, setGenerating] = useState(false)
+
+  const { activeMission } = useMissionStore()
 
   useEffect(() => {
     async function load() {
@@ -54,6 +63,18 @@ export default function ClozePage() {
           const clozeQ = data.find(q => q.type === 'cloze')
           if (clozeQ) {
             setQuestion(clozeQ)
+            // 收集所有空格的正确答案 - 从explanation字段提取实际的空格号
+            const allCloze = data.filter(q => q.type === 'cloze' && q.correctAnswer && q.explanation)
+            const answerMap: Record<number, string> = {}
+            allCloze.forEach(q => {
+              // 从explanation中提取空格号，格式如 "27.【解析】"
+              const match = q.explanation?.match(/^(\d+)\.【解析】/)
+              if (match) {
+                const blankNum = parseInt(match[1])
+                answerMap[blankNum] = q.correctAnswer!
+              }
+            })
+            setCorrectAnswers(answerMap)
           }
         }
       } catch (err) {
@@ -64,6 +85,87 @@ export default function ClozePage() {
 
     load()
   }, [category, archiveId])
+
+  useEffect(() => {
+    async function autoGenerate() {
+      if (!activeMission?.isAiMode || archiveId || generating) return
+
+      setGenerating(true)
+      setLoading(true)
+      try {
+        const res = await fetch('/api/generate/questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ category, type: 'reading_cloze', count: 10 }),
+        })
+        if (res.ok) {
+          const supabase = createClient()
+          const { data } = await supabase
+            .from('questions')
+            .select('*')
+            .eq('category', category)
+            .eq('type', 'reading_cloze')
+            .order('id', { ascending: false })
+            .limit(10)
+          if (data && data.length > 0) {
+            let passage = data.find(q => q.passage)?.passage || ''
+            // Ensure passage has exactly 10 [blank] markers
+            if (passage) {
+              const existingBlanks = (passage.match(/\[blank\]/gi) || []).length
+              if (existingBlanks < 10) {
+                // Split into words and insert blanks at evenly spaced positions
+                const words = passage.split(' ')
+                const needed = 10 - existingBlanks
+                // Find positions that are not adjacent to existing blanks
+                const step = Math.floor(words.length / (needed + 1))
+                let inserted = 0
+                for (let i = step; i < words.length && inserted < needed; i += step) {
+                  if (!words[i].includes('[blank]') && !words[i - 1]?.includes('[blank]')) {
+                    words.splice(i, 0, '[blank]')
+                    inserted++
+                    i++ // account for inserted word
+                  }
+                }
+                passage = words.join(' ')
+              }
+            }
+            const wordBank: WordBankItem[] = []
+            const answerMap: Record<number, string> = {}
+
+            const firstWithOptions = data.find(q => q.options && q.options.length > 0)
+            if (firstWithOptions) {
+              firstWithOptions.options.forEach((opt: string) => {
+                const match = opt.match(/^([A-O])[.)]\s*(.+)/)
+                if (match) wordBank.push({ letter: match[1], word: match[2] })
+              })
+            }
+
+            data.forEach((q, idx) => {
+              answerMap[26 + idx] = q.answer
+            })
+
+            console.log('Data length:', data.length)
+            console.log('Answer map:', answerMap)
+            console.log('Passage blanks:', (passage.match(/\[blank\]/gi) || []).length)
+
+            setQuestion({
+              question: passage,
+              options: [],
+              wordBank,
+              type: 'cloze',
+            })
+            setCorrectAnswers(answerMap)
+          }
+        }
+      } catch (err) {
+        console.error('Auto-generate cloze failed:', err)
+      } finally {
+        setLoading(false)
+        setGenerating(false)
+      }
+    }
+    autoGenerate()
+  }, [activeMission, archiveId, category])
 
   function handleSelectWord(blank: number, letter: string) {
     setAnswers(prev => ({ ...prev, [blank]: letter }))
@@ -78,10 +180,55 @@ export default function ClozePage() {
     setShowResult(false)
   }
 
+  function getScore() {
+    let correct = 0
+    blanks.forEach(num => {
+      if (answers[num] === correctAnswers[num]) correct++
+    })
+    return correct
+  }
+
+  async function handleAiAnalysis(blankNum: number) {
+    if (aiAnalysis[blankNum] || loadingAi[blankNum]) return
+
+    setLoadingAi(prev => ({ ...prev, [blankNum]: true }))
+    try {
+      const userAns = answers[blankNum]
+      const correct = correctAnswers[blankNum]
+      const userWord = wordBank.find(w => w.letter === userAns)?.word
+      const correctWord = wordBank.find(w => w.letter === correct)?.word
+
+      const res = await fetch('/api/quiz/solve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          passage: question?.question || '',
+          content: `空格 ${blankNum}`,
+          answer: `${correct}) ${correctWord}`,
+          category,
+          type: 'cloze',
+          options: wordBank.map(w => `${w.letter}) ${w.word}`),
+        }),
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        setAiAnalysis(prev => ({ ...prev, [blankNum]: data.analysis }))
+      } else {
+        setAiAnalysis(prev => ({ ...prev, [blankNum]: 'AI 解析失败，请稍后重试' }))
+      }
+    } catch (err) {
+      console.error(err)
+      setAiAnalysis(prev => ({ ...prev, [blankNum]: 'AI 解析失败，请稍后重试' }))
+    } finally {
+      setLoadingAi(prev => ({ ...prev, [blankNum]: false }))
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center" style={{ color: '#475569' }}>
-        <p>加载题目中...</p>
+        <p>{generating ? 'AI 生成题目中...' : '加载题目中...'}</p>
       </div>
     )
   }
@@ -102,18 +249,38 @@ export default function ClozePage() {
   const wordBank = question.wordBank || []
   const blanks = [26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
 
-  // 渲染文章，将数字26-35替换为可填空的输入框或下拉选择
+  // 渲染文章，将 [blank]/(26)/(27)等 替换为可填空的输入框
   function renderPassage() {
     if (!question) return ''
-    let text = question.question
-    blanks.forEach(num => {
-      const answer = answers[num] || ''
-      const placeholder = mode === 'fill'
-        ? `<span class="inline-flex items-center justify-center min-w-[80px] px-2 py-1 mx-1 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 font-mono text-sm cursor-pointer hover:bg-cyan-500/20" data-blank="${num}">${answer || `(${num})`}</span>`
-        : `<span class="inline-flex items-center justify-center min-w-[80px] px-2 py-1 mx-1 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 font-mono text-sm">${answer || `(${num})`}</span>`
-      text = text.replace(new RegExp(`\\b${num}\\b`, 'g'), placeholder)
+    let blankIndex = 0
+    // 支持 [blank]、(26)~(35)、裸露的26~35、____、\n\n 等多种标记
+    // 先处理带数字的标记，然后处理 \n\n
+    let text = question.question.replace(/\[blank\]|\(([23][0-9])\)|\b([23][0-9])\b|_{3,}/gi, (match, numStr1, numStr2) => {
+      const num = numStr1 ? parseInt(numStr1) : numStr2 ? parseInt(numStr2) : 26 + blankIndex
+      blankIndex++
+      return `__BLANK_${num}__`
     })
-    return text
+
+    // 处理剩余的 \n\n 作为后续空格（从 blankIndex 继续编号）
+    text = text.replace(/\n\n/g, () => {
+      const num = 26 + blankIndex
+      blankIndex++
+      return `__BLANK_${num}__`
+    })
+
+    // 将所有 __BLANK_N__ 替换为实际的 HTML
+    return text.replace(/__BLANK_(\d+)__/g, (match, numStr) => {
+      const num = parseInt(numStr)
+      const answer = answers[num] || ''
+      if (mode === 'fill') {
+        const isSelected = selectedBlank === num
+        const cls = isSelected
+          ? 'inline-flex items-center justify-center min-w-[80px] px-2 py-1 mx-1 rounded border-2 border-cyan-400 bg-cyan-400/20 text-cyan-200 font-mono text-sm cursor-pointer'
+          : 'inline-flex items-center justify-center min-w-[80px] px-2 py-1 mx-1 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 font-mono text-sm cursor-pointer hover:bg-cyan-500/20'
+        return `<span class="${cls}" data-blank="${num}">${answer || `(${num})`}</span>`
+      }
+      return `<span class="inline-flex items-center justify-center min-w-[80px] px-2 py-1 mx-1 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 font-mono text-sm">${answer || `(${num})`}</span>`
+    })
   }
 
   return (
@@ -144,6 +311,11 @@ export default function ClozePage() {
 
       {/* 文章段落 */}
       <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+        {mode === 'fill' && (
+          <div className="mb-3 text-xs font-semibold" style={{ color: selectedBlank ? '#22d3ee' : '#64748b' }}>
+            {selectedBlank ? `已选中空格 (${selectedBlank})，请点击词库中的单词填入` : '请点击文章中的空格，然后从词库中选择单词'}
+          </div>
+        )}
         <div
           className="text-base leading-relaxed"
           style={{ color: '#e2e8f0' }}
@@ -152,10 +324,7 @@ export default function ClozePage() {
             const target = e.target as HTMLElement
             if (target.dataset.blank && mode === 'fill') {
               const blank = parseInt(target.dataset.blank)
-              const letter = prompt(`请输入空格 ${blank} 的答案字母 (A-O):`)
-              if (letter && /^[A-O]$/i.test(letter)) {
-                handleSelectWord(blank, letter.toUpperCase())
-              }
+              setSelectedBlank(prev => prev === blank ? null : blank)
             }
           }}
         />
@@ -168,11 +337,26 @@ export default function ClozePage() {
           {wordBank.map(item => (
             <div
               key={item.letter}
-              className="rounded-lg border px-3 py-2 text-center text-sm transition-all"
+              onClick={() => {
+                if (mode === 'fill' && selectedBlank) {
+                  handleSelectWord(selectedBlank, item.letter)
+                  setSelectedBlank(null)
+                }
+              }}
+              className="rounded-lg border px-3 py-2 text-center text-sm transition-all cursor-pointer hover:scale-105"
               style={{
-                borderColor: Object.values(answers).includes(item.letter) ? 'rgba(34,211,238,0.5)' : 'rgba(255,255,255,0.1)',
-                background: Object.values(answers).includes(item.letter) ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.03)',
-                color: Object.values(answers).includes(item.letter) ? '#22d3ee' : '#cbd5e1',
+                borderColor: Object.values(answers).includes(item.letter)
+                  ? 'rgba(34,211,238,0.5)'
+                  : selectedBlank
+                    ? 'rgba(34,211,238,0.4)'
+                    : 'rgba(255,255,255,0.1)',
+                background: Object.values(answers).includes(item.letter)
+                  ? 'rgba(34,211,238,0.1)'
+                  : selectedBlank
+                    ? 'rgba(34,211,238,0.08)'
+                    : 'rgba(255,255,255,0.03)',
+                color: Object.values(answers).includes(item.letter) ? '#22d3ee' : selectedBlank ? '#e2e8f0' : '#cbd5e1',
+                boxShadow: selectedBlank && !Object.values(answers).includes(item.letter) ? '0 0 8px rgba(34,211,238,0.15)' : 'none',
               }}
             >
               <div className="font-mono font-bold">{item.letter})</div>
@@ -198,10 +382,9 @@ export default function ClozePage() {
                       disabled={showResult}
                       className="rounded-lg px-3 py-1.5 text-xs font-semibold transition-all disabled:opacity-50"
                       style={{
-                        borderColor: answers[num] === item.letter ? 'rgba(34,211,238,0.5)' : 'rgba(255,255,255,0.1)',
+                        border: `1px solid ${answers[num] === item.letter ? 'rgba(34,211,238,0.5)' : 'rgba(255,255,255,0.1)'}`,
                         background: answers[num] === item.letter ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.03)',
                         color: answers[num] === item.letter ? '#22d3ee' : '#94a3b8',
-                        border: '1px solid',
                       }}
                     >
                       {item.letter}) {item.word}
@@ -228,12 +411,59 @@ export default function ClozePage() {
       {/* 结果显示 */}
       {showResult && (
         <div className="space-y-4">
-          <div className="glass rounded-2xl p-6" style={{ border: '1px solid rgba(34,211,238,0.3)', background: 'rgba(34,211,238,0.08)' }}>
-            <div className="mb-2 text-sm font-bold" style={{ color: '#22d3ee' }}>
-              ✓ 已提交答案
+          <div className="glass rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-sm font-bold" style={{ color: '#94a3b8' }}>答题结果</span>
+              <span className="text-sm font-bold" style={{ color: getScore() >= 8 ? '#34d399' : getScore() >= 6 ? '#fbbf24' : '#f87171' }}>
+                {getScore()} / 10
+              </span>
             </div>
-            <div className="text-sm" style={{ color: '#94a3b8' }}>
-              请查看答案解析了解正确答案
+            <div className="space-y-3">
+              {blanks.map(num => {
+                const userAns = answers[num]
+                const correct = correctAnswers[num]
+                const isCorrect = userAns === correct
+                const userWord = wordBank.find(w => w.letter === userAns)?.word
+                const correctWord = wordBank.find(w => w.letter === correct)?.word
+                return (
+                  <div key={num} className="rounded-lg" style={{ background: isCorrect ? 'rgba(52,211,153,0.06)' : 'rgba(248,113,113,0.06)' }}>
+                    <div className="flex items-center gap-3 px-3 py-2">
+                      <span className="w-10 shrink-0 font-mono text-xs" style={{ color: '#64748b' }}>({num})</span>
+                      <span className="text-xs font-bold" style={{ color: isCorrect ? '#34d399' : '#f87171' }}>
+                        {isCorrect ? '✓' : '✗'}
+                      </span>
+                      <span className="text-xs" style={{ color: isCorrect ? '#34d399' : '#f87171' }}>
+                        {userAns ? `${userAns}) ${userWord}` : '未作答'}
+                      </span>
+                      {!isCorrect && correct && (
+                        <>
+                          <span className="text-xs" style={{ color: '#94a3b8' }}>
+                            → 正确: {correct}) {correctWord}
+                          </span>
+                          <button
+                            onClick={() => handleAiAnalysis(num)}
+                            disabled={loadingAi[num]}
+                            className="ml-auto rounded-lg px-3 py-1 text-xs font-semibold transition-all disabled:opacity-50"
+                            style={{
+                              border: '1px solid rgba(168,85,247,0.3)',
+                              background: 'rgba(168,85,247,0.1)',
+                              color: '#a78bfa',
+                            }}
+                          >
+                            {loadingAi[num] ? '解析中...' : aiAnalysis[num] ? '已解析' : 'AI 解析'}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                    {aiAnalysis[num] && (
+                      <div className="border-t px-3 py-3 text-xs leading-relaxed" style={{ borderColor: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>
+                        <div className="mb-1 font-bold" style={{ color: '#a78bfa' }}>AI 解析：</div>
+                        <div className="whitespace-pre-wrap">{aiAnalysis[num]}</div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className="flex gap-3">

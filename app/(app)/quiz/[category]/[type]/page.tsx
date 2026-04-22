@@ -5,6 +5,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/client'
 import { useWarRoomSync } from '@/hooks/useWarRoomSync'
+import { useMissionStore } from '@/stores/useMissionStore'
 import ListeningPage from './listening/page'
 
 const LISTENING_TYPES = ['listening_news', 'listening_interview', 'listening_passage']
@@ -73,6 +74,8 @@ export default function QuizTypePage() {
   const [showPassage, setShowPassage] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
   const { syncQuizAttempt } = useWarRoomSync()
+  const { activeMission } = useMissionStore()
+  const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
     getCurrentUser().then((user) => setUserId(user?.id ?? null))
@@ -131,6 +134,47 @@ export default function QuizTypePage() {
     load()
   }, [category, isListening, type, archiveId])
 
+  // Auto-generate questions in AI mode
+  // 手动生成题目函数
+  async function handleManualGenerate() {
+    if (generating) return
+
+    const countMap: Record<string, number> = {
+      reading_match: category === 'cet6' ? 14 : 10,
+      reading_choice: 5,
+    }
+    const count = countMap[type] ?? 5
+
+    setGenerating(true)
+    setLoading(true)
+    try {
+      const res = await fetch('/api/generate/questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category, type, count }),
+      })
+      if (res.ok) {
+        const supabase = createClient()
+        const { data } = await supabase.from('questions').select('*').eq('category', category).eq('type', type).order('id', { ascending: false }).limit(count)
+        if (data) setQuestions(data)
+      }
+    } catch (err) {
+      console.error('Generate failed:', err)
+    } finally {
+      setLoading(false)
+      setGenerating(false)
+    }
+  }
+
+  useEffect(() => {
+    async function autoGenerate() {
+      if (!activeMission?.isAiMode || archiveId || isListening || generating) return
+      if (questions.length > 0) return
+      handleManualGenerate()
+    }
+    autoGenerate()
+  }, [activeMission, archiveId, isListening, category, type, questions.length])
+
   async function handleSelect(option: string) {
     if (selected) return
     setSelected(option)
@@ -138,14 +182,16 @@ export default function QuizTypePage() {
 
     const current = questions[index]
     const correctAnswer = current.correctAnswer || current.answer
-    const isCorrect = option[0] === correctAnswer
+    // For paragraph matching, extract letter from "段落 A" format
+    const userAnswer = option.includes('段落') ? option.split(' ')[1] : option[0]
+    const isCorrect = userAnswer === correctAnswer
 
     if (userId && current.id) {
       const supabase = createClient()
       await supabase.from('quiz_records').insert({
         user_id: userId,
         question_id: current.id,
-        user_answer: option[0],
+        user_answer: userAnswer,
         is_correct: isCorrect,
       })
     }
@@ -206,7 +252,7 @@ export default function QuizTypePage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center" style={{ color: '#475569' }}>
-        <p>加载题目中...</p>
+        <p>{generating ? 'AI 生成题目中...' : '加载题目中...'}</p>
       </div>
     )
   }
@@ -216,10 +262,19 @@ export default function QuizTypePage() {
       <div className="py-20 text-center">
         <div className="mb-4 text-5xl">📭</div>
         <p className="mb-2 text-lg font-semibold" style={{ color: '#94a3b8' }}>暂无题目</p>
-        <p className="mb-6 text-sm" style={{ color: '#475569' }}>请先在刷题页点击「AI 生成题目」</p>
-        <button onClick={() => router.push('/quiz')} className="btn-glow rounded-xl px-6 py-2.5 text-sm font-semibold text-white">
-          返回选题
-        </button>
+        <p className="mb-6 text-sm" style={{ color: '#475569' }}>点击下方按钮生成题目</p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={handleManualGenerate}
+            disabled={generating}
+            className="btn-glow rounded-xl px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {generating ? 'AI 生成中...' : 'AI 生成题目'}
+          </button>
+          <button onClick={() => router.push('/quiz')} className="rounded-xl px-6 py-2.5 text-sm font-semibold" style={{ background: '#334155', color: '#e2e8f0' }}>
+            返回选题
+          </button>
+        </div>
       </div>
     )
   }
@@ -262,7 +317,9 @@ export default function QuizTypePage() {
   const questionText = q.content || q.question || ''
   const correctAnswer = q.correctAnswer || q.answer || ''
   const explanationText = q.explanation || ''
-  const passageText = q.passage || q.context || null
+  const passageText = (type === 'reading_match' && questions.length > 0)
+    ? (questions[0].passage || questions[0].context || null)
+    : (q.passage || q.context || null)
   const archiveLabel = archiveId ? ` · ${archiveId}` : ''
 
   return (
@@ -299,7 +356,24 @@ export default function QuizTypePage() {
           </button>
           {showPassage && (
             <div className="px-5 py-4 text-sm leading-relaxed" style={{ color: '#cbd5e1', maxHeight: '280px', overflowY: 'auto' }}>
-              {passageText}
+              {(() => {
+                let paragraphs = passageText.split('\n\n').filter(p => p.trim())
+                if (paragraphs.length <= 1) {
+                  paragraphs = passageText.split('\n').filter(p => p.trim())
+                }
+                return paragraphs.map((para, idx) => {
+                  const match = para.match(/^\[([A-Z])\]\s*(.*)$/s)
+                  if (match) {
+                    return (
+                      <div key={idx} className="mb-4 flex gap-3">
+                        <span className="shrink-0 font-bold" style={{ color: '#a78bfa' }}>[{match[1]}]</span>
+                        <span>{match[2]}</span>
+                      </div>
+                    )
+                  }
+                  return <div key={idx} className="mb-4">{para}</div>
+                })
+              })()}
             </div>
           )}
         </div>
@@ -310,7 +384,7 @@ export default function QuizTypePage() {
         {options.length > 0 ? (
           <div className="space-y-3">
             {options.map((opt) => {
-              const letter = opt[0]
+              const letter = opt.includes('段落') ? opt.split(' ')[1] : opt[0]
               let borderColor = 'rgba(255,255,255,0.08)'
               let background = 'rgba(255,255,255,0.03)'
               let color = '#94a3b8'
@@ -353,12 +427,12 @@ export default function QuizTypePage() {
         <div
           className="mb-4 rounded-2xl p-5"
           style={{
-            background: selected?.[0] === correctAnswer ? 'rgba(52,211,153,0.08)' : 'rgba(248,113,113,0.08)',
-            border: `1px solid ${selected?.[0] === correctAnswer ? 'rgba(52,211,153,0.3)' : 'rgba(248,113,113,0.3)'}`,
+            background: (selected?.includes('段落') ? selected.split(' ')[1] : selected?.[0]) === correctAnswer ? 'rgba(52,211,153,0.08)' : 'rgba(248,113,113,0.08)',
+            border: `1px solid ${(selected?.includes('段落') ? selected.split(' ')[1] : selected?.[0]) === correctAnswer ? 'rgba(52,211,153,0.3)' : 'rgba(248,113,113,0.3)'}`,
           }}
         >
-          <div className="mb-2 text-sm font-bold" style={{ color: selected?.[0] === correctAnswer ? '#34d399' : '#f87171' }}>
-            {selected?.[0] === correctAnswer ? '✓ 回答正确' : `✗ 正确答案：${correctAnswer}`}
+          <div className="mb-2 text-sm font-bold" style={{ color: (selected?.includes('段落') ? selected.split(' ')[1] : selected?.[0]) === correctAnswer ? '#34d399' : '#f87171' }}>
+            {(selected?.includes('段落') ? selected.split(' ')[1] : selected?.[0]) === correctAnswer ? '✓ 回答正确' : `✗ 正确答案：${correctAnswer}`}
           </div>
           {explanationText && (
             <div className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{explanationText}</div>

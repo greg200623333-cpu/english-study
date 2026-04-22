@@ -223,8 +223,6 @@ export default function DashboardPage() {
 
   const lawCount = useMemo(() => Object.values(laws ?? {}).filter(Boolean).length, [laws])
 
-  console.log('[Dashboard] Render state:', { _hasHydrated, user })
-
   // ── Hydration guard: render skeleton until Zustand has rehydrated from localStorage ──
   // Without this, persisted values (vocabularyGDP, laws, etc.) would flash
   // as zeros on the first paint, causing a visible layout jump.

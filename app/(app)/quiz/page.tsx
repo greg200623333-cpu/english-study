@@ -6,8 +6,6 @@ import { applyRemoteStudyModeProfile, loadStudyModeProfile } from '@/lib/studyMo
 import { CET_EXAMS, KAOYAN_EXAMS, groupBySection, type SubjectCategory } from '@/config/subjects'
 import { MissionBriefingModal } from '@/components/study-mode/MissionBriefingModal'
 
-type GenState = { loading: boolean; message: string }
-
 type MissionTarget = {
   subjectId: string
   subjectTitle: string
@@ -24,8 +22,6 @@ type StudyProfile = {
 
 export default function QuizPage() {
   const [activeTab, setActiveTab] = useState<'cet' | 'kaoyan'>('cet')
-  const [genState, setGenState] = useState<Record<string, GenState>>({})
-  const [showGen, setShowGen] = useState(false)
   const [profile, setProfile] = useState<StudyProfile | null>(null)
   const [missionTarget, setMissionTarget] = useState<MissionTarget | null>(null)
 
@@ -41,22 +37,6 @@ export default function QuizPage() {
     }
     loadProfile()
   }, [])
-
-  async function handleGenerate(category: string, subjectId: string, count = 5) {
-    const key = `${category}_${subjectId}`
-    setGenState((s) => ({ ...s, [key]: { loading: true, message: '' } }))
-    try {
-      const res = await fetch('/api/generate/questions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, type: subjectId, count }),
-      })
-      const data = await res.json()
-      setGenState((s) => ({ ...s, [key]: { loading: false, message: data.message ?? data.error ?? '完成' } }))
-    } catch {
-      setGenState((s) => ({ ...s, [key]: { loading: false, message: '生成失败' } }))
-    }
-  }
 
   const operationReadiness = useMemo(() => {
     const skills = profile?.skill_balance ?? { listening: 0, speaking: 0, reading: 0, writing: 0 }
@@ -131,7 +111,7 @@ export default function QuizPage() {
           </div>
 
           {/* Operational briefing line */}
-          <div className="hidden flex-1 items-center gap-2 lg:flex">
+          <div className="flex flex-1 items-center gap-2">
             <span className="animate-pulse font-mono text-xs text-cyan-400/70">{'>'}</span>
             <p className="font-mono text-[13px] text-slate-400/80">
               系统就绪：点击下方作战科目即可调取
@@ -140,13 +120,6 @@ export default function QuizPage() {
               <span className="text-cyan-400/90">AI 强化训练模式</span>
             </p>
           </div>
-
-          <button
-            onClick={() => setShowGen((v) => !v)}
-            className="rounded-xl border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100"
-          >
-            {showGen ? '关闭 AI 战术补给' : '开启 AI 战术补给'}
-          </button>
         </div>
 
         {/* Mobile briefing line — shown below the row on small screens */}
@@ -191,8 +164,6 @@ export default function QuizPage() {
                     </div>
                     <div className="space-y-2.5">
                       {sec.subjects.map((subject) => {
-                        const key = `${exam.category}_${subject.id}`
-                        const state = genState[key]
                         return (
                           <div key={subject.id} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                             <button
@@ -203,27 +174,14 @@ export default function QuizPage() {
                               <div className="font-semibold text-slate-100">{subject.title}</div>
                               <div className="mt-1 truncate text-xs text-slate-500">{subject.desc}</div>
                             </button>
-                            <div className="flex items-center gap-2">
-                              {state?.message ? <span className="text-xs text-slate-400">{state.message}</span> : null}
-                              {showGen && (
-                                <button
-                                  onClick={() => handleGenerate(exam.category, subject.id)}
-                                  disabled={state?.loading}
-                                  className="rounded-lg px-3 py-1.5 text-xs font-semibold"
-                                  style={{ color: exam.color, background: `${exam.color}16`, border: `1px solid ${exam.color}30` }}
-                                >
-                                  {state?.loading ? '生成中' : 'AI 生成'}
-                                </button>
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => setMissionTarget({ subjectId: subject.id, subjectTitle: subject.title, category: exam.category })}
-                                className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white"
-                                style={{ background: exam.color }}
-                              >
-                                部署
-                              </button>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setMissionTarget({ subjectId: subject.id, subjectTitle: subject.title, category: exam.category })}
+                              className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white"
+                              style={{ background: exam.color }}
+                            >
+                              部署
+                            </button>
                           </div>
                         )
                       })}

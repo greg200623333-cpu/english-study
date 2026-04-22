@@ -5,6 +5,7 @@ import { getCurrentUser } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/client'
 import { useWarRoomSync } from '@/hooks/useWarRoomSync'
 import { useEssayStore } from '@/store/essayStore'
+import { useMissionStore } from '@/stores/useMissionStore'
 import { ShieldAlert, Activity, FileText, FileEdit } from 'lucide-react'
 import StrategicEssayInput from '@/components/essay/StrategicEssayInput'
 
@@ -48,8 +49,10 @@ export default function EssayPage() {
   const [selectedPrompt, setSelectedPrompt] = useState<EssayPrompt | null>(null)
   const [showModelEssay, setShowModelEssay] = useState(false)
   const [decryptingPrompt, setDecryptingPrompt] = useState(false)
+  const [generatingTopic, setGeneratingTopic] = useState(false)
 
   const { resetQuotaIfNeeded, setActiveTopic } = useEssayStore()
+  const { activeMission } = useMissionStore()
 
   async function loadEssayPrompts() {
     try {
@@ -82,6 +85,45 @@ export default function EssayPage() {
     })
     loadEssayPrompts()
   }, [resetQuotaIfNeeded])
+
+  // Auto-generate essay topic in AI mode
+  useEffect(() => {
+    if (!activeMission?.isAiMode) return
+
+    async function generateTopic() {
+      setGeneratingTopic(true)
+      try {
+        const res = await fetch('/api/generate/questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ category: activeMission!.category, type: activeMission!.subjectId, count: 1 }),
+        })
+        const data = await res.json()
+        if (data.error) return
+        // Fetch the latest generated question
+        const supabase = createClient()
+        const { data: rows } = await supabase
+          .from('questions')
+          .select('content')
+          .eq('category', activeMission!.category)
+          .eq('type', activeMission!.subjectId)
+          .order('id', { ascending: false })
+          .limit(1)
+        if (rows?.[0]?.content) {
+          console.log('[Essay Page] AI generated topic:', rows[0].content)
+          setActiveTopic(rows[0].content)
+        } else {
+          console.log('[Essay Page] No content found in generated question')
+        }
+      } catch {
+        // silently ignore
+      } finally {
+        setGeneratingTopic(false)
+      }
+    }
+
+    generateTopic()
+  }, [activeMission]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function scoreColor(score: number) {
     if (score >= 85) return 'text-emerald-400'
@@ -168,6 +210,15 @@ export default function EssayPage() {
       {/* Main Content */}
       {activeTab === 'write' && (
         <div className="space-y-4">
+          {generatingTopic && (
+            <div className="border border-cyan-500/30 bg-slate-950/80 p-6 text-center backdrop-blur-md" style={{ borderRadius: 0 }}>
+              <div className="mb-3 text-cyan-400">
+                <Activity className="mx-auto h-10 w-10 animate-pulse" />
+              </div>
+              <div className="font-mono text-sm text-cyan-400">AI 生成题目中...</div>
+              <div className="mt-2 text-xs text-slate-500">GENERATING ESSAY TOPIC...</div>
+            </div>
+          )}
           {/* Strategic Essay Input Component */}
           <StrategicEssayInput />
         </div>

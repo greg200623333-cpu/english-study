@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { useMissionStore } from '@/stores/useMissionStore'
 
 type TranslationQuestion = {
   set?: number
@@ -33,6 +35,9 @@ export default function TranslationPage() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [showReference, setShowReference] = useState(false)
+  const [generating, setGenerating] = useState(false)
+
+  const { activeMission } = useMissionStore()
 
   useEffect(() => {
     async function load() {
@@ -59,6 +64,47 @@ export default function TranslationPage() {
 
     load()
   }, [category, archiveId])
+
+  useEffect(() => {
+    async function autoGenerate() {
+      if (!activeMission?.isAiMode || archiveId || generating) return
+
+      setGenerating(true)
+      setLoading(true)
+      try {
+        const res = await fetch('/api/generate/questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ category, type: 'translation', count: 1 }),
+        })
+        if (res.ok) {
+          const supabase = createClient()
+          const { data } = await supabase
+            .from('questions')
+            .select('*')
+            .eq('category', category)
+            .eq('type', 'translation')
+            .order('id', { ascending: false })
+            .limit(1)
+          if (data && data.length > 0) {
+            const q = data[0]
+            setQuestion({
+              question: q.content,
+              options: [],
+              correctAnswer: q.answer,
+              explanation: q.explanation,
+            })
+          }
+        }
+      } catch (err) {
+        console.error('Auto-generate translation failed:', err)
+      } finally {
+        setLoading(false)
+        setGenerating(false)
+      }
+    }
+    autoGenerate()
+  }, [activeMission, archiveId, category])
 
   async function handleSubmit() {
     if (!translation.trim() || !question) return
@@ -100,7 +146,7 @@ export default function TranslationPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center" style={{ color: '#475569' }}>
-        <p>加载题目中...</p>
+        <p>{generating ? 'AI 生成题目中...' : '加载题目中...'}</p>
       </div>
     )
   }

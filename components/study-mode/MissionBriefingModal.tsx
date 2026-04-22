@@ -169,8 +169,38 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
     }
     setMission(config)
 
+    // AI mode: skip deploy page, go directly to quiz/essay page
+    if (isAiMode) {
+      // Writing subjects go to /essay
+      if (subjectId === 'writing' || subjectId === 'writing_small' || subjectId === 'writing_big') {
+        router.push('/essay')
+        onClose()
+        return
+      }
+
+      //篇章词汇 goes to cloze page
+      if (subjectId === 'reading_cloze') {
+        router.push(`/quiz/${category}/${subjectId}/cloze`)
+        onClose()
+        return
+      }
+
+      // Translation goes to translation page
+      if (subjectId === 'translation') {
+        router.push(`/quiz/${category}/${subjectId}/translation`)
+        onClose()
+        return
+      }
+
+      // All other subjects go to standard quiz page
+      router.push(`/quiz/${category}/${subjectId}`)
+      onClose()
+      return
+    }
+
+    // Historical mode: go to deploy page as before
     const params = new URLSearchParams({
-      mode: isAiMode ? 'ai' : 'archive',
+      mode: 'archive',
       ...(config.yearCode ? { archiveId: config.yearCode } : {}),
       difficulty,
     })
@@ -288,25 +318,31 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
                   )}
                 </AnimatePresence>
 
-                {/* DIM-C: Difficulty */}
-                <div className="space-y-3">
-                  <SectionLabel dim="DIM-C" label="难度协议 Difficulty" />
-                  <div className="flex gap-2">
-                    {(['standard', 'hard', 'elite'] as const).map((d) => (
-                      <button
-                        key={d}
-                        type="button"
-                        onClick={() => setDifficulty(d)}
-                        className={`flex-1 rounded-xl border py-2.5 text-xs font-bold uppercase tracking-widest transition-all ${
-                          difficulty === d ? 'text-slate-50' : 'border-white/8 bg-white/4 text-slate-500 hover:text-slate-300'
-                        }`}
-                        style={difficulty === d ? { borderColor: `${accentColor}60`, background: `${accentColor}14`, color: accentColor } : {}}
-                      >
-                        {d === 'standard' ? 'Standard' : d === 'hard' ? 'Hard' : 'Elite'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                {/* DIM-C: Difficulty (AI mode only) */}
+                <AnimatePresence>
+                  {isAiMode && (
+                    <motion.div key="difficulty" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
+                      <div className="space-y-3 pt-1">
+                        <SectionLabel dim="DIM-C" label="难度协议 Difficulty" />
+                        <div className="flex gap-2">
+                          {(['standard', 'hard', 'elite'] as const).map((d) => (
+                            <button
+                              key={d}
+                              type="button"
+                              onClick={() => setDifficulty(d)}
+                              className={`flex-1 rounded-xl border py-2.5 text-xs font-bold uppercase tracking-widest transition-all ${
+                                difficulty === d ? 'text-slate-50' : 'border-white/8 bg-white/4 text-slate-500 hover:text-slate-300'
+                              }`}
+                              style={difficulty === d ? { borderColor: `${accentColor}60`, background: `${accentColor}14`, color: accentColor } : {}}
+                            >
+                              {d === 'standard' ? 'Standard' : d === 'hard' ? 'Hard' : 'Elite'}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
               </div>
             </div>

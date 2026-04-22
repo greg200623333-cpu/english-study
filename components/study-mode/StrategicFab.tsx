@@ -10,7 +10,7 @@ export function StrategicFab() {
   const [hovered, setHovered] = useState(false)
   const [deploying, setDeploying] = useState(false)
 
-  if (pathname === '/ssa') {
+  if (pathname === '/ssa' || pathname === '/quiz') {
     return null
   }
 

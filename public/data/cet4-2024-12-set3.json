@@ -82,8 +82,438 @@
         "word": "immediately"
       }
     ],
-    "correctAnswer": "A",
+    "correctAnswer": "L",
     "explanation": "31.【解析】A）分析句子结构可知，空格所在句句子成分完整，空格处应填入副词修饰其后的谓语动词improve。空格所在句意思是，我们语言能力的某些方面，比如我们对词义的认识，是在成年中后期得到提高的。由下文列举的例子可以看出，研究发现，老年人在词义理解方面比年轻人表现得更好，这是一个既定事实。所以本空应填入表示“实际上，事实上”含义的副词，备选项中"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nIn a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a 26 face and which showed a person wearing a mask.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nerror rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "J",
+    "explanation": "26.【解析】J）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nIn a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a 26 face and which showed a person wearing a mask.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nerror rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "K",
+    "explanation": "27.【解析】K）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nIn a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a 26 face and which showed a person wearing a mask.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nerror rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "F",
+    "explanation": "29.【解析】F）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nIn a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a 26 face and which showed a person wearing a mask.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nerror rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "G",
+    "explanation": "32.【解析】G）（答案从HTML答案详解文件提取）"
+  },
+  {
+    "set": 3,
+    "number": 26,
+    "part": "Part III",
+    "section": "Section A",
+    "context": "篇章词汇理解",
+    "question": "Super realistic masks are made from flexible materials such as silicone and are designed to imitate real human faces—down to every last detail.\n\nIn a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a 26 face and which showed a person wearing a mask.\n\nSurprisingly, participants made the wrong call in one-in-five cases.\n\nerror rate 27 in the study likely underestimates the extent to which people would struggle to tell an 28 face from the real thing outside of the lab.\n\nThe researchers collected data from participants from both the UK and Japan to 29 any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were\n\nThere are now dozens of criminal cases in which offenders have 31 themselves off as people of a different age, race or gender, sending police investigations down the wrong path.\n\nIn one recent case, an international gang used an 32 realistic mask to pose as a French minister, 33 business executives out of millions of pounds.\n\nDr Jet Sanders, who worked on the study while a PhD student at the University of York, said: \"Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may 34 the key characteristics of a person's appearance to be 35 identified.\"\n\n2024年12月大学英语四级考试真题（三）",
+    "options": [
+      "A) accurate",
+      "I) incorrectly",
+      "B) allow",
+      "J) normal",
+      "C) artificial",
+      "K) observed",
+      "D) cheating",
+      "L) passed",
+      "E) deserted",
+      "M) reminding",
+      "F) establish",
+      "G) extremely",
+      "O) resolve",
+      "H) immediately"
+    ],
+    "type": "cloze",
+    "passage": null,
+    "wordBank": [
+      {
+        "letter": "A",
+        "word": "accurate"
+      },
+      {
+        "letter": "I",
+        "word": "incorrectly"
+      },
+      {
+        "letter": "B",
+        "word": "allow"
+      },
+      {
+        "letter": "J",
+        "word": "normal"
+      },
+      {
+        "letter": "C",
+        "word": "artificial"
+      },
+      {
+        "letter": "K",
+        "word": "observed"
+      },
+      {
+        "letter": "D",
+        "word": "cheating"
+      },
+      {
+        "letter": "L",
+        "word": "passed"
+      },
+      {
+        "letter": "E",
+        "word": "deserted"
+      },
+      {
+        "letter": "M",
+        "word": "reminding"
+      },
+      {
+        "letter": "F",
+        "word": "establish"
+      },
+      {
+        "letter": "G",
+        "word": "extremely"
+      },
+      {
+        "letter": "O",
+        "word": "resolve"
+      },
+      {
+        "letter": "H",
+        "word": "immediately"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "34.【解析】B）（答案从HTML答案详解文件提取）"
   },
   {
     "set": 3,
@@ -168,7 +598,7 @@
         "word": "immediately"
       }
     ],
-    "correctAnswer": "B",
+    "correctAnswer": "D",
     "explanation": "33.【解析】B)空格前是谓语动词 contained, 空格后是名词“16,000 words”, 分析句子可知, 空格处应该填入一个副词修饰后面的名词。空格所在句意思是, 发现其平均词汇量包含 16000 个单词。根据常识可知, 此处应表示一个约数, 所以本空应填入一个表示“大约, 大概”含义的副词。备选项中, 符合语义的为 B) approximately(大约), 故为答案。"
   },
   {
@@ -254,7 +684,7 @@
         "word": "immediately"
       }
     ],
-    "correctAnswer": "C",
+    "correctAnswer": "I",
     "explanation": "35.【解析】C)空格前为情态动词might，空格后为逗号，所以空格处应填入动词原形。空格所在句的意思是，因此，语言似乎是一种技能，与许多人可能________的相反，它不会随着年龄的增长而减弱。分析句意可知，“语言似乎是一项不会随着年龄增长而衰退的技能”这一事实应该与大多数人的想法相反，因此，空格处应填入一个表示“认为”含义的动词，备选项中只有C）assume（假设，认为)符合文意，故为答案。"
   },
   {
@@ -536,8 +966,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null,
-    "correctAnswer": "B",
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "C",
     "explanation": "34.【解析】B）本题空格前有情态动词 may，因此本空应填入动词原形。根据句意，无法检测出合成人脸可能会对安全和犯罪预防产生重要影响，因为超逼真面具可能会人的面部关键特征被识别出来，可以推断空处动词原形应具备“使……，让……”的含义，且该动词需与后面 to be identified 语义自洽。把选项中的动词原形代入此空，只有 B) allow 符合句意，表示让人的面部关键特征被识别出来，故本题选 B) allow（允许；使有可能）。"
   },
   {
@@ -561,7 +991,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "J"
   },
   {
     "set": 3,
@@ -584,7 +1015,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "F"
   },
   {
     "set": 3,
@@ -607,7 +1039,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "A"
   },
   {
     "set": 3,
@@ -630,7 +1063,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "E"
   },
   {
     "set": 3,
@@ -653,7 +1087,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "K"
   },
   {
     "set": 3,
@@ -676,7 +1111,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "G"
   },
   {
     "set": 3,
@@ -699,7 +1135,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "B"
   },
   {
     "set": 3,
@@ -722,7 +1159,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "I"
   },
   {
     "set": 3,
@@ -745,7 +1183,8 @@
       "段落 K"
     ],
     "type": "paragraph_match",
-    "passage": null
+    "passage": "Stop thinking and start doing\n\n[A] Most people have a dream in life, a vision of who or what they'd like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you'll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But, if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\n\n[B] We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight, becoming a better parent, saving more money, and so on. It can be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\n\n[C] What I'm starting to realize, however, is that new knowledge does not necessarily drive new results. In fact, learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\n\n[D] It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: \"When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.\" Here the words \"deliberate\" and \"intention\" are key, because they define the difference between actively practicing something and passively learning it.\n\n[E] Learning something new and practicing something new may seem very similar, but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let's say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice lifting weights. Let's say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let's say your goal is to write a book. You can talk to a best-selling author about writing, but the only way to become a better writer is to practice publishing consistently.\n\n[F] Passive learning creates knowledge. Active practice creates skill. Let's consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let's say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (\"Hey, I'm figuring out the best way to do this!). Of course, you're not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\n\n[G] In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\n\n[H] Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\n\n[I] Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you, but if you want to be valuable to others, then you have to express your knowledge in some way.\n\n[J] The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, \"Progress is a natural result of staying focused on the process of doing anything.\" The state of your life right now is a result of the habits and beliefs that you have been practicing each day. When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\n\n[K] What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often hide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing.",
+    "correctAnswer": "D"
   },
   {
     "set": 3,
