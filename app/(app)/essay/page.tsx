@@ -51,8 +51,12 @@ export default function EssayPage() {
   const [decryptingPrompt, setDecryptingPrompt] = useState(false)
   const [generatingTopic, setGeneratingTopic] = useState(false)
 
-  const { resetQuotaIfNeeded, setActiveTopic } = useEssayStore()
-  const { activeMission } = useMissionStore()
+  // Use stable selectors for Zustand stores
+  const resetQuotaIfNeeded = useEssayStore((state) => state.resetQuotaIfNeeded)
+  const setActiveTopic = useEssayStore((state) => state.setActiveTopic)
+  const activeTopic = useEssayStore((state) => state.activeTopic)
+  const shouldAutoGenerate = useEssayStore((state) => state.shouldAutoGenerate)
+  const activeMission = useMissionStore((state) => state.activeMission)
 
   async function loadEssayPrompts() {
     try {
@@ -86,9 +90,11 @@ export default function EssayPage() {
     loadEssayPrompts()
   }, [resetQuotaIfNeeded])
 
-  // Auto-generate essay topic in AI mode
+  // Auto-generate essay topic in AI mode (only if no topic exists and user hasn't dismissed)
   useEffect(() => {
     if (!activeMission?.isAiMode) return
+    if (activeTopic) return
+    if (!shouldAutoGenerate) return
 
     async function generateTopic() {
       setGeneratingTopic(true)
@@ -123,7 +129,7 @@ export default function EssayPage() {
     }
 
     generateTopic()
-  }, [activeMission]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activeMission, activeTopic, shouldAutoGenerate, setActiveTopic])
 
   function scoreColor(score: number) {
     if (score >= 85) return 'text-emerald-400'

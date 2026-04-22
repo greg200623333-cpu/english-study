@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { categoryColor, type SubjectCategory } from '@/config/subjects'
 import { useMissionStore, type MissionConfig, type MissionDifficulty } from '@/stores/useMissionStore'
+import { useEssayStore } from '@/store/essayStore'
 
 // ─── Archive mock data ────────────────────────────────────────────
 
@@ -143,6 +144,7 @@ function ArchiveCard({ entry, selected, accentColor, onSelect }: {
 export function MissionBriefingModal({ open, subjectId, subjectTitle, category, onClose }: MissionBriefingProps) {
   const router = useRouter()
   const setMission = useMissionStore((s) => s.setMission)
+  const enableAutoGenerate = useEssayStore((s) => s.enableAutoGenerate)
 
   const [isAiMode, setIsAiMode] = useState(false)
   const [selectedYear, setSelectedYear] = useState<string | null>(null)
@@ -173,6 +175,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
     if (isAiMode) {
       // Writing subjects go to /essay
       if (subjectId === 'writing' || subjectId === 'writing_small' || subjectId === 'writing_big') {
+        enableAutoGenerate()
         router.push('/essay')
         onClose()
         return

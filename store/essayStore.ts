@@ -5,10 +5,12 @@ interface EssayState {
   dailyImageQuota: number
   lastResetDate: string
   activeTopic: string
+  shouldAutoGenerate: boolean
   decrementImageQuota: () => void
   resetQuotaIfNeeded: () => void
   setActiveTopic: (topic: string) => void
   clearTopic: () => void
+  enableAutoGenerate: () => void
   getPolicyCode: (topic: string) => string
 }
 
@@ -20,6 +22,7 @@ export const useEssayStore = create<EssayState>()(
       dailyImageQuota: DAILY_IMAGE_QUOTA,
       lastResetDate: new Date().toDateString(),
       activeTopic: '',
+      shouldAutoGenerate: true,
 
       decrementImageQuota: () => {
         set((state) => ({
@@ -44,7 +47,11 @@ export const useEssayStore = create<EssayState>()(
       },
 
       clearTopic: () => {
-        set({ activeTopic: '' })
+        set({ activeTopic: '', shouldAutoGenerate: false })
+      },
+
+      enableAutoGenerate: () => {
+        set({ shouldAutoGenerate: true })
       },
 
       getPolicyCode: (topic: string) => {
