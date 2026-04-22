@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 
 type WordStatus = 'new' | 'learning' | 'known'
 
@@ -29,14 +29,15 @@ type StrategicStatusBarProps = {
   healFlash?: boolean
 }
 
-function isCriticalWord(word: SsaWord): boolean {
+function isCriticalWord(word: SsaWord, currentTime: number | null): boolean {
   if (word.status === 'new') return false
   if (!word.next_review) return false
-  return Date.now() > word.next_review + 12 * 60 * 60 * 1000
+  if (currentTime === null) return false
+  return currentTime > word.next_review + 12 * 60 * 60 * 1000
 }
 
-function classifyBucket(word: SsaWord): { key: string; label: string } {
-  if (isCriticalWord(word)) return { key: 'critical', label: '危急' }
+function classifyBucket(word: SsaWord, currentTime: number | null): { key: string; label: string } {
+  if (isCriticalWord(word, currentTime)) return { key: 'critical', label: '危急' }
   if (word.status === 'known') return { key: 'mastered', label: '已掌握' }
   if (word.status === 'learning') return { key: 'learning', label: '复习中' }
   return { key: 'new', label: '新词' }
@@ -57,11 +58,17 @@ const RATING_COLORS: Record<string, { bg: string; text: string; label: string }>
 }
 
 export function StrategicStatusBar({ words, currentWordId, healFlash = false }: StrategicStatusBarProps) {
+  const [currentTime, setCurrentTime] = useState<number | null>(null)
+
+  useEffect(() => {
+    setCurrentTime(Date.now())
+  }, [])
+
   const buckets = useMemo<Bucket[]>(() => {
     const bucketMap = new Map<string, Bucket>()
 
     for (const word of words) {
-      const { key } = classifyBucket(word)
+      const { key } = classifyBucket(word, currentTime)
       const config = BUCKET_CONFIG[key]
       if (!bucketMap.has(key)) {
         bucketMap.set(key, {
@@ -81,7 +88,7 @@ export function StrategicStatusBar({ words, currentWordId, healFlash = false }: 
     return Array.from(bucketMap.values()).sort(
       (a, b) => (BUCKET_CONFIG[a.key]?.order ?? 99) - (BUCKET_CONFIG[b.key]?.order ?? 99)
     )
-  }, [words])
+  }, [words, currentTime])
 
   const total = words.length
   const criticalCount = buckets.find((b) => b.key === 'critical')?.count ?? 0

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { SsaCommandCenter } from '@/components/study-mode/SsaCommandCenter'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 // 防止构建时预渲染
 export const dynamic = 'force-dynamic'
@@ -25,5 +26,9 @@ export default function SsaPage() {
     )
   }
 
-  return <SsaCommandCenter />
+  return (
+    <ErrorBoundary level="section">
+      <SsaCommandCenter />
+    </ErrorBoundary>
+  )
 }

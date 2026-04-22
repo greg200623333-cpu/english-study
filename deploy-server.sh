@@ -131,6 +131,12 @@ fi
 echo_info "环境变量已加载"
 echo_info "SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:0:30}..."
 
+echo_info "注入构建版本号..."
+export NEXT_PUBLIC_BUILD_ID=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+export NEXT_PUBLIC_BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+echo_info "BUILD_ID: ${NEXT_PUBLIC_BUILD_ID}"
+echo_info "BUILD_TIME: ${NEXT_PUBLIC_BUILD_TIME}"
+
 echo_info "开始构建生产版本..."
 NODE_ENV=production pnpm build
 
@@ -265,6 +271,7 @@ echo_info "=========================================="
 echo_info "应用名称: ${APP_NAME}"
 echo_info "部署目录: ${DEPLOY_DIR}"
 echo_info "访问地址: http://localhost:3000"
+echo_info "构建版本: ${NEXT_PUBLIC_BUILD_ID} @ ${NEXT_PUBLIC_BUILD_TIME}"
 echo ""
 echo_info "常用命令:"
 echo "  查看日志: pm2 logs ${APP_NAME}" 

@@ -1,5 +1,6 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
+import { fetchWithTimeout } from '@/lib/apiClient'
 
 // 防止构建时预渲染
 export const dynamic = 'force-dynamic'
@@ -85,19 +86,42 @@ export async function POST(request: NextRequest) {
       Object.assign(params, { refText })
     }
 
-    const response = await fetch('https://openapi.youdao.com/oraleval', {
+    const response = await fetchWithTimeout('https://openapi.youdao.com/oraleval', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify(params)
+      body: JSON.stringify(params),
+      timeout: 12000,
+      retries: 1,
+      onRetry: (attempt, error) => {
+        console.warn(`[OralEval] Retry attempt ${attempt}:`, error.message)
+      }
     })
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('[OralEval] upstream error', response.status, text.slice(0, 200))
+      return NextResponse.json({
+        errorCode: 'oraleval_upstream_error',
+        error: `Upstream error: ${response.status}`
+      }, { status: 502 })
+    }
 
     const data = await response.json()
 
     return NextResponse.json(data)
   } catch (error) {
     console.error('Oral Eval API error:', error)
+    const err = error as Error
+
+    if (err.name === 'TimeoutError') {
+      return NextResponse.json({
+        errorCode: 'oraleval_timeout',
+        error: 'Request timeout'
+      }, { status: 504 })
+    }
+
     return NextResponse.json({
       errorCode: '500',
       error: 'API request failed'

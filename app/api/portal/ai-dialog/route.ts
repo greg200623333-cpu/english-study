@@ -1,5 +1,6 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
+import { fetchWithTimeout } from '@/lib/apiClient'
 
 // 防止构建时预渲染
 export const dynamic = 'force-dynamic'
@@ -54,16 +55,29 @@ export async function GET() {
     const q = 'topics'
     const params = addAuthParams(APP_KEY, APP_SECRET, q)
 
-    const response = await fetch('https://openapi.youdao.com/ai_dialog/get_default_topic', {
+    const response = await fetchWithTimeout('https://openapi.youdao.com/ai_dialog/get_default_topic', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: JSON.stringify({ ...params, q })
+      body: JSON.stringify({ ...params, q }),
+      timeout: 10000,
+      retries: 1
     })
+
+    if (!response.ok) {
+      console.error('[AI Dialog GET] upstream error', response.status)
+      return NextResponse.json({ error: 'Failed to get topics' }, { status: 502 })
+    }
 
     const data = await response.json()
     return NextResponse.json(data)
   } catch (error) {
     console.error('Get default topic error:', error)
+    const err = error as Error
+
+    if (err.name === 'TimeoutError') {
+      return NextResponse.json({ error: 'Request timeout' }, { status: 504 })
+    }
+
     return NextResponse.json({ error: 'Failed to get topics' }, { status: 500 })
   }
 }
@@ -131,16 +145,32 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
-    const response = await fetch(url, {
+    const response = await fetchWithTimeout(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: JSON.stringify(params)
+      body: JSON.stringify(params),
+      timeout: 12000,
+      retries: 1,
+      onRetry: (attempt, error) => {
+        console.warn(`[AI Dialog ${action}] Retry attempt ${attempt}:`, error.message)
+      }
     })
+
+    if (!response.ok) {
+      console.error(`[AI Dialog ${action}] upstream error`, response.status)
+      return NextResponse.json({ error: 'API request failed' }, { status: 502 })
+    }
 
     const data = await response.json()
     return NextResponse.json(data)
   } catch (error) {
     console.error('AI Dialog API error:', error)
+    const err = error as Error
+
+    if (err.name === 'TimeoutError') {
+      return NextResponse.json({ error: 'Request timeout' }, { status: 504 })
+    }
+
     return NextResponse.json({ error: 'API request failed' }, { status: 500 })
   }
 }

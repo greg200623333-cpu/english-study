@@ -5,6 +5,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { StrategicFab } from '@/components/study-mode/StrategicFab'
 import { NoticeModal } from '@/components/NoticeModal'
 import { useStudyModeStore } from '@/stores/useStudyModeStore'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { checkVersion } from '@/lib/version'
 
 const navItems = [
   { href: '/dashboard', label: '最高指挥部', icon: '◈', mobileIcon: '🛰', tag: 'HQ' },
@@ -32,6 +34,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer)
   }, [openNotice])
 
+  useEffect(() => {
+    checkVersion()
+  }, [])
+
   async function handleLogout() {
     resetForUserSwitch()
     await fetch('/api/auth/logout', { method: 'POST' })
@@ -39,9 +45,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex grid-bg" style={{ background: '#0a0b0f' }}>
-      <NoticeModal />
-      <aside className="glass fixed z-20 hidden h-full w-64 flex-col md:flex" style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+    <ErrorBoundary level="page">
+      <div className="min-h-screen flex grid-bg" style={{ background: '#0a0b0f' }}>
+        <NoticeModal />
+        <aside className="glass fixed z-20 hidden h-full w-64 flex-col md:flex" style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="p-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <Link href="/" className="flex items-center gap-3">
             <div className="btn-glow flex h-10 w-10 items-center justify-center rounded-xl">
@@ -126,5 +133,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         })}
       </nav>
     </div>
+    </ErrorBoundary>
   )
 }

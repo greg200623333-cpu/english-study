@@ -1,6 +1,7 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/session'
+import { fetchWithTimeout } from '@/lib/apiClient'
 
 export const dynamic = 'force-dynamic'
 
@@ -66,11 +67,21 @@ export async function POST(req: NextRequest) {
 
     console.log('[check-image] Sending request to Youdao Writing Correction API')
 
-    const response = await fetch('https://openapi.youdao.com/v2/correct_writing_image', {
+    const response = await fetchWithTimeout('https://openapi.youdao.com/v2/correct_writing_image', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString(),
+      timeout: 10000,
+      retries: 1,
+      onRetry: (attempt, error) => {
+        console.warn(`[check-image] Retry attempt ${attempt}:`, error.message)
+      }
     })
+
+    if (!response.ok) {
+      console.error('[check-image] upstream error', response.status)
+      return NextResponse.json({ error: '图像批改服务异常' }, { status: 502 })
+    }
 
     const text = await response.text()
     console.log('[check-image] Youdao response status:', response.status)
@@ -167,6 +178,12 @@ ${result.essayReport?.grammarErrorAdvice?.advice || '建议继续保持练习。
     })
   } catch (error) {
     console.error('[check-image] Error:', error)
+    const err = error as Error
+
+    if (err.name === 'TimeoutError') {
+      return NextResponse.json({ error: '图像批改超时，请稍后重试' }, { status: 504 })
+    }
+
     return NextResponse.json({ error: '图像扫描失败，请稍后重试' }, { status: 500 })
   }
 }

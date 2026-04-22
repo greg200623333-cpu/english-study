@@ -1,5 +1,6 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
+import { fetchWithTimeout } from '@/lib/apiClient'
 
 // 防止构建时预渲染
 export const dynamic = 'force-dynamic'
@@ -73,11 +74,25 @@ export async function POST(request: NextRequest) {
       console.log('[aichat] history:', JSON.stringify(debugHistory))
     }
 
-    const response = await fetch('https://openapi.youdao.com/ai_dialog/generate_dialog', {
+    const response = await fetchWithTimeout('https://openapi.youdao.com/ai_dialog/generate_dialog', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(params),
+      timeout: 12000,
+      retries: 1,
+      onRetry: (attempt, error) => {
+        console.warn(`[AIChat] Retry attempt ${attempt}:`, error.message)
+      }
     })
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('[aichat] upstream error', response.status, text.slice(0, 200))
+      return NextResponse.json({
+        code: 'aichat_upstream_error',
+        error: `Upstream error: ${response.status}`
+      }, { status: 502 })
+    }
 
     const text = await response.text()
     if (process.env.NODE_ENV === 'development') {
@@ -94,6 +109,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data)
   } catch (error) {
     console.error('[aichat] error:', error)
+    const err = error as Error
+
+    if (err.name === 'TimeoutError') {
+      return NextResponse.json({
+        code: 'aichat_timeout',
+        error: 'Request timeout'
+      }, { status: 504 })
+    }
+
     return NextResponse.json({ code: '500', error: 'API request failed' }, { status: 500 })
   }
 }

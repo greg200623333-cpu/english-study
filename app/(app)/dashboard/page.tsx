@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { type ExamType, useStudyModeStore } from '@/stores/useStudyModeStore'
 import { GdpTicker } from '@/components/study-mode/GdpTicker'
 import { OnboardingBriefingModal } from '@/components/study-mode/OnboardingBriefingModal'
 import { SelectionModal } from '@/components/study-mode/SelectionModal'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { applyRemoteStudyModeProfile, fetchStudyModeAnalytics, loadStudyModeProfile, saveStudyModeProfile, type LawRoiRow, type TrendRow, type WinRateRow } from '@/lib/studyModePersistence'
 
 type TierCompletion = {
@@ -70,6 +72,7 @@ function buildTierCompletion(wordIds: number[], statusMap: Map<number, 'new' | '
 }
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams()
   const selectedWordTier = useStudyModeStore((state) => state.selectedWordTier)
   const vocabularyGDP = useStudyModeStore((state) => state.vocabularyGDP)
   const selectedExam = useStudyModeStore((state) => state.selectedExam)
@@ -114,11 +117,10 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!_hasHydrated) return
     if (!user || !_hasHydrated) return
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('onboarding') === '1') {
+    if (searchParams.get('onboarding') === '1') {
       setShowBriefing(true)
     }
-  }, [user, _hasHydrated])
+  }, [user, _hasHydrated, searchParams])
 
   useEffect(() => {
     if (!_hasHydrated) return
@@ -149,7 +151,7 @@ export default function DashboardPage() {
         ? supabase.from('words').select('id,tier,category').eq('category', activeExam)
         : supabase.from('words').select('id,tier,category')
 
-      const [quizRes, wordRes, wordsMetaRes, essayRes, eventRes, analytics] = await Promise.all([
+      const [quizRes, wordRes, wordsMetaRes, essayRes, eventRes, analytics] = await Promise.allSettled([
         supabase.from('quiz_records').select('is_correct, created_at').eq('user_id', sessionUser.id),
         supabase.from('word_records').select('word_id,status,next_review').eq('user_id', sessionUser.id),
         wordsQuery,
@@ -158,11 +160,17 @@ export default function DashboardPage() {
         fetchStudyModeAnalytics(sessionUser.id).catch(() => ({ trends: [], winRates: [], lawRoi: [] })),
       ])
 
-      const quizRecords = quizRes.data ?? []
-      const wordRecords = wordRes.data ?? []
-      const wordsMeta = wordsMetaRes.data ?? []
-      const essayRecords = essayRes.data ?? []
-      const recentEvents = eventRes.data ?? []
+      const quizRecords = quizRes.status === 'fulfilled' ? (quizRes.value.data ?? []) : []
+      const wordRecords = wordRes.status === 'fulfilled' ? (wordRes.value.data ?? []) : []
+      const wordsMeta = wordsMetaRes.status === 'fulfilled' ? (wordsMetaRes.value.data ?? []) : []
+      const essayRecords = essayRes.status === 'fulfilled' ? (essayRes.value.data ?? []) : []
+      const recentEvents = eventRes.status === 'fulfilled' ? (eventRes.value.data ?? []) : []
+
+      if (quizRes.status === 'rejected') console.error('[Dashboard] Quiz query failed:', quizRes.reason)
+      if (wordRes.status === 'rejected') console.error('[Dashboard] Word query failed:', wordRes.reason)
+      if (wordsMetaRes.status === 'rejected') console.error('[Dashboard] Words meta query failed:', wordsMetaRes.reason)
+      if (essayRes.status === 'rejected') console.error('[Dashboard] Essay query failed:', essayRes.reason)
+      if (eventRes.status === 'rejected') console.error('[Dashboard] Events query failed:', eventRes.reason)
       const totalQuiz = quizRecords.length
       const correctQuiz = quizRecords.filter((record) => record.is_correct).length
       const accuracy = totalQuiz > 0 ? Math.round((correctQuiz / totalQuiz) * 100) : 0
@@ -211,11 +219,13 @@ export default function DashboardPage() {
       }
       const avgScore = essayRecords.length > 0 ? Math.round(essayRecords.reduce((sum, essay) => sum + (essay.score ?? 0), 0) / essayRecords.length) : 0
       const recentEssays = essayRecords.slice(0, 5)
+      const analyticsData = analytics.status === 'fulfilled' ? analytics.value : { trends: [], winRates: [], lawRoi: [] }
+      if (analytics.status === 'rejected') console.error('[Dashboard] Analytics query failed:', analytics.reason)
 
       setStats({ totalQuiz, accuracy, wordStats, completion, avgScore, recentEssays, recentEvents })
-      setTrends(analytics.trends)
-      setWinRates(analytics.winRates.slice(0, 6))
-      setLawRoi(analytics.lawRoi)
+      setTrends(analyticsData.trends)
+      setWinRates(analyticsData.winRates.slice(0, 6))
+      setLawRoi(analyticsData.lawRoi)
     }
     void load()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -304,6 +314,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <ErrorBoundary level="section">
       <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-4 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4 md:gap-6">
           <div>
@@ -555,6 +566,7 @@ export default function DashboardPage() {
 
       <OnboardingBriefingModal open={showBriefing} onComplete={handleBriefingComplete} />
       <SelectionModal open={showSelection} onSelect={handleExamSelect} currentExam={selectedExam} redirectToSsa={false} />
+      </ErrorBoundary>
     </div>
   )
 }
