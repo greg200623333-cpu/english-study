@@ -1,5 +1,11 @@
 ﻿'use client'
 
+/**
+ * AI辅助生成：DeepSeek-V3，2026-04-05
+ * 用途：词汇财政部仪表盘基础UI框架，包含资产结构分布、GDP预测曲线、风险分析等模块
+ * 采纳率：约70%
+ */
+
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'

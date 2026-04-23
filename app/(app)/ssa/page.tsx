@@ -4,17 +4,18 @@ import { useEffect, useState } from 'react'
 import { SsaCommandCenter } from '@/components/study-mode/SsaCommandCenter'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
 export default function SsaPage() {
   const [hasMounted, setHasMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasMounted(true)
   }, [])
 
-  // 在客户端挂载前显示加载状态，避免 Hydration Mismatch
+  
   if (!hasMounted) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-950">

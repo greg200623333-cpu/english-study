@@ -78,7 +78,7 @@ module.exports = {
     },
   ],
 
-  // 部署配置（可选）
+  
   deploy: {
     production: {
       user: 'root',

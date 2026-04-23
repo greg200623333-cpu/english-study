@@ -1,5 +1,11 @@
 ﻿'use client'
 
+/**
+ * AI辅助生成：DeepSeek-V3，2026-04-05
+ * 用途：财政部战略总览页面基础UI框架
+ * 采纳率：约70%
+ */
+
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -113,7 +119,7 @@ export default function DashboardPage() {
   const [showBriefing, setShowBriefing] = useState(false)
   const [showSelection, setShowSelection] = useState(false)
 
-  // Auto-trigger briefing for new users redirected from register
+  
   useEffect(() => {
     if (!_hasHydrated) return
     if (!user || !_hasHydrated) return
@@ -145,7 +151,7 @@ export default function DashboardPage() {
         setProfile(remoteProfile)
       }
 
-      // Use the exam from remote profile or current store state
+      
       const activeExam = remoteProfile?.selected_exam ?? selectedExam
       const wordsQuery = activeExam
         ? supabase.from('words').select('id,tier,category').eq('category', activeExam)
@@ -187,7 +193,7 @@ export default function DashboardPage() {
         full: buildTierCompletion(fullIds, statusMap),
       }
 
-      // 重新从 word_records 同步 GDP 和赤字，确保切换词书后数据准确
+      
       if (activeExam && wordsMeta.length > 0) {
         const assets = wordsMeta.map((w) => {
           const status = statusMap.get(w.id) ?? 'new'
@@ -208,6 +214,11 @@ export default function DashboardPage() {
             const rec = r as { next_review?: number; status: string }
             return rec.next_review && rec.next_review <= Date.now()
           }).length
+          /**
+           * AI辅助调试：DeepSeek-Coder，2026-04-10
+           * 用途：修复同设备切换账号时statusMap检查逻辑，确保新用户判定准确
+           * 采纳率：约10%（参考了状态数据穿透的排查思路）
+           */
           const dailyDeficit = Math.max(0, dailyWordTarget - Math.min(dailyWordTarget, wordsMeta.filter(w => !statusMap.has(w.id)).length))
           updateReviewDeficit(learningCount * 3 + dailyDeficit)
           syncGdpMapping({ targetGDP: wordsMeta.length, currentGDP: knownCount })
@@ -293,6 +304,11 @@ export default function DashboardPage() {
   const historyData = hasSsaExchange ? gdpHistory : []
   const isTreasuryInitialized = !!selectedExam
   const abilityTotal = skillBalance.listening + skillBalance.speaking + skillBalance.reading + skillBalance.writing
+  /**
+   * AI辅助调试：DeepSeek-Coder，2026-04-10
+   * 用途：新用户判定逻辑，基于能力总和为0且复习赤字为0的双重条件
+   * 采纳率：约10%（参考了状态数据穿透的排查思路）
+   */
   const isInitialAbilityState = abilityTotal === 0
   const shouldShowAssessmentBanner = isInitialAbilityState && reviewDeficit === 0
   if (user === undefined) {

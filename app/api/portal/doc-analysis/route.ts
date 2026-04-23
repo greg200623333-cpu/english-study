@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
+/**
+ * AI辅助生成：DeepSeek-Coder，2026-04-11
+ * 用途：Next.js App Router后端路由接入大模型API，用于文档分析与词汇解析
+ * 采纳率：约85%
+ */
+
 // 防止构建时预渲染
 export const dynamic = 'force-dynamic'
 

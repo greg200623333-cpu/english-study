@@ -194,6 +194,11 @@ export default function ProfilePage() {
   }
 
   async function handleLogout() {
+    /**
+     * AI辅助调试：DeepSeek-Coder，2026-04-10
+     * 用途：登出时清空所有学习模式状态数据
+     * 采纳率：约10%（参考了状态数据穿透的排查思路）
+     */
     resetForUserSwitch()
     await fetch('/api/auth/logout', { method: 'POST' })
     router.push('/')
@@ -206,6 +211,11 @@ export default function ProfilePage() {
       alert('删除失败，请稍后重试')
       return
     }
+    /**
+     * AI辅助调试：DeepSeek-Coder，2026-04-10
+     * 用途：删除账号时清空所有学习模式状态数据
+     * 采纳率：约10%（参考了状态数据穿透的排查思路）
+     */
     resetForUserSwitch()
     router.push('/')
   }

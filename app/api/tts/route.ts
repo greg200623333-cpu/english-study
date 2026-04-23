@@ -1,10 +1,10 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
-// 延迟获取环境变量
+
 function getAppKey(): string {
   const key = process.env.YOUDAO_APP_KEY
   if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': 'audio/mpeg',
-        // 同一单词发音永远不变，浏览器和 CDN 可长期缓存
+        
         'Cache-Control': 'public, max-age=86400, immutable',
       },
     })

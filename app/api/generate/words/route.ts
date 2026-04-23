@@ -3,6 +3,12 @@ import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
 import { getSession } from '@/lib/session'
 
+/**
+ * AI辅助生成：DeepSeek-Coder，2026-04-11
+ * 用途：Next.js App Router后端路由接入大模型API，用于词汇生成与解析
+ * 采纳率：约85%
+ */
+
 // 防止构建时预渲染
 export const dynamic = 'force-dynamic'
 

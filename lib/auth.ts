@@ -5,7 +5,7 @@ export async function getCurrentUser() {
       cache: 'no-store',
     })
     if (!res.ok) {
-      // 401 是预期的响应（未登录），不需要报错
+      
       if (res.status === 401) {
         return null
       }

@@ -490,6 +490,11 @@ export const useStudyModeStore = create<StudyModeState>()(
       syncSsaPoolMeta: (meta) => set({ ssaLoadedCount: meta.loadedCount, ssaHasMore: meta.hasMore }),
       setSsaMountRequired: (required) => set({ ssaMountRequired: required }),
       setDailyWordTarget: (target) => set({ dailyWordTarget: Math.max(1, Math.min(200, target)) }),
+      /**
+       * AI辅助调试：DeepSeek-Coder，2026-04-10
+       * 用途：账号切换时清空所有学习模式状态数据
+       * 采纳率：约10%（参考了状态数据穿透的排查思路）
+       */
       resetForUserSwitch: () => {
         set({
           lastUserId: null,
@@ -530,6 +535,11 @@ export const useStudyModeStore = create<StudyModeState>()(
           localStorage.removeItem('study-mode-war-room')
         }
       },
+      /**
+       * AI辅助调试：DeepSeek-Coder，2026-04-10
+       * 用途：检测用户切换逻辑（已定义但未调用，预留用于未来集成）
+       * 采纳率：约10%（参考了状态数据穿透的排查思路）
+       */
       checkUserSwitch: (currentUserId: string | null) => {
         const state = get()
         const storedUserId = state.lastUserId

@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
+import RecordRTC from 'recordrtc'
 
 export type RecordingState = 'idle' | 'recording' | 'processing' | 'error'
 
@@ -20,7 +21,7 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
   const [duration, setDuration] = useState(0)
   const [error, setError] = useState<string | null>(null)
 
-  const recorderRef = useRef<any>(null)
+  const recorderRef = useRef<RecordRTC | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const startTimeRef = useRef<number>(0)
 
@@ -29,7 +30,7 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
       setError(null)
       setRecordingState('recording')
 
-      // 请求麦克风权限 - 不强制指定采样率，让浏览器使用默认值
+      
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -38,14 +39,14 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
         }
       })
 
-      // 动态导入 RecordRTC（避免 SSR 问题）
+      
       const RecordRTC = (await import('recordrtc')).default
       const { StereoAudioRecorder } = await import('recordrtc')
 
-      // 保存 stream 引用
+      
       streamRef.current = stream
 
-      // 初始化 RecordRTC - 使用更兼容的配置
+      
       recorderRef.current = new RecordRTC(stream, {
         type: 'audio',
         mimeType: 'audio/wav',
@@ -63,14 +64,17 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
       startTimeRef.current = Date.now()
 
       console.log('录音已开始')
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('启动录音失败:', err)
-      setError(err.message || '无法访问麦克风')
-      setRecordingState('error')
-
-      if (err.name === 'NotAllowedError') {
-        setError('麦克风权限被拒绝，请在浏览器设置中允许麦克风访问')
+      if (err instanceof Error) {
+        setError(err.message || '无法访问麦克风')
+        if (err.name === 'NotAllowedError') {
+          setError('麦克风权限被拒绝，请在浏览器设置中允许麦克风访问')
+        }
+      } else {
+        setError('无法访问麦克风')
       }
+      setRecordingState('error')
     }
   }, [])
 
@@ -126,7 +130,7 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
           const reader = new FileReader()
           reader.onloadend = () => {
             const base64 = reader.result as string
-            // 移除 data:audio/wav;base64, 前缀
+            
             const base64Data = base64.split(',')[1]
 
             if (!base64Data || base64Data.length < 100) {
@@ -147,15 +151,20 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
             reject(new Error('音频读取失败'))
           }
           reader.readAsDataURL(blob)
-        } catch (err: any) {
+        } catch (err: unknown) {
           if (recorderRef.current) {
             recorderRef.current.destroy()
             recorderRef.current = null
           }
           console.error('停止录音错误:', err)
-          setError(err.message || '录音处理失败')
+          if (err instanceof Error) {
+            setError(err.message || '录音处理失败')
+            reject(err)
+          } else {
+            setError('录音处理失败')
+            reject(new Error('录音处理失败'))
+          }
           setRecordingState('error')
-          reject(err)
         }
       })
     })

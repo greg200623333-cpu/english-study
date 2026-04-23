@@ -2,10 +2,10 @@ import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchWithTimeout } from '@/lib/apiClient'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
-// 延迟获取环境变量
+
 function getAppKey(): string {
   const key = process.env.YOUDAO_APP_KEY
   if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
@@ -30,7 +30,6 @@ function encrypt(str: string): string {
 /**
  * 有道短语音识别 API
  * POST /api/youdao/asr
- * body: { audioBase64, langType?, rate?, channel? }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -49,13 +48,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errorCode: '400', error: 'audioBase64 is required' }, { status: 400 })
     }
 
-    // 验证音频数据
+    
     if (audioBase64.length < 100) {
       console.error('[asr] Audio data too short:', audioBase64.length)
       return NextResponse.json({ errorCode: '4304', error: 'Audio data too short' }, { status: 400 })
     }
 
-    // 验证Base64格式
+    
     try {
       const decoded = Buffer.from(audioBase64, 'base64')
       if (decoded.length < 100) {
@@ -128,7 +127,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errorCode: '500', error: `Invalid response: ${text.slice(0, 200)}` }, { status: 500 })
     }
 
-    // 如果有错误码，记录详细信息
+    
     if (data.errorCode && String(data.errorCode) !== '0') {
       console.error('[asr] Youdao API error:', data.errorCode, data)
     }

@@ -2,10 +2,10 @@ import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchWithTimeout } from '@/lib/apiClient'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
-// 延迟获取环境变量
+
 function getAppKey(): string {
   const key = process.env.YOUDAO_APP_KEY
   if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
@@ -58,10 +58,10 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const {
-      audio, // Base64 音频
+      audio, 
       langType = 'en',
       audioType = 'wav',
-      refText // 参考文本（可选）
+      refText 
     } = body
 
     if (!audio) {
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // 计算音频长度用于签名
+    
     const audioLength = audio.length
 
     const params = {
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
       audioType
     }
 
-    // 如果提供了参考文本，添加到参数中
+    
     if (refText) {
       Object.assign(params, { refText })
     }

@@ -7,7 +7,7 @@ export type UserSession = {
   username: string
 }
 
-// 延迟获取 SECRET，避免构建时检查
+
 function getSecret(): Uint8Array {
   const secret = process.env.SESSION_SECRET
   if (!secret) {

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { getSession } from '@/lib/session'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
 function getClient() {

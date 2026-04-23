@@ -1,16 +1,6 @@
 @import "tailwindcss";
 
-/* ============================================
-   暗夜大理石配色系统
-   深炭黑背景:   #0a0a0d / #0f0f12
-   淡金色:       #d4af37 / #c9a961
-   冷白色:       #f0f0f5 / #e8e8ed
-   紫色点缀:     #8b5cf6 / #a78bfa
-   毛玻璃:       rgba(255,255,255,0.03) blur(25px)
-   发光边框:     rgba(212,175,55,0.2)
-   文字主色:     #f0f0f5
-   文字次色:     #a0a0a8
-============================================ */
+
 
 :root {
   --bg-primary: #0a0a0d;
@@ -38,7 +28,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 毛玻璃卡片 - 大理石风格 */
+
 .glass {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(25px);
@@ -95,7 +85,7 @@ body {
   100% { left: 200%; }
 }
 
-/* 渐变文字 */
+
 .gradient-text {
   background: linear-gradient(135deg, #a78bfa, #22d3ee);
   -webkit-background-clip: text;
@@ -103,7 +93,7 @@ body {
   background-clip: text;
 }
 
-/* 发光点 */
+
 .glow-dot {
   width: 8px;
   height: 8px;
@@ -117,7 +107,7 @@ body {
   50% { opacity: 0.6; transform: scale(0.85); }
 }
 
-/* 网格背景 - 极客风 */
+
 .grid-bg {
   background-image:
     linear-gradient(rgba(99,102,241,0.08) 1px, transparent 1px),
@@ -125,7 +115,7 @@ body {
   background-size: 50px 50px;
 }
 
-/* 粒子浮动 */
+
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   33% { transform: translateY(-15px) rotate(2deg); }
@@ -135,16 +125,16 @@ body {
 .float-delay { animation: float 8s ease-in-out infinite 2s; }
 .float-slow { animation: float 10s ease-in-out infinite 4s; }
 
-/* 滚动条 */
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #0f1117; }
 ::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.4); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.7); }
 
-/* 选中文字 */
+
 ::selection { background: rgba(139,92,246,0.3); color: #f1f5f9; }
 
-/* 卡片 hover 发光 */
+
 .card-hover {
   transition: all 0.3s ease;
 }
@@ -154,7 +144,7 @@ body {
   transform: translateY(-4px);
 }
 
-/* 输入框深色 */
+
 .input-dark {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.1);
@@ -192,7 +182,7 @@ body {
   }
 }
 
-/* 月光柔和光照 */
+
 .moonlight-glow {
   position: absolute;
   inset: 0;
@@ -212,7 +202,7 @@ body {
   }
 }
 
-/* 巨型模式卡片 */
+
 .mode-card-mega {
   position: relative;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -278,7 +268,7 @@ body {
   50% { opacity: 1; width: 160px; }
 }
 
-/* 抽象图案背景 */
+
 .pattern-books {
   background-image:
     linear-gradient(45deg, transparent 40%, rgba(139,92,246,0.05) 50%, transparent 60%),
@@ -294,7 +284,7 @@ body {
   background-size: 20px 20px;
 }
 
-/* 多层发光图标 */
+
 .icon-glow-multi {
   filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 40px currentColor);
   animation: iconFloat 4s ease-in-out infinite;
@@ -305,7 +295,7 @@ body {
   50% { transform: translateY(-10px) scale(1.05); }
 }
 
-/* 按钮深度感 */
+
 .btn-depth {
   position: relative;
   transition: all 0.3s ease;
@@ -329,14 +319,11 @@ body {
     inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
-/* Send button Claude Code fix */
+
 .btn-send { cursor: pointer; }
 .btn-send:disabled { cursor: not-allowed; }
 
-/* ============================================
-   政策输出部 - 终端扫描线动效
-   Essay Terminal Scan Animation
-============================================ */
+
 @keyframes scan {
   0% { top: 0; opacity: 1; }
   100% { top: 100%; opacity: 0.6; }

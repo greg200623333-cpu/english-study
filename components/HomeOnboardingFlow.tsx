@@ -50,6 +50,11 @@ export function HomeOnboardingFlow() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart, sessionLoading, _hasHydrated, profileLoaded, session])
 
+  /**
+   * AI辅助调试：DeepSeek-Coder，2026-04-10
+   * 用途：新用户动员令流程分流（已看简报走选词书，未看简报走签署流程）
+   * 采纳率：约10%（参考了状态数据穿透的排查思路）
+   */
   function handleStart() {
     if (hasSeenBriefing) {
       setShowSelection(true)

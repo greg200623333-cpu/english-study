@@ -1,5 +1,11 @@
 ﻿'use client'
 
+/**
+ * AI辅助生成：DeepSeek-V3，2026-04-05
+ * 用途：词汇资产池模块，包含资产构建与GDP同步逻辑
+ * 采纳率：约70%
+ */
+
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { OnboardingBriefingModal } from '@/components/study-mode/OnboardingBriefingModal'

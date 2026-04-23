@@ -1,10 +1,10 @@
 ﻿import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
-// 延迟初始化客户端
+
 function getClient() {
   const apiKey = process.env.DEEPSEEK_API_KEY
   if (!apiKey) {

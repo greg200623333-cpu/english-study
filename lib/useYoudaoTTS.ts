@@ -51,6 +51,7 @@ export function useYoudaoTTS() {
   const queueRef = useRef<string[]>([])
   const currentIndexRef = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
+  const playNextChunkRef = useRef<() => Promise<void>>(async () => {})
 
   const cleanup = useCallback(() => {
     if (audioRef.current) {
@@ -87,7 +88,7 @@ export function useYoudaoTTS() {
         // Try next chunk instead of stopping completely
         currentIndexRef.current++
         if (currentIndexRef.current < queueRef.current.length) {
-          playNextChunk()
+          playNextChunkRef.current()
         } else {
           setState('idle')
           cleanup()
@@ -105,7 +106,7 @@ export function useYoudaoTTS() {
       audio.onended = () => {
         URL.revokeObjectURL(url)
         currentIndexRef.current++
-        playNextChunk()
+        playNextChunkRef.current()
       }
 
       audio.onerror = (err) => {
@@ -114,7 +115,7 @@ export function useYoudaoTTS() {
         // Try next chunk
         currentIndexRef.current++
         if (currentIndexRef.current < queueRef.current.length) {
-          playNextChunk()
+          playNextChunkRef.current()
         } else {
           setState('idle')
           cleanup()
@@ -131,6 +132,11 @@ export function useYoudaoTTS() {
       cleanup()
     }
   }, [speed, cleanup])
+
+  // Update ref whenever playNextChunk changes
+  useEffect(() => {
+    playNextChunkRef.current = playNextChunk
+  }, [playNextChunk])
 
   const speak = useCallback((text: string, playbackSpeed: number = 0.9) => {
     cleanup()

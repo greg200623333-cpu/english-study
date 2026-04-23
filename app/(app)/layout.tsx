@@ -8,6 +8,11 @@ import { useStudyModeStore } from '@/stores/useStudyModeStore'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { checkVersion } from '@/lib/version'
 
+/**
+ * AI辅助生成：DeepSeek-V3，2026-04-05
+ * 用途：导航结构集成，包含词汇财政部入口
+ * 采纳率：约70%
+ */
 const navItems = [
   { href: '/dashboard', label: '最高指挥部', icon: '◈', mobileIcon: '🛰', tag: 'HQ' },
   { href: '/quiz', label: '作战部署台', icon: '◉', mobileIcon: '⚔', tag: 'OPS' },
@@ -39,6 +44,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }, [])
 
   async function handleLogout() {
+    /**
+     * AI辅助调试：DeepSeek-Coder，2026-04-10
+     * 用途：登出时清空所有学习模式状态数据
+     * 采纳率：约10%（参考了状态数据穿透的排查思路）
+     */
     resetForUserSwitch()
     await fetch('/api/auth/logout', { method: 'POST' })
     router.push('/')

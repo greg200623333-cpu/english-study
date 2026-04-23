@@ -2,10 +2,10 @@ import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchWithTimeout } from '@/lib/apiClient'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
-// 延迟获取环境变量
+
 function getAppKey(): string {
   const key = process.env.YOUDAO_APP_KEY
   if (!key) throw new Error('YOUDAO_APP_KEY is not configured')

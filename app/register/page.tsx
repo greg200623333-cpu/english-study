@@ -39,6 +39,11 @@ export default function RegisterPage() {
       }
 
       setSuccess(true)
+      /**
+       * AI辅助调试：DeepSeek-Coder，2026-04-10
+       * 用途：新用户注册后标记需要重置数据并跳转到动员令流程
+       * 采纳率：约10%（参考了状态数据穿透的排查思路）
+       */
       // 标记需要重置数据
       sessionStorage.setItem('force-reset-store', 'true')
       // 延迟跳转，确保 cookie 已设置

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
 export async function POST() {

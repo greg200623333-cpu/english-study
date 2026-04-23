@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import WelcomeScreen from '@/components/portal/WelcomeScreen'
 import ComputerWorkspace from '@/components/portal/ComputerWorkspace'
@@ -15,17 +15,16 @@ const pageVariants = {
 }
 
 export default function PortalPage() {
-  const [workspace, setWorkspace] = useState<Workspace>('welcome')
-
-  // 检查 localStorage 并自动导航到保存的工作台
-  useEffect(() => {
+  const [workspace, setWorkspace] = useState<Workspace>(() => {
+    if (typeof window === 'undefined') return 'welcome'
     const savedWorkspace = localStorage.getItem('portal_workspace')
     if (savedWorkspace === 'computer' || savedWorkspace === 'architecture') {
-      setWorkspace(savedWorkspace as Workspace)
-      // 清除标记，避免下次自动跳转
+      
       localStorage.removeItem('portal_workspace')
+      return savedWorkspace as Workspace
     }
-  }, [])
+    return 'welcome'
+  })
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0b0f' }}>

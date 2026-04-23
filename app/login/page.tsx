@@ -1,29 +1,23 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState(() => {
+    if (typeof window === 'undefined') return ''
+    const params = new URLSearchParams(window.location.search)
+    const urlUsername = params.get('username')
+    if (urlUsername) {
+      return decodeURIComponent(urlUsername)
+    }
+    return localStorage.getItem('last_username') || ''
+  })
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
-  // Load username from URL params or localStorage
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const urlUsername = params.get('username')
-    if (urlUsername) {
-      setUsername(decodeURIComponent(urlUsername))
-    } else {
-      const storedUsername = localStorage.getItem('last_username')
-      if (storedUsername) {
-        setUsername(storedUsername)
-      }
-    }
-  }, [])
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -47,6 +41,11 @@ export default function LoginPage() {
       // Save username to localStorage for future logins
       localStorage.setItem('last_username', username)
 
+      /**
+       * AI辅助调试：DeepSeek-Coder，2026-04-10
+       * 用途：标记需要检查用户切换（预留标志，当前未使用，待未来集成）
+       * 采纳率：约10%（参考了状态数据穿透的排查思路）
+       */
       // 标记需要检查用户切换
       sessionStorage.setItem('force-reset-store', 'true')
       router.push('/dashboard')

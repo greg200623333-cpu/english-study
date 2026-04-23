@@ -2,10 +2,10 @@ import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchWithTimeout } from '@/lib/apiClient'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
-// 延迟获取环境变量，避免构建时访问
+
 function getAppKey(): string {
   const key = process.env.YOUDAO_APP_KEY
   if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
@@ -47,7 +47,7 @@ function addAuthParams(appKey: string, appSecret: string, q: string) {
   }
 }
 
-// 获取默认场景列表
+
 export async function GET() {
   try {
     const APP_KEY = getAppKey()
@@ -82,7 +82,7 @@ export async function GET() {
   }
 }
 
-// AI 对话相关操作
+
 export async function POST(request: NextRequest) {
   try {
     const APP_KEY = getAppKey()
@@ -91,11 +91,11 @@ export async function POST(request: NextRequest) {
     const { action, ...requestData } = body
 
     let url = ''
-    let params: any = {}
+    let params: Record<string, unknown> = {}
 
     switch (action) {
       case 'generate_topic':
-        // 生成场景
+        
         url = 'https://openapi.youdao.com/ai_dialog/generate_topic'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.topic),

@@ -3,7 +3,7 @@ import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
 import { getSession } from '@/lib/session'
 
-// 防止构建时预渲染
+
 export const dynamic = 'force-dynamic'
 
 function getClient() {
