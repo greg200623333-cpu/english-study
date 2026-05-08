@@ -7,7 +7,6 @@ import { categoryColor, type SubjectCategory } from '@/config/subjects'
 import { useMissionStore, type MissionConfig, type MissionDifficulty } from '@/stores/useMissionStore'
 import { useEssayStore } from '@/store/essayStore'
 
-// ─── Archive mock data ────────────────────────────────────────────
 
 type ArchiveStatus = 'completed' | 'in_progress' | 'new'
 
@@ -18,7 +17,6 @@ type ArchiveEntry = {
   status: ArchiveStatus
 }
 
-// 真实档案：2024年12月真题（3套）
 const REAL_ARCHIVES_2024_12: ArchiveEntry[] = [
   { yearCode: '2024.12-set1', display: 'ARCHIVE: 2024.12-01', subtitle: '2024年12月 第1套', status: 'new' },
   { yearCode: '2024.12-set2', display: 'ARCHIVE: 2024.12-02', subtitle: '2024年12月 第2套', status: 'new' },
@@ -36,7 +34,6 @@ const MOCK_ARCHIVES: Record<string, ArchiveEntry[]> = {
 
 const DEFAULT_ARCHIVES: ArchiveEntry[] = REAL_ARCHIVES_2024_12
 
-// ─── Props ────────────────────────────────────────────────────────
 
 export type MissionBriefingProps = {
   open: boolean
@@ -46,7 +43,6 @@ export type MissionBriefingProps = {
   onClose: () => void
 }
 
-// ─── Status badge ─────────────────────────────────────────────────
 
 const STATUS_META: Record<ArchiveStatus, { label: string; classes: string }> = {
   completed:   { label: '已占领', classes: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25' },
@@ -63,7 +59,6 @@ function StatusBadge({ status }: { status: ArchiveStatus }) {
   )
 }
 
-// ─── Mode toggle ──────────────────────────────────────────────────
 
 function ModeToggle({ isAi, accentColor, onChange }: { isAi: boolean; accentColor: string; onChange: (v: boolean) => void }) {
   return (
@@ -105,7 +100,6 @@ function ModeToggle({ isAi, accentColor, onChange }: { isAi: boolean; accentColo
   )
 }
 
-// ─── Archive card ─────────────────────────────────────────────────
 
 function ArchiveCard({ entry, selected, accentColor, onSelect }: {
   entry: ArchiveEntry
@@ -139,7 +133,6 @@ function ArchiveCard({ entry, selected, accentColor, onSelect }: {
   )
 }
 
-// ─── Main modal ───────────────────────────────────────────────────
 
 export function MissionBriefingModal({ open, subjectId, subjectTitle, category, onClose }: MissionBriefingProps) {
   const router = useRouter()
@@ -154,7 +147,6 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
   const archives = MOCK_ARCHIVES[subjectId] ?? DEFAULT_ARCHIVES
   const canDeploy = isAiMode || selectedYear !== null
 
-  // Border: CET-4 → cyan, CET-6 → purple, kaoyan → accent
   const borderColor =
     category === 'cet4' ? 'rgba(6,182,212,0.5)' :
     category === 'cet6' ? 'rgba(139,92,246,0.5)' :
@@ -171,9 +163,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
     }
     setMission(config)
 
-    // AI mode: skip deploy page, go directly to quiz/essay page
     if (isAiMode) {
-      // Writing subjects go to /essay
       if (subjectId === 'writing' || subjectId === 'writing_small' || subjectId === 'writing_big') {
         enableAutoGenerate()
         router.push('/essay')
@@ -181,27 +171,23 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
         return
       }
 
-      //篇章词汇 goes to cloze page
       if (subjectId === 'reading_cloze') {
         router.push(`/quiz/${category}/${subjectId}/cloze`)
         onClose()
         return
       }
 
-      // Translation goes to translation page
       if (subjectId === 'translation') {
         router.push(`/quiz/${category}/${subjectId}/translation`)
         onClose()
         return
       }
 
-      // All other subjects go to standard quiz page
       router.push(`/quiz/${category}/${subjectId}`)
       onClose()
       return
     }
 
-    // Historical mode: go to deploy page as before
     const params = new URLSearchParams({
       mode: 'archive',
       ...(config.yearCode ? { archiveId: config.yearCode } : {}),
@@ -236,13 +222,13 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
               maxHeight: '92dvh',
             }}
           >
-            {/* top glow */}
+            {/}
             <div
               className="pointer-events-none absolute inset-x-0 top-0 h-32 rounded-t-[2rem]"
               style={{ background: `linear-gradient(to bottom, ${accentColor}18, transparent)` }}
             />
 
-            {/* Header */}
+            {/}
             <div className="relative shrink-0 border-b border-white/8 px-5 py-4 md:px-7 md:py-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -264,14 +250,14 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
               </div>
             </div>
 
-            {/* Scrollable body */}
+            {/}
             <div
               className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-7 md:py-6"
               style={{ scrollbarWidth: 'thin', scrollbarColor: `${accentColor}40 transparent` }}
             >
               <div className="space-y-6">
 
-                {/* DIM-A: Mode */}
+                {/}
                 <div className="space-y-3">
                   <SectionLabel dim="DIM-A" label="推演模式 Simulation Protocol" />
                   <ModeToggle isAi={isAiMode} accentColor={accentColor} onChange={(v) => { setIsAiMode(v); setSelectedYear(null) }} />
@@ -299,7 +285,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
                   </AnimatePresence>
                 </div>
 
-                {/* DIM-B: Archive (historical only) */}
+                {/}
                 <AnimatePresence>
                   {!isAiMode && (
                     <motion.div key="archive" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
@@ -321,7 +307,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
                   )}
                 </AnimatePresence>
 
-                {/* DIM-C: Difficulty (AI mode only) */}
+                {/}
                 <AnimatePresence>
                   {isAiMode && (
                     <motion.div key="difficulty" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
@@ -350,7 +336,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
               </div>
             </div>
 
-            {/* Footer */}
+            {/}
             <div className="relative shrink-0 border-t border-white/8 px-5 py-4 md:px-7 md:py-5">
               <div className="flex items-center justify-between gap-4">
                 <div className="text-xs text-slate-500">
@@ -388,7 +374,6 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
   )
 }
 
-// ─── Shared sub-component ─────────────────────────────────────────
 
 function SectionLabel({ dim, label }: { dim: string; label: string }) {
   return (

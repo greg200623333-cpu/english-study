@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import { categoryColor, findSubject, type SubjectCategory } from '@/config/subjects'
 import { useMissionStore } from '@/stores/useMissionStore'
 
-// ─── Difficulty label map ─────────────────────────────────────────
 
 const DIFFICULTY_LABEL: Record<string, string> = {
   standard: 'Standard · 标准压力',
@@ -15,7 +14,6 @@ const DIFFICULTY_LABEL: Record<string, string> = {
   elite:    'Elite · 精英歼灭',
 }
 
-// ─── Stat row ─────────────────────────────────────────────────────
 
 function StatRow({ label, value, accent }: { label: string; value: string; accent: string }) {
   return (
@@ -26,7 +24,6 @@ function StatRow({ label, value, accent }: { label: string; value: string; accen
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────
 
 export default function DeployPage({ params }: { params: { subjectId: string } }) {
   const router = useRouter()
@@ -37,11 +34,8 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
   const archiveId  = searchParams.get('archiveId')
   const difficulty = (searchParams.get('difficulty') ?? 'standard') as 'standard' | 'hard' | 'elite'
 
-  // Reconstruct mission from URL params if store is empty (e.g. page refresh)
   useEffect(() => {
     if (!activeMission) {
-      // Try to infer category from the URL — fall back to cet4
-      // A real implementation would look up the subject across all categories
       const inferredCategory: SubjectCategory = 'cet4'
       const subject = findSubject(inferredCategory, params.subjectId)
       if (subject) {
@@ -55,9 +49,8 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         })
       }
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
-  // Use store as source of truth; fall back to URL params
   const mission = activeMission ?? {
     subjectId: params.subjectId,
     subjectTitle: params.subjectId,
@@ -70,9 +63,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
   const accent = categoryColor(mission.category)
   const isAi   = mission.isAiMode
 
-  // Route to the actual quiz page, passing archiveId if in archive mode
   function handleEngage() {
-    // 写作题目跳转到 /essay 页面
     if (mission.subjectId === 'writing' || mission.subjectId === 'writing_small' || mission.subjectId === 'writing_big') {
       router.push('/essay')
       return
@@ -84,13 +75,11 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
     }
     const qs = params.toString()
 
-    // 篇章词汇跳转到专门页面
     if (mission.subjectId === 'reading_cloze') {
       router.push(`/quiz/${mission.category}/${mission.subjectId}/cloze${qs ? `?${qs}` : ''}`)
       return
     }
 
-    // 翻译跳转到专门页面
     if (mission.subjectId === 'translation') {
       router.push(`/quiz/${mission.category}/${mission.subjectId}/translation${qs ? `?${qs}` : ''}`)
       return
@@ -102,7 +91,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
   return (
     <div className="mx-auto max-w-2xl space-y-6">
 
-      {/* Header card */}
+      {/}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -110,7 +99,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         className="relative overflow-hidden rounded-[2rem] border bg-slate-900 p-6 md:p-8"
         style={{ borderColor: `${accent}40`, boxShadow: `0 0 60px ${accent}14` }}
       >
-        {/* glow */}
+        {/}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-40 rounded-t-[2rem]"
           style={{ background: `linear-gradient(to bottom, ${accent}18, transparent)` }}
@@ -124,7 +113,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
             {mission.subjectTitle}
           </h1>
 
-          {/* Mode badge */}
+          {/}
           <div className="mt-4 flex flex-wrap gap-2">
             {isAi ? (
               <span className="flex items-center gap-1.5 rounded-full border border-purple-500/30 bg-purple-500/12 px-3 py-1 text-xs font-bold text-purple-300">
@@ -150,7 +139,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         </div>
       </motion.section>
 
-      {/* Config summary */}
+      {/}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -167,7 +156,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         </div>
       </motion.section>
 
-      {/* AI mode notice */}
+      {/}
       {isAi && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -185,7 +174,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         </motion.div>
       )}
 
-      {/* Action buttons */}
+      {/}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}

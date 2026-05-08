@@ -8,10 +8,8 @@ import { getSession } from '@/lib/session'
  * 采纳率：约85%
  */
 
-// 防止构建时预渲染
 export const dynamic = 'force-dynamic'
 
-// 延迟初始化客户端
 function getClient() {
   const apiKey = process.env.DEEPSEEK_API_KEY
   if (!apiKey) {

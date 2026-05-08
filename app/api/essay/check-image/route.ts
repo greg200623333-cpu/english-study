@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '图片数据不能为空' }, { status: 400 })
     }
 
-    // 验证 base64 大小（不超过 4MB）
     const sizeInMB = (image.length * 3) / 4 / 1024 / 1024
     if (sizeInMB > 4) {
       return NextResponse.json({ error: '图片过大，请压缩后重试' }, { status: 400 })
@@ -60,9 +59,9 @@ export async function POST(req: NextRequest) {
       curtime,
       sign,
       signType: 'v3',
-      grade: 'high', // 高中级别
-      correctVersion: 'advanced', // 高级批改
-      isNeedEssayReport: 'true' // 需要写作报告
+      grade: 'high',
+      correctVersion: 'advanced',
+      isNeedEssayReport: 'true'
     })
 
     console.log('[check-image] Sending request to Youdao Writing Correction API')
@@ -94,7 +93,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '服务响应格式错误' }, { status: 500 })
     }
 
-    // 检查错误码
     if (data.errorCode && String(data.errorCode) !== '0') {
       console.error('[check-image] Youdao API error:', data.errorCode, data)
 
@@ -114,13 +112,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `批改失败: ${errorMsg}` }, { status: 400 })
     }
 
-    // 解析有道返回的结果
     const result = data.Result || {}
     const essayFeedback = result.essayFeedback || {}
     const sentsFeedback = essayFeedback.sentsFeedback || []
     const majorScore = result.majorScore || {}
 
-    // 提取语法错误
     const grammarErrors: Array<{
       type: string
       original: string
@@ -142,12 +138,10 @@ export async function POST(req: NextRequest) {
       })
     })
 
-    // 构建改进版本
     const improvedVersion = sentsFeedback
       .map((sent: any) => sent.correctedSent || sent.rawSent)
       .join(' ')
 
-    // 构建战略建议
     const strategicAdvice = `【战术评估卷宗】
 
 总体评价：${result.essayAdvice || '作文已完成批改'}
@@ -160,7 +154,6 @@ export async function POST(req: NextRequest) {
 
 ${result.essayReport?.grammarErrorAdvice?.advice || '建议继续保持练习。'}`
 
-    // 计算综合得分
     const totalScore = result.totalScore || majorScore.grammarScore || 0
 
     return NextResponse.json({
@@ -174,7 +167,7 @@ ${result.essayReport?.grammarErrorAdvice?.advice || '建议继续保持练习。
         structure: Math.round(majorScore.structureScore || 0),
         content: Math.round(majorScore.topicScore || 0)
       },
-      rawYoudaoResult: result // 保留原始结果供调试
+      rawYoudaoResult: result
     })
   } catch (error) {
     console.error('[check-image] Error:', error)

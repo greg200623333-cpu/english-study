@@ -7,10 +7,8 @@ import Anthropic from '@anthropic-ai/sdk'
  * 采纳率：约85%
  */
 
-// 防止构建时预渲染
 export const dynamic = 'force-dynamic'
 
-// 延迟初始化客户端
 function getClient() {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
@@ -64,11 +62,9 @@ ${translation}
 
     const result = content.text
 
-    // 解析AI返回的结果
     const scoreMatch = result.match(/评分[：:]\s*(\d+)/i)
     const score = scoreMatch ? parseInt(scoreMatch[1]) : 0
 
-    // 提取参考译文
     const referenceMatch = result.match(/参考译文[：:]\s*(.+?)(?=\n\n|$)/i)
     const reference = referenceMatch ? referenceMatch[1].trim() : ''
 

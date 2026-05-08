@@ -51,12 +51,11 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
         type: 'audio',
         mimeType: 'audio/wav',
         recorderType: StereoAudioRecorder,
-        numberOfAudioChannels: 1, // 单声道
-        desiredSampRate: 16000, // 目标采样率
-        bufferSize: 16384, // 增加缓冲区大小
+        numberOfAudioChannels: 1,
+        desiredSampRate: 16000,
+        bufferSize: 16384,
         timeSlice: 1000,
         ondataavailable: () => {
-          // 可以在这里处理实时数据
         }
       })
 
@@ -85,7 +84,6 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
 
     return new Promise<void>((resolve, reject) => {
       recorderRef.current!.stopRecording(async () => {
-        // 停止所有音轨并销毁录音器（无论成功或失败都需要清理）
         if (streamRef.current) {
           streamRef.current.getTracks().forEach((track: MediaStreamTrack) => track.stop())
           streamRef.current = null
@@ -95,11 +93,9 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
           const blob = recorderRef.current!.getBlob()
           const recordDuration = (Date.now() - startTimeRef.current) / 1000
 
-          // 销毁录音器
           recorderRef.current!.destroy()
           recorderRef.current = null
 
-          // 验证录音时长（不说话时时长很短）
           if (recordDuration < 1.0) {
             setError('请说话后再停止录音（至少1秒）')
             setRecordingState('idle')
@@ -107,9 +103,6 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
             return
           }
 
-          // WAV 文件头约 44 字节，纯静音也会有头，需要更严格的大小检查
-          // 1秒 16kHz 单声道 16bit WAV = 32044 字节，空/静音也会 > 1000
-          // 但实际说话的录音通常会更大，这里主要靠时长判断
           if (blob.size < 1000) {
             setError('音频数据过小，请重新录制')
             setRecordingState('idle')
@@ -126,7 +119,6 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
           setAudioBlob(blob)
           setDuration(recordDuration)
 
-          // 转换为 Base64
           const reader = new FileReader()
           reader.onloadend = () => {
             const base64 = reader.result as string

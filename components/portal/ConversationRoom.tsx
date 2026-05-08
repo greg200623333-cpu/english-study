@@ -31,9 +31,8 @@ export default function ConversationRoom({ scenario }: Props) {
   const [showScoreModal, setShowScoreModal] = useState(false)
   const [evaluationResult, setEvaluationResult] = useState<OralEvaluationResult | null>(null)
   const [isEvaluating, setIsEvaluating] = useState(false)
-  const [voice, setVoice] = useState('0') // 音色选择
+  const [voice, setVoice] = useState('0')
 
-  // 获取来源参数
   const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '')
   const fromWorkspace = searchParams.get('from') || 'welcome'
 
@@ -50,11 +49,10 @@ export default function ConversationRoom({ scenario }: Props) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const initializedRef = useRef(false)
-  const userAudioRecordsRef = useRef<string[]>([]) // 存储用户的所有音频记录
+  const userAudioRecordsRef = useRef<string[]>([])
 
   const IconComponent = iconMap[scenario.icon] || Briefcase
 
-  // 检测屏幕尺寸
   useEffect(() => {
     const checkDesktop = () => {
       setIsDesktop(window.innerWidth >= 1024)
@@ -64,7 +62,6 @@ export default function ConversationRoom({ scenario }: Props) {
     return () => window.removeEventListener('resize', checkDesktop)
   }, [])
 
-  // 自动滚动到底部
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -73,7 +70,6 @@ export default function ConversationRoom({ scenario }: Props) {
     scrollToBottom()
   }, [messages])
 
-  // 初始化对话并发送欢迎消息
   useEffect(() => {
     if (!initializedRef.current) {
       initializedRef.current = true
@@ -84,22 +80,18 @@ export default function ConversationRoom({ scenario }: Props) {
     }
   }, [scenario.topic, initializeChat])
 
-  // 处理音频录制完成
   useEffect(() => {
     if (audioBase64 && recordingState === 'idle') {
-      // 录制完成，发送音频消息
       handleSendAudioMessage(audioBase64)
     }
   }, [audioBase64, recordingState])
 
-  // 显示录制错误
   useEffect(() => {
     if (recordError) {
       alert(recordError)
     }
   }, [recordError])
 
-  // 处理语音按钮点击
   const handleVoiceButtonClick = async () => {
     if (recordingState === 'recording') {
       await stopRecording()
@@ -108,19 +100,14 @@ export default function ConversationRoom({ scenario }: Props) {
     }
   }
 
-  // 发送音频消息
   const handleSendAudioMessage = async (audioBase64: string) => {
-    // 存储音频记录用于最终评分
     userAudioRecordsRef.current.push(audioBase64)
 
-    // 调用 AI Chat API 发送音频
     await sendAudioMessage(audioBase64, voice)
 
-    // 清除录音数据
     clearRecording()
   }
 
-  // 结束练习并生成报告
   const handleFinishPractice = async () => {
     if (messages.length < 2) {
       alert('请至少进行一轮对话后再结束练习')
@@ -133,12 +120,9 @@ export default function ConversationRoom({ scenario }: Props) {
     setIsEvaluating(true)
 
     try {
-      // 如果有音频记录，使用最后几条进行评测
       if (userAudioRecordsRef.current.length > 0) {
-        // 取最后 3 条音频或全部（如果少于 3 条）
         const audioSamples = userAudioRecordsRef.current.slice(-3)
 
-        // 合并音频或选择最长的一条
         const longestAudio = audioSamples.reduce((longest, current) =>
           current.length > longest.length ? current : longest
         )
@@ -156,7 +140,6 @@ export default function ConversationRoom({ scenario }: Props) {
         const data = await response.json()
 
         if (data.errorCode === '0' && data.result) {
-          // 转换为我们的评分格式
           const score = data.result.overall || 0
           const result: OralEvaluationResult = {
             overall: {
@@ -182,7 +165,6 @@ export default function ConversationRoom({ scenario }: Props) {
           throw new Error(data.error || '评测失败')
         }
       } else {
-        // 没有音频记录，评分为 0
         const mockResult: OralEvaluationResult = {
           overall: {
             grade: 'D' as const,
@@ -212,7 +194,6 @@ export default function ConversationRoom({ scenario }: Props) {
     }
   }
 
-  // 语音输出
   const speakText = async (text: string) => {
     if (!voiceOutputEnabled) return
 
@@ -225,14 +206,12 @@ export default function ConversationRoom({ scenario }: Props) {
           const response = await fetch(`/api/tts?word=${encodeURIComponent(chunk)}`)
 
           if (!response.ok) {
-            // 静默跳过 API 错误
             continue
           }
 
           const blob = await response.blob()
 
           if (blob.size === 0) {
-            // 静默跳过空数据
             continue
           }
 
@@ -250,7 +229,6 @@ export default function ConversationRoom({ scenario }: Props) {
 
             audio.oncanplaythrough = () => {
               audio.play().catch(err => {
-                // 静默处理播放错误
                 cleanup()
                 reject(err)
               })
@@ -262,32 +240,27 @@ export default function ConversationRoom({ scenario }: Props) {
             }
 
             audio.onerror = (e) => {
-              // 静默处理加载错误
               cleanup()
               reject(e)
             }
 
             timeoutId = setTimeout(() => {
               if (audio.paused) {
-                // 静默处理超时
                 cleanup()
                 reject(new Error('Audio timeout'))
               }
             }, 10000)
           })
         } catch (chunkError) {
-          // 静默跳过单个片段的错误
           continue
         }
       }
     } catch (error) {
-      // 静默处理整体错误
     } finally {
       setIsSpeaking(false)
     }
   }
 
-  // 发送消息
   const handleSendMessage = async () => {
     if (!input.trim() || isLoading) return
 
@@ -297,33 +270,27 @@ export default function ConversationRoom({ scenario }: Props) {
     await sendMessage(userInput)
   }
 
-  // 监听新消息，自动播放 AI 回复
   useEffect(() => {
     if (!voiceOutputEnabled || messages.length === 0) return
 
     const lastMessage = messages[messages.length - 1]
     if (lastMessage && lastMessage.role === 'assistant' && !isLoading) {
-      // 优先使用 TTS URL（来自音频对话）
       if (lastMessage.ttsUrl) {
         playTTSAudio(lastMessage.ttsUrl)
       } else {
-        // 降级到文本转语音
         speakText(lastMessage.content)
       }
     }
   }, [messages, voiceOutputEnabled, isLoading])
 
-  // 播放 TTS 音频
   const playTTSAudio = async (ttsUrl: string) => {
     try {
       setIsSpeaking(true)
 
-      // 停止当前播放
       if (audioRef.current) {
         audioRef.current.pause()
       }
 
-      // 如果是 Base64，转换为 Blob URL
       let audioUrl = ttsUrl
       if (ttsUrl.startsWith('data:') || !ttsUrl.startsWith('http')) {
         const base64Data = ttsUrl.includes(',') ? ttsUrl.split(',')[1] : ttsUrl
@@ -359,7 +326,7 @@ export default function ConversationRoom({ scenario }: Props) {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e]">
-      {/* 移动端遮罩 */}
+      {/}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
@@ -367,7 +334,7 @@ export default function ConversationRoom({ scenario }: Props) {
         />
       )}
 
-      {/* 左侧边栏 */}
+      {/}
       <motion.aside
         initial={false}
         animate={{
@@ -375,13 +342,11 @@ export default function ConversationRoom({ scenario }: Props) {
         }}
         className="fixed lg:static inset-y-0 left-0 z-50 w-80 bg-[#0a0a0f]/95 backdrop-blur-xl border-r border-white/10 flex flex-col"
       >
-        {/* 返回按钮 */}
+        {/}
         <div className="p-4 sm:p-6 border-b border-white/10">
           <button
             onClick={() => {
-              // 根据来源返回到对应的页面
               if (fromWorkspace === 'computer') {
-                // 使用 localStorage 来触发返回到 computer 工作台
                 localStorage.setItem('portal_workspace', 'computer')
                 router.push('/portal')
               } else {
@@ -394,7 +359,7 @@ export default function ConversationRoom({ scenario }: Props) {
             <span className="text-sm font-medium">切换情景</span>
           </button>
 
-          {/* 移动端关闭按钮 */}
+          {/}
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden absolute top-4 right-4 p-2 text-slate-400 hover:text-white transition-colors"
@@ -403,7 +368,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </button>
         </div>
 
-        {/* 当前场景卡片 */}
+        {/}
         <div className="p-4 sm:p-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
             <div className="flex items-start gap-4">
@@ -416,7 +381,7 @@ export default function ConversationRoom({ scenario }: Props) {
               </div>
             </div>
 
-            {/* 音色选择 */}
+            {/}
             <div className="mt-4 pt-4 border-t border-white/10">
               <label className="block text-xs font-medium text-slate-400 mb-2">
                 AI 音色
@@ -435,7 +400,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </div>
         </div>
 
-        {/* 练习提示 */}
+        {/}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-white flex items-center gap-2">
@@ -452,7 +417,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </div>
         </div>
 
-        {/* 结束练习按钮 */}
+        {/}
         <div className="p-4 sm:p-6 border-t border-white/10">
           <button
             onClick={handleFinishPractice}
@@ -465,12 +430,12 @@ export default function ConversationRoom({ scenario }: Props) {
         </div>
       </motion.aside>
 
-      {/* 右侧对话区 */}
+      {/}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* 顶部栏 */}
+        {/}
         <div className="border-b border-white/10 p-4 sm:p-6 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            {/* 移动端汉堡菜单 */}
+            {/}
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors flex-shrink-0"
@@ -478,7 +443,7 @@ export default function ConversationRoom({ scenario }: Props) {
               <Menu className="w-5 h-5" />
             </button>
 
-            {/* 场景标签 */}
+            {/}
             <div className="bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-1.5 flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
               <span className="text-xs sm:text-sm text-purple-400 font-medium truncate">
@@ -487,7 +452,7 @@ export default function ConversationRoom({ scenario }: Props) {
             </div>
           </div>
 
-          {/* 语音输出开关 */}
+          {/}
           <button
             onClick={() => setVoiceOutputEnabled(!voiceOutputEnabled)}
             className={`
@@ -512,7 +477,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </button>
         </div>
 
-        {/* 对话区域 */}
+        {/}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4">
             <AnimatePresence>
@@ -547,7 +512,7 @@ export default function ConversationRoom({ scenario }: Props) {
                     </p>
                   </div>
 
-                  {/* 语法错误提示 */}
+                  {/}
                   {message.role === 'user' && message.grammarErrors && message.grammarErrors.length > 0 && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
@@ -577,7 +542,7 @@ export default function ConversationRoom({ scenario }: Props) {
               ))}
             </AnimatePresence>
 
-            {/* 加载指示器 */}
+            {/}
             {isLoading && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -594,7 +559,7 @@ export default function ConversationRoom({ scenario }: Props) {
               </motion.div>
             )}
 
-            {/* 语音播放指示器 */}
+            {/}
             {isSpeaking && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -612,11 +577,11 @@ export default function ConversationRoom({ scenario }: Props) {
           </div>
         </div>
 
-        {/* 输入区域 */}
+        {/}
         <div className="border-t border-white/10 p-3 sm:p-4 bg-[#0a0a0f]">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* 语音输入按钮 */}
+              {/}
               <button
                 onClick={handleVoiceButtonClick}
                 disabled={isLoading || recordingState === 'processing'}
@@ -635,7 +600,7 @@ export default function ConversationRoom({ scenario }: Props) {
                 <Mic className="h-5 w-5" />
               </button>
 
-              {/* 文字输入框 */}
+              {/}
               <input
                 type="text"
                 value={input}
@@ -652,7 +617,7 @@ export default function ConversationRoom({ scenario }: Props) {
                 "
               />
 
-              {/* 发送按钮 */}
+              {/}
               <button
                 onClick={handleSendMessage}
                 disabled={!input.trim() || isLoading}
@@ -668,7 +633,7 @@ export default function ConversationRoom({ scenario }: Props) {
               </button>
             </div>
 
-            {/* 提示文字 */}
+            {/}
             {recordingState === 'recording' && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -691,7 +656,7 @@ export default function ConversationRoom({ scenario }: Props) {
         </div>
       </div>
 
-      {/* 评分看板 */}
+      {/}
       <ScoreModal
         isOpen={showScoreModal}
         onClose={() => setShowScoreModal(false)}

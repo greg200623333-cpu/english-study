@@ -9,7 +9,6 @@ import { getSession } from '@/lib/session'
  * 采纳率：约85%
  */
 
-// 防止构建时预渲染
 export const dynamic = 'force-dynamic'
 
 function getClient() {

@@ -98,11 +98,9 @@ export async function POST(req: NextRequest) {
     const supabase = await createClient()
     const rows = questions.map((q: { passage?: string; content: string; options?: string[]; answer: string; explanation: string; difficulty?: number }) => {
       let passage = q.passage || null
-      // 对 reading_cloze 类型，确保 passage 有10个空格
       if (type === 'reading_cloze' && passage) {
         const blankCount = (passage.match(/\[blank\]/gi) || []).length
         if (blankCount < 10) {
-          // 如果空格不足10个，在句子结尾随机插入更多空格
           const sentences = passage.split(/(?<=[.!?])\s+/)
           let added = 0
           for (let i = sentences.length - 1; i >= 0 && blankCount + added < 10; i--) {

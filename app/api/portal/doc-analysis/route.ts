@@ -7,10 +7,8 @@ import OpenAI from 'openai'
  * 采纳率：约85%
  */
 
-// 防止构建时预渲染
 export const dynamic = 'force-dynamic'
 
-// 延迟初始化客户端
 function getClient() {
   const apiKey = process.env.DEEPSEEK_API_KEY
   if (!apiKey) {
@@ -75,7 +73,6 @@ export async function POST(req: NextRequest) {
 
     const raw = completion.choices[0]?.message?.content || ''
 
-    // Strip markdown code block if present
     const jsonStr = raw.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim()
 
     const parsed = JSON.parse(jsonStr)

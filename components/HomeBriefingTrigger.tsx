@@ -11,7 +11,6 @@ function safeLS(): Storage | null {
   try { return typeof localStorage !== 'undefined' ? localStorage : null } catch { return null }
 }
 
-// 清除所有 ssa_ 开头的缓存，可在浏览器 Console 调用 clearSsaCache()
 export function clearSsaCache() {
   const ls = safeLS()
   if (!ls) return
@@ -24,13 +23,11 @@ export function HomeBriefingTrigger() {
   const openBriefing = useStudyModeStore((state) => state.openBriefing)
 
   useEffect(() => {
-    // 开发环境下暴露到 window，方便 Console 调用
     if (IS_DEV) {
       (window as typeof window & { clearSsaCache: typeof clearSsaCache }).clearSsaCache = clearSsaCache
     }
 
     const timer = setTimeout(() => {
-      // 每次访问落地页都弹出简报（不再永久屏蔽）
       openBriefing()
     }, 800)
     return () => clearTimeout(timer)

@@ -7,8 +7,8 @@ export type QuizItem = {
   prompt: string
   answer: string
   hint: string
-  cnHint: string     // Chinese concept explanation (sidebar)
-  cnConcept: string  // Short Chinese label
+  cnHint: string
+  cnConcept: string
 }
 
 type TerminalLine = {
@@ -29,7 +29,6 @@ function buildBootLines(title?: string): TerminalLine[] {
   ]
 }
 
-// Render prompt with blank highlighted
 function PromptWithBlank({ prompt }: { prompt: string }) {
   const parts = prompt.split(/(_+)/)
   return (
@@ -155,7 +154,7 @@ export default function TerminalPanel({ quizzes, title }: Props) {
 
   return (
     <div id="terminal-drill" className="mt-4 rounded-[1.5rem] border border-white/10 bg-black/70 shadow-[0_0_40px_rgba(15,23,42,0.45)] overflow-hidden">
-      {/* Header */}
+      {/}
       <div className="flex items-center justify-between gap-4 border-b border-white/8 px-5 py-3">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
@@ -179,14 +178,14 @@ export default function TerminalPanel({ quizzes, title }: Props) {
         </button>
       </div>
 
-      {/* Body: sidebar + terminal */}
+      {/}
       <div className="grid grid-cols-[220px_1fr] divide-x divide-white/8 xl:grid-cols-[260px_1fr]">
 
-        {/* ── Left: Chinese concept sidebar ── */}
+        {/}
         <div className="flex flex-col gap-3 bg-slate-950/60 p-4">
           <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-slate-500">中文概念对照</div>
 
-          {/* Current concept card */}
+          {/}
           {(() => {
             const color = CONCEPT_COLORS[index % CONCEPT_COLORS.length]
             return (
@@ -200,7 +199,7 @@ export default function TerminalPanel({ quizzes, title }: Props) {
             )
           })()}
 
-          {/* All quiz concepts mini-list */}
+          {/}
           <div className="mt-1 space-y-1.5">
             {safeQuizzes.map((q, i) => {
               const color = CONCEPT_COLORS[i % CONCEPT_COLORS.length]
@@ -223,7 +222,7 @@ export default function TerminalPanel({ quizzes, title }: Props) {
             })}
           </div>
 
-          {/* Answer key hint */}
+          {/}
           <div className="mt-auto rounded-xl border border-fuchsia-400/15 bg-fuchsia-400/5 p-3">
             <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-fuchsia-400/70">[answer format]</div>
             <div className="mt-1.5 text-xs leading-5 text-fuchsia-200/70">
@@ -232,10 +231,10 @@ export default function TerminalPanel({ quizzes, title }: Props) {
           </div>
         </div>
 
-        {/* ── Right: Terminal ── */}
+        {/}
         <div className="flex flex-col bg-[#020617] p-4 font-mono text-sm">
 
-          {/* Terminal log */}
+          {/}
           <div className="mb-3 min-h-[5rem] space-y-1.5 overflow-y-auto">
             {lines.slice(-6).map((line) => (
               <div key={line.id} className={`text-xs leading-5 ${lineColor(line.type)}`}>
@@ -244,7 +243,7 @@ export default function TerminalPanel({ quizzes, title }: Props) {
             ))}
           </div>
 
-          {/* Current question */}
+          {/}
           <div
             className="rounded-xl border px-4 py-3 text-sm leading-7 text-slate-100 transition-all duration-150"
             style={
@@ -264,7 +263,7 @@ export default function TerminalPanel({ quizzes, title }: Props) {
             <PromptWithBlank prompt={current.prompt} />
           </div>
 
-          {/* Answer reveal (after 2+ errors) */}
+          {/}
           {showAnswer && (
             <div className="mt-2 flex items-center gap-2 rounded-lg border border-rose-400/25 bg-rose-400/8 px-3 py-2 text-xs">
               <span className="font-mono text-rose-400">[answer]</span>
@@ -273,13 +272,13 @@ export default function TerminalPanel({ quizzes, title }: Props) {
             </div>
           )}
 
-          {/* Hint row */}
+          {/}
           <div className="mt-2 flex items-center gap-2 text-xs">
             <span className="font-mono text-amber-400">[hint]</span>
             <span className="text-slate-400">{current.hint}</span>
           </div>
 
-          {/* Input */}
+          {/}
           <form onSubmit={handleSubmit} className="mt-4 flex items-center gap-3">
             <span className={`font-mono ${isError ? 'text-rose-400' : 'text-emerald-300'}`}>$</span>
             <div
@@ -309,7 +308,7 @@ export default function TerminalPanel({ quizzes, title }: Props) {
             </button>
           </form>
 
-          {/* Progress bar */}
+          {/}
           <div className="mt-4 flex items-center gap-2">
             <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/5">
               <div

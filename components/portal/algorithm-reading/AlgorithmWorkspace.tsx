@@ -217,7 +217,7 @@ export default function AlgorithmWorkspace() {
       setTooltipCode(data.codeDemo)
     } catch {
       setTooltipExplanation('该术语通常指算法题中的关键逻辑节点，需要结合上下文理解其在状态转移或数据结构维护中的具体作用。')
-      setTooltipCode(`int demo_${term.replace(/\s+/g, '_').toLowerCase()}(void) {\n  /* fallback C demo */\n  return 0;\n}`)
+      setTooltipCode(`int demo_${term.replace(/\s+/g, '_').toLowerCase()}(void) {\n  /\n  return 0;\n}`)
     } finally {
       setTooltipLoading(false)
     }

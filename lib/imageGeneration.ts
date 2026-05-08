@@ -5,7 +5,7 @@ export interface GeneratedImage {
   dataUrl: string
 }
 
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024 // 8 MB hard limit
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
 export async function generateArchitectureImage(term: string): Promise<GeneratedImage> {
   const apiKey = process.env.DOUBAO_API_KEY

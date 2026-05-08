@@ -59,18 +59,15 @@ export default function StrategicEssayInput() {
   const isReady = mode === 'text' ? wordCount >= 50 : imageFile !== null
   const policyCode = getPolicyCode(topicTitle || activeTopic)
 
-  // 载入 activeTopic 并自动聚焦
   useEffect(() => {
     console.log('[StrategicEssayInput] activeTopic changed:', activeTopic)
     console.log('[StrategicEssayInput] prevActiveTopicRef.current:', prevActiveTopicRef.current)
-    // 只有当 activeTopic 改变且不为空时才更新
     if (activeTopic && activeTopic !== prevActiveTopicRef.current) {
       console.log('[StrategicEssayInput] Updating topicTitle to:', activeTopic)
       prevActiveTopicRef.current = activeTopic
       setTopicTitle(activeTopic)
       setShowPulse(true)
 
-      // 自动调整题目框高度
       setTimeout(() => {
         if (titleInputRef.current) {
           titleInputRef.current.style.height = 'auto'
@@ -78,19 +75,16 @@ export default function StrategicEssayInput() {
         }
       }, 50)
 
-      // 自动聚焦到内容输入框
       setTimeout(() => {
         contentInputRef.current?.focus()
       }, 100)
 
-      // 2秒后停止脉冲效果
       setTimeout(() => {
         setShowPulse(false)
       }, 2000)
     }
   }, [activeTopic])
 
-  // 压缩图片
   const compressImage = async (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -101,7 +95,6 @@ export default function StrategicEssayInput() {
           let width = img.width
           let height = img.height
 
-          // 限制最大尺寸
           const maxSize = 2048
           if (width > maxSize || height > maxSize) {
             if (width > height) {
@@ -124,10 +117,8 @@ export default function StrategicEssayInput() {
 
           ctx.drawImage(img, 0, 0, width, height)
 
-          // 转换为 base64，质量 0.8
           const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1]
 
-          // 检查大小（base64 编码后约为原始大小的 4/3）
           const sizeInMB = (base64.length * 3) / 4 / 1024 / 1024
           if (sizeInMB > 4) {
             reject(new Error('压缩后图片仍超过 4MB，请使用更小的图片'))
@@ -148,13 +139,11 @@ export default function StrategicEssayInput() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // 验证文件类型
     if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
       setError('仅支持 JPG/PNG 格式')
       return
     }
 
-    // 验证文件大小（原始文件不超过 10MB）
     if (file.size > 10 * 1024 * 1024) {
       setError('图片文件过大，请选择小于 10MB 的图片')
       return
@@ -163,7 +152,6 @@ export default function StrategicEssayInput() {
     setImageFile(file)
     setError(null)
 
-    // 生成预览
     const reader = new FileReader()
     reader.onload = (e) => {
       setImagePreview(e.target?.result as string)
@@ -171,7 +159,6 @@ export default function StrategicEssayInput() {
     reader.readAsDataURL(file)
   }
 
-  // 保存作文到数据库
   const saveEssayToDatabase = async (essayData: AnalysisResult) => {
     try {
       const user = await getCurrentUser()
@@ -180,7 +167,7 @@ export default function StrategicEssayInput() {
         return
       }
 
-      const currentWordCount = mode === 'text' ? wordCount : 120 // 图像模式估算字数
+      const currentWordCount = mode === 'text' ? wordCount : 120
 
       const supabase = createClient()
       const { error } = await supabase.from('essays').insert({
@@ -202,7 +189,6 @@ export default function StrategicEssayInput() {
         return
       }
 
-      // 同步到 WarRoom - 更新写作能力和词汇GDP
       await syncEssayCompletion({
         score: essayData.score,
         category,
@@ -238,7 +224,6 @@ export default function StrategicEssayInput() {
       const data = await response.json()
       setResult(data)
 
-      // 保存到数据库
       await saveEssayToDatabase(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : '情报分析失败，请重试')
@@ -263,7 +248,6 @@ export default function StrategicEssayInput() {
     setResult(null)
 
     try {
-      // 压缩图片
       const base64Image = await compressImage(imageFile)
 
       const response = await fetch('/api/essay/check-image', {
@@ -281,7 +265,6 @@ export default function StrategicEssayInput() {
       setResult(data)
       decrementImageQuota()
 
-      // 保存到数据库
       await saveEssayToDatabase(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : '图像扫描失败，请重试')
@@ -298,7 +281,6 @@ export default function StrategicEssayInput() {
     }
   }
 
-  // 计算参数完整度
   const titleProgress = topicTitle ? 100 : 0
   const contentProgress = mode === 'text'
     ? Math.min((wordCount / 120) * 100, 100)
@@ -308,9 +290,9 @@ export default function StrategicEssayInput() {
 
   return (
     <div className="grid grid-cols-12 gap-6">
-      {/* Left Column: Input Stack (col-span-9) */}
+      {/}
       <div className="col-span-9 flex flex-col">
-        {/* Mode Tabs */}
+        {/}
         <div className="mb-4 flex gap-4">
           <button
             onClick={() => setMode('text')}
@@ -338,7 +320,7 @@ export default function StrategicEssayInput() {
           </button>
         </div>
 
-        {/* Title Box */}
+        {/}
         <div
           className={`border border-cyan-500/30 bg-[#0a0a0c] p-4 backdrop-blur-md transition-all duration-300 ${
             showPulse ? 'border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]' : ''
@@ -382,12 +364,12 @@ export default function StrategicEssayInput() {
           )}
         </div>
 
-        {/* Spacer */}
+        {/}
         <div className="h-4" />
 
-        {/* Content Box */}
+        {/}
         <div className="relative flex-1 overflow-hidden border border-cyan-500/30 bg-slate-950/90 backdrop-blur-md" style={{ borderRadius: 0, minHeight: '50vh' }}>
-          {/* Grid Background */}
+          {/}
           <div
             className="pointer-events-none absolute inset-0 opacity-10"
             style={{
@@ -396,13 +378,13 @@ export default function StrategicEssayInput() {
             }}
           />
 
-          {/* Corner Borders */}
+          {/}
           <div className="pointer-events-none absolute left-0 top-0 h-8 w-8 border-l-2 border-t-2 border-cyan-400" />
           <div className="pointer-events-none absolute right-0 top-0 h-8 w-8 border-r-2 border-t-2 border-cyan-400" />
           <div className="pointer-events-none absolute bottom-0 left-0 h-8 w-8 border-b-2 border-l-2 border-cyan-400" />
           <div className="pointer-events-none absolute bottom-0 right-0 h-8 w-8 border-b-2 border-r-2 border-cyan-400" />
 
-          {/* Scanning Line */}
+          {/}
           {analyzing && (
             <motion.div
               className="absolute left-0 right-0 top-0 z-20 h-0.5 bg-cyan-400 shadow-[0_0_10px_#00E5FF]"
@@ -413,7 +395,7 @@ export default function StrategicEssayInput() {
 
           <div className="relative z-10 flex h-full min-h-[50vh] flex-col p-6">
 
-          {/* Text Mode */}
+          {/}
           {mode === 'text' && (
             <div className="flex flex-1 flex-col">
               <textarea
@@ -425,7 +407,7 @@ export default function StrategicEssayInput() {
                 disabled={analyzing}
               />
 
-              {/* Word Count */}
+              {/}
               <div className="mt-4 flex justify-end">
                 <div className={`font-mono text-xs ${wordCount >= 50 ? 'text-cyan-400' : 'text-slate-500'}`}>
                   {wordCount} / 50 词
@@ -434,7 +416,7 @@ export default function StrategicEssayInput() {
             </div>
           )}
 
-          {/* Image Mode */}
+          {/}
           {mode === 'image' && (
             <div className="flex flex-1 flex-col items-center justify-center">
               {!imagePreview ? (
@@ -480,9 +462,9 @@ export default function StrategicEssayInput() {
         </div>
       </div>
 
-        {/* Toolbar */}
+        {/}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-        {/* Category Selector */}
+        {/}
         <div className="flex items-center gap-2">
           <Shield className="h-4 w-4 text-cyan-400" />
           <span className="font-mono text-xs text-slate-400">战略分级:</span>
@@ -505,7 +487,7 @@ export default function StrategicEssayInput() {
           </div>
         </div>
 
-        {/* Image Quota Display */}
+        {/}
         {mode === 'image' && (
           <div className="flex items-center gap-2 font-mono text-xs text-slate-400">
             <Zap className="h-4 w-4 text-yellow-400" />
@@ -513,7 +495,7 @@ export default function StrategicEssayInput() {
           </div>
         )}
 
-        {/* Analyze Button */}
+        {/}
         <button
           onClick={handleAnalyze}
           disabled={!isReady || analyzing}
@@ -538,7 +520,7 @@ export default function StrategicEssayInput() {
         </button>
       </div>
 
-      {/* Error Display */}
+      {/}
       <AnimatePresence>
         {error && (
           <motion.div
@@ -554,7 +536,7 @@ export default function StrategicEssayInput() {
         )}
       </AnimatePresence>
 
-      {/* Result Display */}
+      {/}
       <AnimatePresence>
         {result && (
           <motion.div
@@ -563,7 +545,7 @@ export default function StrategicEssayInput() {
             exit={{ opacity: 0, y: 20 }}
             className="space-y-4"
           >
-            {/* Score Card */}
+            {/}
             <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="flex items-center gap-2 font-mono text-lg font-bold text-white">
@@ -577,7 +559,7 @@ export default function StrategicEssayInput() {
                 </div>
               </div>
 
-              {/* Dimensions */}
+              {/}
               {result.dimensions && (
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                   {Object.entries(result.dimensions).map(([key, value]) => (
@@ -595,7 +577,7 @@ export default function StrategicEssayInput() {
               )}
             </div>
 
-            {/* Grammar Errors */}
+            {/}
             {result.grammarErrors && result.grammarErrors.length > 0 && (
               <div className="border border-yellow-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
                 <h3 className="mb-4 flex items-center gap-2 font-mono text-lg font-bold text-white">
@@ -618,7 +600,7 @@ export default function StrategicEssayInput() {
               </div>
             )}
 
-            {/* Strategic Advice */}
+            {/}
             <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
               <h3 className="mb-4 flex items-center gap-2 font-mono text-lg font-bold text-white">
                 <FileText className="h-5 w-5 text-cyan-400" />
@@ -629,7 +611,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/* Improved Version */}
+            {/}
             {result.improvedVersion && (
               <div className="border border-green-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
                 <h3 className="mb-4 flex items-center gap-2 font-mono text-lg font-bold text-white">
@@ -646,9 +628,9 @@ export default function StrategicEssayInput() {
       </AnimatePresence>
       </div>
 
-      {/* Right Column: Status Panels (col-span-3) */}
+      {/}
       <div className="col-span-3 flex flex-col gap-4">
-        {/* Panel 1: 战略环境监测 */}
+        {/}
         <div className="border border-cyan-900/50 bg-black/40 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
           <div className="mb-3 flex items-center gap-2">
             <div className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
@@ -679,14 +661,14 @@ export default function StrategicEssayInput() {
           </div>
         </div>
 
-        {/* Panel 2: 指令参数分析 */}
+        {/}
         <div className="border border-cyan-900/50 bg-black/40 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
           <div className="mb-3 flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-yellow-400" />
             <h3 className="font-mono text-xs font-bold text-yellow-400">指令参数分析</h3>
           </div>
           <div className="space-y-3 text-xs">
-            {/* Title Progress */}
+            {/}
             <div>
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-500">题目</span>
@@ -702,7 +684,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/* Content Progress */}
+            {/}
             <div>
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-500">内容</span>
@@ -718,7 +700,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/* Category Progress */}
+            {/}
             <div>
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-500">分级</span>
@@ -729,7 +711,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/* Overall */}
+            {/}
             <div className="border-t border-cyan-900/50 pt-2">
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-400">综合完整度</span>
@@ -739,7 +721,7 @@ export default function StrategicEssayInput() {
           </div>
         </div>
 
-        {/* Panel 3: 执行就绪状态 */}
+        {/}
         <div className="border border-cyan-900/50 bg-black/40 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
           <div className="mb-3 flex items-center gap-2">
             <div className={`h-2 w-2 rounded-full ${isReady ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />

@@ -56,7 +56,7 @@ export default function DocAnalysis({ onBack }: Props) {
 
   return (
     <div className="flex w-full h-screen" style={{ background: '#0d0e1a' }}>
-      {/* 侧边栏 */}
+      {/}
       <motion.aside
         className="flex-shrink-0 flex flex-col p-5"
         style={{ width: 300, borderRight: '1px solid rgba(255,255,255,0.1)', background: '#0a0b14' }}
@@ -121,9 +121,9 @@ export default function DocAnalysis({ onBack }: Props) {
         )}
       </motion.aside>
 
-      {/* 主内容区 */}
+      {/}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* 输入区 */}
+        {/}
         <motion.div
           className="p-6 flex-shrink-0"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', background: '#0c0d18' }}
@@ -170,7 +170,7 @@ export default function DocAnalysis({ onBack }: Props) {
           </div>
         </motion.div>
 
-        {/* 结果区 */}
+        {/}
         <div className="flex-1 overflow-y-auto">
           {!result && !isAnalyzing && !error && (
             <motion.div
@@ -210,13 +210,13 @@ export default function DocAnalysis({ onBack }: Props) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              {/* 文档摘要 */}
+              {/}
               <div className="glass rounded-xl p-4 mb-6" style={{ border: '1px solid rgba(139,92,246,0.2)' }}>
                 <h4 className="text-sm font-semibold mb-2" style={{ color: '#a78bfa' }}>📋 文档概要</h4>
                 <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{result.summary}</p>
               </div>
 
-              {/* 标签页 */}
+              {/}
               <div className="flex gap-2 mb-6 flex-wrap">
                 {TAB_LABELS.map(tab => (
                   <button
@@ -234,7 +234,7 @@ export default function DocAnalysis({ onBack }: Props) {
               </div>
 
               <AnimatePresence mode="wait">
-                {/* 高频关键词 */}
+                {/}
                 {activeTab === 'keywords' && (
                   <motion.div key="keywords" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -256,7 +256,7 @@ export default function DocAnalysis({ onBack }: Props) {
                   </motion.div>
                 )}
 
-                {/* 专业术语 */}
+                {/}
                 {activeTab === 'terms' && (
                   <motion.div key="terms" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                     <div className="space-y-3">
@@ -276,7 +276,7 @@ export default function DocAnalysis({ onBack }: Props) {
                   </motion.div>
                 )}
 
-                {/* 长难句解析 */}
+                {/}
                 {activeTab === 'sentences' && (
                   <motion.div key="sentences" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                     <div className="space-y-4">
@@ -300,7 +300,7 @@ export default function DocAnalysis({ onBack }: Props) {
                   </motion.div>
                 )}
 
-                {/* 学习路径 */}
+                {/}
                 {activeTab === 'path' && (
                   <motion.div key="path" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                     <div className="space-y-4">

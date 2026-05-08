@@ -104,7 +104,6 @@ export async function POST(request: NextRequest) {
         break
 
       case 'generate_dialog':
-        // 生成对话
         url = 'https://openapi.youdao.com/ai_dialog/generate_dialog'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.taskId),
@@ -116,7 +115,6 @@ export async function POST(request: NextRequest) {
         break
 
       case 'generate_recommendation':
-        // 生成推荐
         url = 'https://openapi.youdao.com/ai_dialog/generate_recommendation'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.taskId),
@@ -130,7 +128,6 @@ export async function POST(request: NextRequest) {
         break
 
       case 'generate_report':
-        // 生成报告
         url = 'https://openapi.youdao.com/ai_dialog/generate_report'
         params = {
           ...addAuthParams(APP_KEY, APP_SECRET, requestData.taskId),

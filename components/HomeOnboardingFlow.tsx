@@ -42,12 +42,10 @@ export function HomeOnboardingFlow() {
     loadUserProfile()
   }, [session?.id, _hasHydrated])
 
-  // Auto-trigger onboarding after registration redirect
   useEffect(() => {
     if (!autoStart || sessionLoading || !_hasHydrated || !profileLoaded) return
     if (!session) { router.push('/login'); return }
     handleStart()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart, sessionLoading, _hasHydrated, profileLoaded, session])
 
   /**
@@ -82,7 +80,6 @@ export function HomeOnboardingFlow() {
     }
 
     if (!session) {
-      // Check if there's a stored username from previous login
       const storedUsername = localStorage.getItem('last_username')
       if (storedUsername) {
         router.push(`/login?username=${encodeURIComponent(storedUsername)}`)

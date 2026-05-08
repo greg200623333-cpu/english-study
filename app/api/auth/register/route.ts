@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
 
   const supabase = await createClient()
 
-  // 检查用户名是否已存在
   const { data: existing } = await supabase
     .from('profiles')
     .select('id')
@@ -34,7 +33,6 @@ export async function POST(req: NextRequest) {
 
   const passwordHash = await bcrypt.hash(password, 12)
 
-  // 创建用户
   const { data: user, error } = await supabase
     .from('profiles')
     .insert({ username, password_hash: passwordHash })
@@ -50,7 +48,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '注册失败，未返回用户数据' }, { status: 500 })
   }
 
-  // 设置签名 session cookie
   const token = await createSessionToken({ id: user.id, username: user.username })
   const response = NextResponse.json({ success: true, userId: user.id })
   const isSecure = process.env.NODE_ENV === 'production' && process.env.COOKIE_SECURE !== 'false'
@@ -58,7 +55,7 @@ export async function POST(req: NextRequest) {
     httpOnly: true,
     secure: isSecure,
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: 60 * 60 * 24 * 30,
     path: '/',
   })
   return response

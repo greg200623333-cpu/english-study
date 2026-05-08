@@ -41,11 +41,7 @@ function addAuthParams(appKey: string, appSecret: string, q: string) {
   return { appKey, salt, curtime, signType: 'v3', sign }
 }
 
-/**
- * 有道 AI 口语对话 - generate_dialog
- * history 由调用方构建好后直接传入，路由只负责签名和转发
- * body: { taskId, scene, userLevel?, history }
- */
+
 export async function POST(request: NextRequest) {
   try {
     const APP_KEY = getAppKey()

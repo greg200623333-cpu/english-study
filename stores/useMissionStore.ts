@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import type { SubjectCategory } from '@/config/subjects'
 
-// ─── Types ───────────────────────────────────────────────────────
 
 export type MissionDifficulty = 'standard' | 'hard' | 'elite'
 
@@ -10,7 +9,7 @@ export type MissionConfig = {
   subjectId: string
   subjectTitle: string
   category: SubjectCategory
-  yearCode: string | null   // null = AI mode
+  yearCode: string | null
   isAiMode: boolean
   difficulty: MissionDifficulty
 }
@@ -21,7 +20,6 @@ type MissionStore = {
   clearMission: () => void
 }
 
-// ─── Store ────────────────────────────────────────────────────────
 
 export const useMissionStore = create<MissionStore>()(
   persist(
@@ -33,7 +31,6 @@ export const useMissionStore = create<MissionStore>()(
     {
       name: 'mission-config',
       storage: createJSONStorage(() => localStorage),
-      // Only persist the mission config, not transient UI state
       partialize: (state) => ({ activeMission: state.activeMission }),
     },
   ),

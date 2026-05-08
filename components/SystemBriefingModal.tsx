@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useStudyModeStore } from '@/stores/useStudyModeStore'
 
-// ─── 小工具组件 ─────────────────────────────────────────────────
 
 function Kbd({ children }: { children: React.ReactNode }) {
   return (
@@ -37,7 +36,6 @@ function RatingRow({ grade, time, desc, color }: { grade: string; time: string; 
   )
 }
 
-// ─── Tab A ──────────────────────────────────────────────────────
 
 function TabA() {
   return (
@@ -100,7 +98,6 @@ function TabA() {
   )
 }
 
-// ─── Tab B ──────────────────────────────────────────────────────
 
 function TabB() {
   return (
@@ -145,7 +142,6 @@ function TabB() {
   )
 }
 
-// ─── 主组件 ─────────────────────────────────────────────────────
 
 export function SystemBriefingModal() {
   const { isBriefingOpen, closeBriefing } = useStudyModeStore()
@@ -173,7 +169,7 @@ export function SystemBriefingModal() {
               maxHeight: '85vh',
             }}
           >
-            {/* Header */}
+            {/}
             <div className="shrink-0 border-b border-white/10 px-4 py-3 md:px-6 md:py-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -192,7 +188,7 @@ export function SystemBriefingModal() {
               </div>
             </div>
 
-            {/* Tab Switcher - 横排紧凑 */}
+            {/}
             <div className="shrink-0 flex gap-2 border-b border-white/10 px-4 py-2 md:gap-3 md:px-6 md:py-3">
               <button
                 onClick={() => setActiveTab('strategy')}
@@ -224,7 +220,7 @@ export function SystemBriefingModal() {
               </button>
             </div>
 
-            {/* Content - 自定义滚动条 */}
+            {/}
             <div
               className="min-h-0 flex-1 overflow-y-auto px-4 py-4 pb-32 md:px-6 md:py-6 md:pb-36"
               style={{
@@ -260,7 +256,7 @@ export function SystemBriefingModal() {
               </AnimatePresence>
             </div>
 
-            {/* Sticky Footer - 单一部署按钮 */}
+            {/}
             <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/95 to-transparent px-4 py-3 backdrop-blur-xl md:px-6 md:py-4">
               <p className="mb-3 hidden text-xs leading-5 text-slate-400 md:block">
                 指令确认：词汇体系已部署，请规划每日 <span className="text-cyan-400">GDP</span> 目标，关注<span className="text-rose-400">赤字</span>预警。

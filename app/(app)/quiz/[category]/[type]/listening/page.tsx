@@ -19,7 +19,6 @@ type Passage = {
   questions: ListeningQuestion[]
 }
 
-// Shape of questions in local archive JSON
 type ArchiveQuestion = {
   number: number
   part: string
@@ -84,19 +83,17 @@ export default function ListeningPage() {
   const { syncQuizAttempt } = useWarRoomSync()
   const { activeMission } = useMissionStore()
 
-  // Auto-generate in AI mode
   useEffect(() => {
     if (activeMission?.isAiMode && !archiveId && passages.length === 0) {
       generate()
     }
-  }, [activeMission]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activeMission])
 
-  // Load archive questions on mount if archiveId is present
   useEffect(() => {
     if (archiveId) {
       loadArchive()
     }
-  }, [archiveId]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [archiveId])
 
   async function loadArchive() {
     setLoading(true)
@@ -106,7 +103,6 @@ export default function ListeningPage() {
       if (!res.ok) throw new Error('文件不存在')
       const data: ArchiveQuestion[] = await res.json()
 
-      // Filter to the correct listening sub-type
       const sectionMap: Record<string, string> = {
         listening_news: 'Section A',
         listening_interview: 'Section B',
@@ -115,7 +111,6 @@ export default function ListeningPage() {
       const targetSection = sectionMap[type]
       const filtered = data.filter(q => q.type === 'listening' && (!targetSection || q.section === targetSection))
 
-      // Group by context (each context = one passage group)
       const groups: Record<string, ArchiveQuestion[]> = {}
       for (const q of filtered) {
         const key = q.context ?? `group_${q.number}`
@@ -124,7 +119,6 @@ export default function ListeningPage() {
       }
 
       const builtPassages: Passage[] = Object.entries(groups).map(([ctx, qs]) => {
-        // Use passage field from first question if available, otherwise use context
         const audioText = qs[0]?.passage ?? ctx
         return {
           title: ctx,
@@ -147,7 +141,6 @@ export default function ListeningPage() {
   }
 
   useEffect(() => {
-    // Stop audio when component unmounts or passage changes
     return () => {
       stop()
       setPlayingIdx(null)

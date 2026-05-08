@@ -71,7 +71,6 @@ export function describeStudyModeError(error: unknown) {
 }
 
 async function ensureProfileRow(_userId: string) {
-  // profiles row is created at registration; nothing to do here
 }
 
 export async function loadStudyModeProfile(userId: string) {
@@ -93,7 +92,6 @@ export async function saveStudyModeProfile(userId: string) {
     const { error } = await supabase.from('study_mode_profiles').upsert(mutablePayload, { onConflict: 'user_id' })
     if (!error) return
 
-    // Log detailed error information
     console.error('[saveStudyModeProfile] Error:', {
       code: error.code,
       message: error.message,
@@ -157,8 +155,6 @@ export function applyRemoteStudyModeProfile(profile: {
   gdp_history?: StudyModeSnapshot['gdpHistory']
   last_briefing_at?: string | null
 }) {
-  // If vocabulary_gdp > 0, activate hasSsaExchange even if has_ssa_exchange is false
-  // This ensures GDP from essays and other sources is properly displayed
   const hasGdpData = (profile.vocabulary_gdp ?? 0) > 0 || (profile.session_gains ?? 0) > 0
   const shouldActivateExchange = profile.has_ssa_exchange || hasGdpData
 
@@ -186,7 +182,6 @@ export function applyRemoteStudyModeProfile(profile: {
 }
 
 function buildProfilePayload(userId: string, snapshot: StudyModeSnapshot) {
-  // Ensure selectedWordTier is valid (database constraint: must be 'core' or 'full')
   const validTier = snapshot.selectedWordTier === 'core' || snapshot.selectedWordTier === 'full' ? snapshot.selectedWordTier : 'core'
 
   return {

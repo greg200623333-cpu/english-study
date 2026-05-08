@@ -357,7 +357,6 @@ export function SsaCommandCenter() {
   const [wordbookStats, setWordbookStats] = useState({ unseenCount: 0, dueCount: 0 })
   const [ttsPlaying, setTtsPlaying] = useState(false)
 
-  // Keep reviewDeficitRef in sync so mountWordbook (a useCallback) can read the latest value
   useEffect(() => { reviewDeficitRef.current = reviewDeficit }, [reviewDeficit])
 
   const focused = words[index] ?? null
@@ -372,7 +371,6 @@ export function SsaCommandCenter() {
 
   const reviewStats = useMemo(() => {
     const now = Date.now()
-    // Use allWordbookWords so DUE/CR/STB stay consistent with StrategicStatusBar
     const source = allWordbookWords.length > 0 ? allWordbookWords : words
     const dueCount = source.filter(w => w.next_review > 0 && w.next_review <= now).length
     const learnedRecords = source.filter(w => w.status === 'known' || w.status === 'learning')
@@ -396,14 +394,12 @@ export function SsaCommandCenter() {
     setPendingExam(selectedExam)
   }, [ssaMountRequired, selectedWordTier, selectedExam])
 
-  // Auto-reload words once Zustand has hydrated from localStorage
   const hasMountedRef = useRef(false)
   useEffect(() => {
     if (!_hasHydrated) return
     if (hasMountedRef.current) return
     hasMountedRef.current = true
 
-    // Initialize words with fallback if needed
     if (words.length === 0) {
       setWords(getFallbackWords())
     }
@@ -411,13 +407,10 @@ export function SsaCommandCenter() {
     if (!ssaMountRequired && selectedExam) {
       void mountWordbook(selectedExam, selectedWordTier).then(() => setHasMountedWordbook(true))
     } else {
-      // No wordbook selected yet — stop the loading spinner
       setLoading(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_hasHydrated])
 
-  // Re-build session queue when daily target changes (only after a wordbook is mounted)
   const prevDailyTargetRef = useRef(dailyWordTarget)
   useEffect(() => {
     if (prevDailyTargetRef.current === dailyWordTarget) return
@@ -425,7 +418,6 @@ export function SsaCommandCenter() {
     if (selectedExam && hasMountedWordbook) {
       void mountWordbook(selectedExam, selectedWordTier)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dailyWordTarget])
 
   function pushFeed(message: string) {
@@ -487,16 +479,11 @@ export function SsaCommandCenter() {
     setRevealed(false)
     setDeploying(false)
 
-    // Flush any pending SRS writes before querying, so DB reflects latest progress
     await syncPendingReviewsRef.current()
 
     const user = await getCurrentUser()
     userIdRef.current = user?.id ?? null
 
-    // Replay any SRS updates that survived component unmount via SPA navigation.
-    // handleMastered writes records synchronously to localStorage; syncPendingReviews
-    // only flushes the in-memory pendingUpdatesRef which is lost on unmount.
-    // Reading localStorage here ensures DB is up-to-date before we query it.
     if (user?.id) {
       const lsKey = `SSA_ACTIVE_SESSION_${user.id}`
       const stored = localStorage.getItem(lsKey)
@@ -529,7 +516,6 @@ export function SsaCommandCenter() {
             }
           }
         } catch {
-          // ignore malformed localStorage data
         }
       }
     }
@@ -539,7 +525,6 @@ export function SsaCommandCenter() {
     const now = Date.now()
     const quota = dailyWordTarget
 
-    // Step 1: load all words for this exam/tier
     let wordQuery = supabase
       .from('words')
       .select('id,word,phonetic,meaning,example,category,tier')
@@ -561,7 +546,6 @@ export function SsaCommandCenter() {
     const wordMap = new Map(wordRows.map(w => [w.id, w as WordRow]))
     const allWordIds = [...wordMap.keys()]
 
-    // Step 2: load per-user SRS records for this wordbook
     let statusMap = new Map<number, { status: 'new' | 'learning' | 'known'; stability: number; difficulty: number; last_review: number; next_review: number }>()
     let isNewToThisWordbook = false
     if (user && allWordIds.length) {
@@ -583,22 +567,19 @@ export function SsaCommandCenter() {
         next_review: (r.next_review as number) ?? 0,
       }]))
       pushFeed(`[诊断] word_records 读取完成：共 ${rows.length} 条记录，user_id=${user.id.slice(0, 8)}…`)
-      // Only "new to this wordbook" if not mid-sync, no error, and truly no records exist in DB
       isNewToThisWordbook = !isSyncingRef.current && !recordError && rows.length === 0
     }
     statusMapRef.current = statusMap
 
-    // Step 3: separate due review words (next_review <= now) from unseen words
     const dueIds = allWordIds
       .filter(id => {
         const rec = statusMap.get(id)
         return rec && rec.next_review > 0 && rec.next_review <= now
       })
-      .sort((a, b) => statusMap.get(a)!.next_review - statusMap.get(b)!.next_review)  // most overdue first
+      .sort((a, b) => statusMap.get(a)!.next_review - statusMap.get(b)!.next_review)
 
     const unseenIds = allWordIds.filter(id => !statusMap.has(id))
 
-    // Step 4: build session queue — review words first, fill remainder with new words
     const reviewSlots = dueIds.slice(0, quota)
     const newSlots = unseenIds.slice(0, Math.max(0, quota - reviewSlots.length))
 
@@ -612,16 +593,13 @@ export function SsaCommandCenter() {
     setPoolMeta({ loaded: nextWords.length, hasMore: false })
     syncSsaPoolMeta({ loadedCount: nextWords.length, hasMore: false })
 
-    // Build full wordbook word list for StrategicStatusBar (all words, not just session)
     const fullWordbookWords: SsaWord[] = wordRows.map((row, i) => toSsaWord(row as WordRow, i, statusMap.get(row.id)?.next_review && statusMap.get(row.id)!.next_review <= now ? 'review' : 'new'))
     setAllWordbookWords(fullWordbookWords)
     setWordbookStats({ unseenCount: unseenIds.length, dueCount: dueIds.length })
 
-    // Sync GDP mapping based on all words in this wordbook
     const knownCount = [...statusMap.values()].filter(r => r.status === 'known').length
     syncGdpMapping({ targetGDP: allWordIds.length, currentGDP: knownCount })
 
-    // Sync word assets
     const assets = wordRows.map((w, i) => {
       const rec = statusMap.get(w.id)
       return {
@@ -636,7 +614,6 @@ export function SsaCommandCenter() {
     })
     syncWordAssets(assets)
 
-    // Compute review deficit
     const isFirstLaunch = isNewToThisWordbook
     if (isFirstLaunch) {
       updateReviewDeficit(0)
@@ -649,7 +626,6 @@ export function SsaCommandCenter() {
       pushFeed(`今日赤字更新：复习积压 ${learningCount} 项 + 每日目标缺口 ${dailyDeficit} = ${totalDeficit} pts`)
     }
 
-    // Compute review stats for the panel
     const totalLearned = [...statusMap.values()].filter(r => r.status === 'known' || r.status === 'learning').length
     const learnedRecords = [...statusMap.values()].filter(r => r.status === 'known' || r.status === 'learning')
     const avgStability = learnedRecords.length > 0
@@ -705,7 +681,6 @@ export function SsaCommandCenter() {
       isSyncingRef.current = false
     }
   }, [])
-  // Keep the ref current so mountWordbook can call it without a circular dependency
   syncPendingReviewsRef.current = syncPendingReviews
 
   useEffect(() => {
@@ -743,7 +718,6 @@ export function SsaCommandCenter() {
     )
     const last_review = Date.now()
 
-    // Update in-memory SRS cache
     statusMapRef.current.set(word.id, {
       status: finalRating === 'forgot' ? 'learning' : 'known',
       stability,
@@ -776,7 +750,6 @@ export function SsaCommandCenter() {
 
     const updatedWord: SsaWord = { ...word, status: newStatus, wordType: 'review', stability, difficulty, last_review, next_review }
 
-    // forgot → move word to end of queue; graduated → remove from session entirely
     let nextWords: SsaWord[]
     if (isForgot) {
       nextWords = [...words.filter(w => w.id !== word.id), updatedWord]
@@ -787,10 +760,8 @@ export function SsaCommandCenter() {
     }
 
     setWords(nextWords)
-    // Keep full wordbook in sync so StrategicStatusBar reflects real distribution
     setAllWordbookWords(prev => {
       const updated = prev.map(w => w.id === word.id ? { ...w, status: newStatus, stability, difficulty, last_review, next_review } : w)
-      // Schedule GDP sync after render — cannot call Zustand set inside a React state updater
       window.setTimeout(() => {
         syncGdpMapping({
           targetGDP: updated.length,
@@ -809,7 +780,6 @@ export function SsaCommandCenter() {
       pushFeed(`[${word.word}] ${isForgot ? '遗忘 — 已加入队列末尾' : '已占领'} — ${ratingLabel} · 稳定性 ${stability.toFixed(1)}d${gain > 0 ? ` · GDP +${gain.toFixed(2)}%` : ''}`)
     }
 
-    // Trigger heal flash when a review word is successfully conquered
     if (!isForgot && word.wordType === 'review') {
       setHealFlash(true)
       window.setTimeout(() => setHealFlash(false), 800)
@@ -821,11 +791,9 @@ export function SsaCommandCenter() {
     window.setTimeout(() => {
       setIndex(current => {
         if (isForgot) {
-          // word removed from current pos and appended to end; next word is now at current index
           return current >= nextWords.length - 1 ? 0 : current
         }
         if (isGraduated) {
-          // word removed entirely; stay at same index (next word slides in), or wrap if at end
           return nextWords.length === 0 ? 0 : Math.min(current, nextWords.length - 1)
         }
         if (current + 1 < nextWords.length) return current + 1
@@ -894,7 +862,6 @@ export function SsaCommandCenter() {
     await persistStatus(word.id, 'learning')
   }
 
-  // Wait for Zustand hydration before rendering
   if (!_hasHydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-950">
@@ -1145,11 +1112,9 @@ export function SsaCommandCenter() {
                         if (!user) { pushFeed('[诊断] getCurrentUser 返回 null — 未登录或 session 失效'); return }
                         pushFeed(`[诊断] user.id = ${user.id}`)
                         const sb = createClient()
-                        // Test read
                         const { data: readData, error: readErr } = await sb.from('word_records').select('id').eq('user_id', user.id).limit(1)
                         if (readErr) pushFeed(`[诊断] READ 失败: ${readErr.message} (${readErr.code})`)
                         else pushFeed(`[诊断] READ 成功，返回 ${readData?.length ?? 0} 条`)
-                        // Test write (upsert a dummy record with word_id=1)
                         const { error: writeErr } = await sb.from('word_records').upsert({ user_id: user.id, word_id: 1, status: 'new', updated_at: new Date().toISOString() }, { onConflict: 'user_id,word_id' })
                         if (writeErr) pushFeed(`[诊断] WRITE 失败: ${writeErr.message} (${writeErr.code})`)
                         else pushFeed('[诊断] WRITE 成功 ✓')
@@ -1234,16 +1199,5 @@ export function SsaCommandCenter() {
     </>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
 
 

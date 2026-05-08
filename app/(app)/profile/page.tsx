@@ -92,10 +92,8 @@ export default function ProfilePage() {
 
   const activeLawCount = useMemo(() => Object.values(laws ?? {}).filter(Boolean).length, [laws])
   const historyData = hasSsaExchange ? gdpHistory : []
-  // Treasury is initialized if there's GDP data, word data, or history
   const isTreasuryInitialized = vocabularyGDP > 0 || stats.words > 0 || historyData.length > 0 || hasSsaExchange
 
-  // Debug: log values to console
   useEffect(() => {
     console.log('Profile page debug:', {
       vocabularyGDP,
@@ -116,7 +114,6 @@ export default function ProfilePage() {
 
     const issues: string[] = []
 
-    // 切换词书后，先从 word_records 重新计算新词书的 GDP 和赤字，再保存
     try {
       const supabase = createClient()
       const [wordsRes, recordsRes] = await Promise.all([
@@ -142,7 +139,6 @@ export default function ProfilePage() {
         updateReviewDeficit(learningCount * 3)
       }
     } catch {
-      // 计算失败不阻断流程
     }
 
     await saveStudyModeProfile(user.id).catch((error) => {
@@ -356,10 +352,5 @@ export default function ProfilePage() {
     </div>
   )
 }
-
-
-
-
-
 
 

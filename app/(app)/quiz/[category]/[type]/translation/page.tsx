@@ -179,13 +179,13 @@ export default function TranslationPage() {
         <span className="text-sm" style={{ color: '#475569' }}>字数: {wordCount}</span>
       </div>
 
-      {/* 中文原文 */}
+      {/}
       <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="mb-3 text-sm font-bold" style={{ color: '#94a3b8' }}>📄 中文原文</div>
         <p className="text-base leading-relaxed" style={{ color: '#e2e8f0' }}>{question.question}</p>
       </div>
 
-      {/* 翻译输入框 */}
+      {/}
       {!aiResult && (
         <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mb-3 text-sm font-bold" style={{ color: '#94a3b8' }}>✍️ 你的翻译</div>
@@ -215,7 +215,7 @@ export default function TranslationPage() {
         </div>
       )}
 
-      {/* AI批改结果 */}
+      {/}
       {aiResult && (
         <>
           <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(139,92,246,0.3)' }}>
@@ -233,7 +233,7 @@ export default function TranslationPage() {
             </div>
           </div>
 
-          {/* 参考译文 */}
+          {/}
           {aiResult.reference && (
             <div className="glass mb-6 rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
               <button
@@ -252,7 +252,7 @@ export default function TranslationPage() {
             </div>
           )}
 
-          {/* 操作按钮 */}
+          {/}
           <div className="flex gap-3">
             <button
               onClick={handleReset}

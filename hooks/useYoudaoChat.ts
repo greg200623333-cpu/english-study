@@ -15,13 +15,11 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [session, setSession] = useState<YoudaoChatSession | null>(null)
-  // 初始化对话会话
   const initializeChat = useCallback(async (topic: string) => {
     setIsLoading(true)
     setMessages([])
 
     try {
-      // 1. 生成场景
       const topicResponse = await fetch('/api/portal/ai-dialog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,7 +38,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
       const taskId = topicData.data.taskId
       const scene = topicData.data.scene
 
-      // 2. 生成第一句对话
       const dialogResponse = await fetch('/api/portal/ai-dialog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -61,14 +58,12 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
 
       const aiMessage = dialogData.data.resultArr[0].result[0]
 
-      // 初始化会话状态
       setSession({
         taskId,
         scene,
         history: []
       })
 
-      // 添加 AI 的第一条消息
       setMessages([
         {
           id: Date.now().toString(),
@@ -92,28 +87,22 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
     }
   }, [])
 
-  // 检测是否为英文输入
   const isEnglishInput = (text: string): boolean => {
-    // 移除空格、标点符号后检查
     const cleanText = text.replace(/[\s\p{P}]/gu, '')
     if (!cleanText) return false
 
-    // 检查是否包含中文字符
     const hasChinese = /[\u4e00-\u9fa5]/.test(cleanText)
     if (hasChinese) return false
 
-    // 检查是否主要是英文字符（至少50%是英文字母）
     const englishChars = cleanText.match(/[a-zA-Z]/g)
     const englishRatio = englishChars ? englishChars.length / cleanText.length : 0
 
     return englishRatio >= 0.5
   }
 
-  // 发送消息
   const sendMessage = useCallback(async (content: string) => {
     if (!session || !content.trim()) return
 
-    // 检查是否为英文输入
     if (!isEnglishInput(content.trim())) {
       setMessages(prev => [
         ...prev,
@@ -127,7 +116,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
       return
     }
 
-    // 添加用户消息
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
@@ -139,7 +127,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
     setIsLoading(true)
 
     try {
-      // 更新历史记录
       const lastAiMessage = messages.filter(m => m.role === 'assistant').pop()
 
       const updatedHistory: YoudaoDialogHistory[] = [
@@ -179,7 +166,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
 
       const aiReply = data.data.resultArr[0].result[0]
 
-      // 添加 AI 回复
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -189,7 +175,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
 
       setMessages(prev => [...prev, assistantMessage])
 
-      // 更新会话历史
       setSession({
         ...session,
         history: updatedHistory
@@ -210,11 +195,9 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
     }
   }, [session, messages])
 
-  // 发送音频消息
   const sendAudioMessage = useCallback(async (audioBase64: string, voice: string = '0') => {
     if (!session) return
 
-    // 添加用户音频消息占位符
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
@@ -227,7 +210,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
     setIsLoading(true)
 
     try {
-      // 步骤1：调用 ASR 识别音频
       console.log('[sendAudioMessage] Step 1: ASR recognition')
       console.log('[sendAudioMessage] Audio Base64 length:', audioBase64.length)
 
@@ -249,11 +231,9 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
       const asrData = await asrResponse.json()
       console.log('[sendAudioMessage] ASR response:', asrData)
 
-      // 检查错误码
       if (asrData.errorCode && String(asrData.errorCode) !== '0') {
         const errorCode = String(asrData.errorCode)
 
-        // 4304 = 音频无效（静音/未说话），静默处理：移除占位消息，不留任何气泡
         if (errorCode === '4304') {
           setMessages(prev => prev.filter(m => m.id !== userMessage.id))
           return
@@ -271,20 +251,16 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
         throw new Error(`语音识别失败: ${errorMsg}`)
       }
 
-      // 识别出的文本
       const recognizedText = asrData.result?.[0] || asrData.query || ''
       if (!recognizedText) {
-        // 未识别到内容也视为静音，静默移除占位消息
         setMessages(prev => prev.filter(m => m.id !== userMessage.id))
         return
       }
 
-      // 更新用户消息为识别文本
       setMessages(prev => prev.map(m =>
         m.id === userMessage.id ? { ...m, content: recognizedText } : m
       ))
 
-      // 步骤2：用识别文本调用 generate_dialog
       console.log('[sendAudioMessage] Step 2: generate_dialog with text:', recognizedText)
 
       const lastAiMessage = messages.filter(m => m.role === 'assistant').pop()
@@ -312,10 +288,8 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
         throw new Error(`对话生成失败 (code: ${data.code}, msg: ${data.msg})`)
       }
 
-      // AI 回复
       const aiReply: string = data.data?.resultArr?.[0]?.result?.[0] ?? ''
 
-      // 添加 AI 回复
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -326,9 +300,7 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
       setSession({ ...session, history: updatedHistory })
     } catch (error) {
       console.error('Send audio message error:', error)
-      // 移除占位消息，避免残留"识别中..."
       setMessages(prev => prev.filter(m => m.id !== userMessage.id))
-      // 追加系统提示
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'system',
@@ -340,7 +312,6 @@ export function useYoudaoChat(): UseYoudaoChatReturn {
     }
   }, [session, messages])
 
-  // 重置对话
   const resetChat = useCallback(() => {
     setMessages([])
     setSession(null)

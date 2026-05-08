@@ -88,15 +88,12 @@ export default function QuizTypePage() {
     }
 
     async function load() {
-      // 如果有 archiveId，从本地 JSON 加载
       if (archiveId) {
         try {
-          // archiveId 格式: "2024.12-set1" → 文件名: "cet4-2024-12-set1.json"
           const fileId = archiveId.replace('.', '-')
           const res = await fetch(`/data/${category}-${fileId}.json`)
           if (res.ok) {
             const data: Question[] = await res.json()
-            // 根据 type 过滤题目
             const filtered = data.filter(q => {
               if (type === 'listening_news' || type === 'listening_interview' || type === 'listening_passage') {
                 return q.type === 'listening'
@@ -124,7 +121,6 @@ export default function QuizTypePage() {
         return
       }
 
-      // 否则从 Supabase 加载
       const supabase = createClient()
       const { data } = await supabase.from('questions').select('*').eq('category', category).eq('type', type).limit(10)
       if (data) setQuestions(data)
@@ -134,8 +130,6 @@ export default function QuizTypePage() {
     load()
   }, [category, isListening, type, archiveId])
 
-  // Auto-generate questions in AI mode
-  // 手动生成题目函数
   async function handleManualGenerate() {
     if (generating) return
 
@@ -182,7 +176,6 @@ export default function QuizTypePage() {
 
     const current = questions[index]
     const correctAnswer = current.correctAnswer || current.answer
-    // For paragraph matching, extract letter from "段落 A" format
     const userAnswer = option.includes('段落') ? option.split(' ')[1] : option[0]
     const isCorrect = userAnswer === correctAnswer
 

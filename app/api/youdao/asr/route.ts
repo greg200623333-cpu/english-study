@@ -27,10 +27,7 @@ function encrypt(str: string): string {
   return createHash('sha256').update(str, 'utf-8').digest('hex')
 }
 
-/**
- * 有道短语音识别 API
- * POST /api/youdao/asr
- */
+
 export async function POST(request: NextRequest) {
   try {
     const APP_KEY = getAppKey()

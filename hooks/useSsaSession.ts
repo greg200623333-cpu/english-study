@@ -53,26 +53,20 @@ export function useSsaSession(userId: string | null, category: string, tier: str
   const pendingUpdatesRef = useRef<SessionRecord[]>([])
   const flipStartRef = useRef<number | null>(null)
 
-  // Load queue on mount
   useEffect(() => {
     if (!userId) return
     void loadQueue()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, category, tier])
 
-  // Auto-merge recovery on mount
   useEffect(() => {
     if (!userId) return
     void recoverUnsynced()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId])
 
-  // Batch sync every 10 words or on unmount
   useEffect(() => {
     return () => {
       void syncPendingUpdates()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadQueue = useCallback(async () => {
@@ -106,12 +100,10 @@ export function useSsaSession(userId: string | null, category: string, tier: str
         next_review: w.next_review || Date.now(),
       }))
 
-      // Separate into categories
       const newWords = wordsWithReview.filter((w) => w.status === 'new')
       const dueWords = wordsWithReview.filter((w) => w.status !== 'new' && isDue({ wordId: w.id, stability: w.stability, difficulty: w.difficulty, last_review: w.last_review, next_review: w.next_review }))
       const criticalWords = dueWords.filter((w) => isCritical({ wordId: w.id, stability: w.stability, difficulty: w.difficulty, last_review: w.last_review, next_review: w.next_review }))
 
-      // Mix strategy: 2 new + 3 old (or 1 new + 4 old if Critical > 50)
       const criticalThreshold = 50
       const [newRatio, oldRatio] = criticalWords.length > criticalThreshold ? [1, 4] : [2, 3]
 
@@ -120,11 +112,9 @@ export function useSsaSession(userId: string | null, category: string, tier: str
       let dueIndex = 0
 
       while (newIndex < newWords.length || dueIndex < dueWords.length) {
-        // Add new words
         for (let i = 0; i < newRatio && newIndex < newWords.length; i++) {
           queue.push(newWords[newIndex++])
         }
-        // Add due words
         for (let i = 0; i < oldRatio && dueIndex < dueWords.length; i++) {
           queue.push(dueWords[dueIndex++])
         }
@@ -166,7 +156,6 @@ export function useSsaSession(userId: string | null, category: string, tier: str
 
     const { stability, difficulty, next_review } = calculateNextReview(current, finalRating)
 
-    // Save to pending updates
     const record: SessionRecord = {
       wordId: session.currentWord.id,
       stability,
@@ -180,15 +169,12 @@ export function useSsaSession(userId: string | null, category: string, tier: str
 
     pendingUpdatesRef.current.push(record)
 
-    // Backup to localStorage
     backupToLocalStorage(userId, record)
 
-    // Batch sync if >= 10
     if (pendingUpdatesRef.current.length >= 10) {
       await syncPendingUpdates()
     }
 
-    // Move to next word
     const nextQueue = session.queue.slice(1)
     setSession({
       currentWord: nextQueue[0] || null,
@@ -204,7 +190,6 @@ export function useSsaSession(userId: string | null, category: string, tier: str
   const handleDowngrade = useCallback(() => {
     if (!session.isFlipped) return
 
-    // Cycle through ratings: perfect -> good -> hard -> forgot -> perfect
     const cycle: ReviewRating[] = ['perfect', 'good', 'hard', 'forgot']
     const currentIndex = session.rating ? cycle.indexOf(session.rating) : -1
     const nextRating = cycle[(currentIndex + 1) % cycle.length]
@@ -232,10 +217,8 @@ export function useSsaSession(userId: string | null, category: string, tier: str
         await supabase.from('words').update(update).eq('id', update.id)
       }
 
-      // Mark as synced
       pendingUpdatesRef.current = []
 
-      // Clear localStorage backup
       if (userId) {
         localStorage.removeItem(`SSA_ACTIVE_SESSION_${userId}`)
       }
@@ -260,7 +243,6 @@ export function useSsaSession(userId: string | null, category: string, tier: str
         return
       }
 
-      // Merge into database
       for (const record of unsynced) {
         await supabase
           .from('words')
@@ -273,7 +255,6 @@ export function useSsaSession(userId: string | null, category: string, tier: str
           .eq('id', record.wordId)
       }
 
-      // Archive to dated backup
       const date = new Date().toISOString().split('T')[0]
       localStorage.setItem(`SSA_ARCHIVE_${userId}_${date}`, JSON.stringify(unsynced))
       localStorage.removeItem(key)
@@ -293,7 +274,6 @@ export function useSsaSession(userId: string | null, category: string, tier: str
     []
   )
 
-  // Keyboard handlers
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.code === 'Space') {

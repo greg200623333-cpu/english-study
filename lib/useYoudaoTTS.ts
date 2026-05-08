@@ -4,27 +4,22 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 type PlaybackState = 'idle' | 'loading' | 'playing' | 'paused'
 
-// Split text into sentences for chunked playback
 function splitIntoSentences(text: string): string[] {
-  // Split by common sentence endings, keeping punctuation
   const sentences = text
     .split(/(?<=[.!?;])\s+/)
     .map(s => s.trim())
     .filter(s => s.length > 0)
 
-  // Further split sentences that are too long (>100 chars for Youdao API limit)
   const chunks: string[] = []
   for (const sentence of sentences) {
     if (sentence.length <= 100) {
       chunks.push(sentence)
     } else {
-      // Split long sentences by commas or at word boundaries
       const parts = sentence.split(/,\s+/)
       for (const part of parts) {
         if (part.length <= 100) {
           chunks.push(part)
         } else {
-          // Split at word boundaries if still too long
           const words = part.split(/\s+/)
           let currentChunk = ''
           for (const word of words) {
@@ -85,7 +80,6 @@ export function useYoudaoTTS() {
 
       if (!response.ok) {
         console.error('TTS API error:', response.status)
-        // Try next chunk instead of stopping completely
         currentIndexRef.current++
         if (currentIndexRef.current < queueRef.current.length) {
           playNextChunkRef.current()
@@ -112,7 +106,6 @@ export function useYoudaoTTS() {
       audio.onerror = (err) => {
         console.error('Audio playback error:', err)
         URL.revokeObjectURL(url)
-        // Try next chunk
         currentIndexRef.current++
         if (currentIndexRef.current < queueRef.current.length) {
           playNextChunkRef.current()
@@ -133,7 +126,6 @@ export function useYoudaoTTS() {
     }
   }, [speed, cleanup])
 
-  // Update ref whenever playNextChunk changes
   useEffect(() => {
     playNextChunkRef.current = playNextChunk
   }, [playNextChunk])
@@ -175,7 +167,6 @@ export function useYoudaoTTS() {
     }
   }, [])
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       cleanup()

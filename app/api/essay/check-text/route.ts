@@ -69,7 +69,6 @@ ${text}
 
     const result = JSON.parse(response.choices[0].message.content ?? '{}')
 
-    // 验证和规范化数据
     const score = Math.min(100, Math.max(0, Number(result.score) || 60))
     const grammarErrors = Array.isArray(result.grammarErrors) ? result.grammarErrors : []
     const improvedVersion = result.improvedVersion || text

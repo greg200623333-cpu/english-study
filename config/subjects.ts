@@ -1,7 +1,3 @@
-// ─── Subject config ──────────────────────────────────────────────
-// Single source of truth for all exam subjects.
-// quiz/page.tsx and MissionBriefingModal both read from here.
-
 export type SubjectCategory = 'cet4' | 'cet6' | 'kaoyan1' | 'kaoyan2'
 
 export type Subject = {
@@ -9,8 +5,8 @@ export type Subject = {
   title: string
   desc: string
   category: SubjectCategory
-  section: string   // section name within the exam (e.g. '基建系统')
-  weight: string    // score weight string (e.g. '35%' or '40 分')
+  section: string
+  weight: string
 }
 
 export type ExamConfig = {
@@ -22,7 +18,6 @@ export type ExamConfig = {
   subjects: Subject[]
 }
 
-// ─── CET-4 ───────────────────────────────────────────────────────
 
 const CET4_SUBJECTS: Subject[] = [
   { id: 'writing',           title: '写作',     desc: '先稳住政策输出能力。',     category: 'cet4', section: '外交输出', weight: '15%' },
@@ -35,7 +30,6 @@ const CET4_SUBJECTS: Subject[] = [
   { id: 'translation',       title: '翻译',     desc: '跨系统语言转换。',         category: 'cet4', section: '翻译中枢', weight: '15%' },
 ]
 
-// ─── CET-6 ───────────────────────────────────────────────────────
 
 const CET6_SUBJECTS: Subject[] = [
   { id: 'writing',           title: '写作',     desc: '更高压的政策表达。',       category: 'cet6', section: '外交输出', weight: '15%' },
@@ -48,7 +42,6 @@ const CET6_SUBJECTS: Subject[] = [
   { id: 'translation',       title: '翻译',     desc: '文化与书面表达转换。',     category: 'cet6', section: '翻译中枢', weight: '15%' },
 ]
 
-// ─── Kaoyan 1 ────────────────────────────────────────────────────
 
 const KAOYAN1_SUBJECTS: Subject[] = [
   { id: 'cloze',             title: '完形填空', desc: '考验整体语义调度。',       category: 'kaoyan1', section: '资源清算',   weight: '10 分' },
@@ -59,7 +52,6 @@ const KAOYAN1_SUBJECTS: Subject[] = [
   { id: 'writing_big',       title: '大作文',   desc: '完整立场输出。',           category: 'kaoyan1', section: '外交输出',   weight: '30 分' },
 ]
 
-// ─── Kaoyan 2 ────────────────────────────────────────────────────
 
 const KAOYAN2_SUBJECTS: Subject[] = [
   { id: 'cloze',             title: '完形填空', desc: '控制语境误差。',           category: 'kaoyan2', section: '资源清算',   weight: '10 分' },
@@ -70,7 +62,6 @@ const KAOYAN2_SUBJECTS: Subject[] = [
   { id: 'writing_big',       title: '大作文',   desc: '图表趋势与论证。',         category: 'kaoyan2', section: '外交输出',   weight: '30 分' },
 ]
 
-// ─── Exam configs ─────────────────────────────────────────────────
 
 export const EXAM_CONFIGS: ExamConfig[] = [
   {
@@ -105,12 +96,11 @@ export const EXAM_CONFIGS: ExamConfig[] = [
   },
 ]
 
-// ─── Helpers ──────────────────────────────────────────────────────
 
 export const CET_EXAMS = EXAM_CONFIGS.filter((e) => e.category === 'cet4' || e.category === 'cet6')
 export const KAOYAN_EXAMS = EXAM_CONFIGS.filter((e) => e.category === 'kaoyan1' || e.category === 'kaoyan2')
 
-/** Group subjects by section within an exam */
+
 export function groupBySection(subjects: Subject[]): { section: string; weight: string; subjects: Subject[] }[] {
   const map = new Map<string, { weight: string; subjects: Subject[] }>()
   for (const s of subjects) {
@@ -124,12 +114,13 @@ export function groupBySection(subjects: Subject[]): { section: string; weight: 
   return Array.from(map.entries()).map(([section, v]) => ({ section, ...v }))
 }
 
-/** Get accent color for a category */
+
 export function categoryColor(category: SubjectCategory): string {
   return EXAM_CONFIGS.find((e) => e.category === category)?.color ?? '#22d3ee'
 }
 
-/** Find a subject by id + category */
+
 export function findSubject(category: SubjectCategory, subjectId: string): Subject | undefined {
   return EXAM_CONFIGS.find((e) => e.category === category)?.subjects.find((s) => s.id === subjectId)
 }
+

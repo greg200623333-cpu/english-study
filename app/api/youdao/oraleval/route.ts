@@ -47,10 +47,7 @@ function addAuthParams(appKey: string, appSecret: string, audioLength: number) {
   }
 }
 
-/**
- * 有道口语评测 API
- * 用于对话结束后的综合评分
- */
+
 export async function POST(request: NextRequest) {
   try {
     const APP_KEY = getAppKey()

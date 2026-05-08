@@ -52,7 +52,7 @@ export default function QuizPage() {
 
   return (
     <div className="space-y-6">
-      {/* Mission Briefing Modal */}
+      {/}
       <MissionBriefingModal
         open={missionTarget !== null}
         subjectId={missionTarget?.subjectId ?? ''}
@@ -61,7 +61,7 @@ export default function QuizPage() {
         onClose={() => setMissionTarget(null)}
       />
 
-      {/* Header */}
+      {/}
       <section className="glass-strong rounded-[2rem] border border-cyan-400/15 p-4 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
@@ -90,7 +90,7 @@ export default function QuizPage() {
         </div>
       </section>
 
-      {/* Tab bar */}
+      {/}
       <section className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex gap-2">
@@ -110,7 +110,7 @@ export default function QuizPage() {
             ))}
           </div>
 
-          {/* Operational briefing line */}
+          {/}
           <div className="flex flex-1 items-center gap-2">
             <span className="animate-pulse font-mono text-xs text-cyan-400/70">{'>'}</span>
             <p className="font-mono text-[13px] text-slate-400/80">
@@ -122,7 +122,7 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Mobile briefing line — shown below the row on small screens */}
+        {/}
         <div className="flex items-center gap-2 border-t border-white/6 pt-3 lg:hidden">
           <span className="animate-pulse font-mono text-xs text-cyan-400/70">{'>'}</span>
           <p className="font-mono text-xs text-slate-400/80">
@@ -131,13 +131,13 @@ export default function QuizPage() {
         </div>
       </section>
 
-      {/* Exam cards */}
+      {/}
       <div className="grid gap-6 md:grid-cols-2">
         {activeExams.map((exam) => {
           const sections = groupBySection(exam.subjects)
           return (
             <div key={exam.category} className="glass rounded-[1.75rem] overflow-hidden border border-white/10">
-              {/* Exam header */}
+              {/}
               <div className="px-6 py-5" style={{ background: `${exam.color}12`, borderBottom: `1px solid ${exam.color}22` }}>
                 <div className="flex items-center justify-between gap-4">
                   <div>
@@ -154,7 +154,7 @@ export default function QuizPage() {
                 </div>
               </div>
 
-              {/* Sections */}
+              {/}
               <div className="space-y-5 p-5">
                 {sections.map((sec) => (
                   <div key={sec.section}>

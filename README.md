@@ -339,16 +339,153 @@ TerminalPanel 显示 AI 回答
 
 ---
 
-## 🚢 部署（阿里云）
+## 🚢 部署
 
-### 环境准备
+### 方式一：自动化脚本部署（推荐）
 
-- 阿里云 ECS（推荐 Ubuntu 22.04）
-- Node.js >= 18（建议用 nvm 安装）
-- Nginx（反向代理）
-- PM2（进程守护）
+本项目提供了自动化部署脚本，实现一键部署、自动备份、健康检查和版本管理。
 
-### 1. 服务器初始化
+#### 优势
+
+- ✅ 一键部署，自动化流程
+- ✅ 自动备份，支持快速回滚
+- ✅ 内置健康检查
+- ✅ 版本管理（git commit hash + 时间戳）
+
+#### 环境准备
+
+```bash
+# 安装 nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+
+# 安装 Node.js 18
+nvm install 18
+nvm use 18
+
+# 安装 PM2 和 pnpm
+npm install -g pm2 pnpm
+
+# 安装 Nginx
+sudo apt install nginx -y
+```
+
+#### 拉取代码
+
+```bash
+git clone https://github.com/your-repo/english-study.git /www/wwwroot/english-study
+cd /www/wwwroot/english-study
+```
+
+#### 配置环境变量
+
+```bash
+# 创建 .env.production 文件
+cp .env.local .env.production
+vim .env.production
+```
+
+填入以下内容：
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# OpenAI
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_API_BASE=https://api.openai.com/v1
+
+# Anthropic
+ANTHROPIC_API_KEY=your_anthropic_api_key
+
+# 有道
+YOUDAO_APP_KEY=your_youdao_app_key
+YOUDAO_APP_SECRET=your_youdao_app_secret
+
+# 安全配置
+JWT_SECRET=your_random_secret_key
+SESSION_SECRET=your_session_secret
+PASSWORD_SALT=your_password_salt
+
+# 生产环境
+COOKIE_SECURE=true
+```
+
+#### 执行部署
+
+```bash
+# 首次部署或更新
+bash deploy-server.sh
+
+# 清除缓存部署（解决构建问题）
+bash deploy-server.sh --clean
+
+# 回滚到上一版本
+bash rollback.sh
+```
+
+#### 配置 Nginx
+
+项目提供了 Nginx 配置模板 `nginx.conf.example`：
+
+```bash
+# 复制配置文件
+sudo cp nginx.conf.example /etc/nginx/sites-available/english-study
+
+# 修改配置文件中的域名或 IP
+sudo vim /etc/nginx/sites-available/english-study
+
+# 启用配置
+sudo ln -s /etc/nginx/sites-available/english-study /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+#### 配置 HTTPS
+
+```bash
+# 安装 Certbot
+sudo apt install certbot python3-certbot-nginx -y
+
+# 申请 SSL 证书
+sudo certbot --nginx -d your-domain.com
+```
+
+#### 常用命令
+
+```bash
+# 查看服务状态
+pm2 status
+
+# 查看日志
+pm2 logs ssa-app
+
+# 重启服务
+pm2 restart ssa-app
+
+# 停止服务
+pm2 stop ssa-app
+
+# 回滚到上一版本
+bash rollback.sh
+```
+
+#### 更新部署
+
+```bash
+cd /www/wwwroot/english-study
+git pull origin main
+bash deploy-server.sh
+```
+
+---
+
+### 方式二：传统手动部署
+
+如果不使用自动化脚本，可以按照以下步骤手动部署。
+
+#### 1. 环境初始化
 
 ```bash
 # 安装 nvm
@@ -364,7 +501,7 @@ npm install -g pm2
 sudo apt install nginx -y
 ```
 
-### 2. 拉取代码
+#### 2. 拉取代码并构建
 
 ```bash
 git clone https://github.com/your-repo/english-study.git
@@ -372,7 +509,7 @@ cd english-study
 npm install
 ```
 
-### 3. 配置环境变量
+##### 3. 配置环境变量
 
 ```bash
 cp .env.local.example .env.local
@@ -392,13 +529,13 @@ YOUDAO_APP_SECRET=your_youdao_app_secret
 JWT_SECRET=your_random_secret_key
 ```
 
-### 4. 构建项目
+##### 4. 构建项目
 
 ```bash
 npm run build
 ```
 
-### 5. PM2 启动
+##### 5. PM2 启动
 
 ```bash
 pm2 start .next/standalone/server.js --name english-study
@@ -415,7 +552,7 @@ pm2 restart english-study
 pm2 stop english-study
 ```
 
-### 6. Nginx 反向代理配置
+##### 6. Nginx 反向代理配置
 
 ```nginx
 # /etc/nginx/sites-available/english-study
@@ -443,7 +580,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-### 7. HTTPS 配置（可选，推荐）
+##### 7. HTTPS 配置（可选，推荐）
 
 ```bash
 # 安装 Certbot
@@ -451,7 +588,7 @@ sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d your-domain.com
 ```
 
-### 8. 更新部署
+#### 8. 更新部署
 
 ```bash
 git pull
@@ -459,6 +596,8 @@ npm install
 npm run build
 pm2 restart english-study
 ```
+
+---
 
 ### 阿里云安全组配置
 

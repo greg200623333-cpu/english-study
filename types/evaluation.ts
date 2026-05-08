@@ -1,38 +1,33 @@
-// 口语评分结果
 export interface OralEvaluationResult {
   overall: {
     grade: 'S' | 'A' | 'B' | 'C' | 'D'
-    score: number // 0-100
+    score: number
   }
   dimensions: {
-    pronunciation: number // 发音 0-100
-    fluency: number // 流利度 0-100
-    accuracy: number // 准确性 0-100
+    pronunciation: number
+    fluency: number
+    accuracy: number
   }
-  suggestions: string[] // 改进建议
-  grammarErrors: GrammarError[] // 语法错误
+  suggestions: string[]
+  grammarErrors: GrammarError[]
 }
 
-// 语法错误
 export interface GrammarError {
-  original: string // 原文
-  corrected: string // 修正后
-  explanation: string // 解释
-  position?: number // 在对话中的位置
+  original: string
+  corrected: string
+  explanation: string
+  position?: number
 }
 
-// 音频录制状态
 export type RecordingState = 'idle' | 'recording' | 'processing' | 'error'
 
-// 音频数据
 export interface AudioData {
   blob: Blob
   base64: string
-  duration: number // 秒
+  duration: number
   timestamp: Date
 }
 
-// 对话记录（用于评分）
 export interface ConversationRecord {
   messageId: string
   role: 'user' | 'assistant'
@@ -41,26 +36,24 @@ export interface ConversationRecord {
   timestamp: Date
 }
 
-// 有道 AI Chat API 请求
 export interface YoudaoAIChatRequest {
-  q?: string // 文本输入
-  audio?: string // 音频 Base64（与 q 二选一）
+  q?: string
+  audio?: string
   langType: 'en' | 'zh-CHS'
-  voice?: string // 音色选择
-  scene: string // 场景
-  taskId?: string // 会话 ID
+  voice?: string
+  scene: string
+  taskId?: string
   history?: Array<{
     speaker: 'System' | 'User'
     content: string
   }>
 }
 
-// 有道 AI Chat API 响应
 export interface YoudaoAIChatResponse {
   errorCode: string
   taskId: string
   reply: string
-  tts?: string // TTS 音频 URL 或 Base64
+  tts?: string
   extra?: {
     grammar?: GrammarError[]
     pronunciation?: {
@@ -70,22 +63,20 @@ export interface YoudaoAIChatResponse {
   }
 }
 
-// 有道口语评测 API 请求
 export interface YoudaoOralEvalRequest {
-  audio: string // Base64 音频
+  audio: string
   langType: 'en'
   audioType: 'wav' | 'mp3'
-  refText?: string // 参考文本（可选）
+  refText?: string
 }
 
-// 有道口语评测 API 响应
 export interface YoudaoOralEvalResponse {
   errorCode: string
   result: {
-    overall: number // 总分
+    overall: number
     pronunciation: number
     fluency: number
-    integrity: number // 完整度
+    integrity: number
     details?: any
   }
 }

@@ -327,7 +327,6 @@ export const useStudyModeStore = create<StudyModeState>()(
           const nextHasSsaExchange = isSameExam ? current.hasSsaExchange : false
           const nextLaws = isSameExam ? normalizeLaws(current.laws) : { ...emptyLaws }
           const nextActiveBuffs = computeBuffs(nextLaws, nextSsaGdpBonus)
-          // 切换词书时 GDP 清零，同一词书保留历史数据
           const displayGDP = isSameExam ? computeDisplayGDP(nextBaseAssets, nextSessionGains) : 0
 
           return {
@@ -389,8 +388,6 @@ export const useStudyModeStore = create<StudyModeState>()(
       }),
       syncVocabularyGDP: (baseAssets, points) => {
         set((state) => {
-          // Only zero out if there's genuinely no data — don't clear when called
-          // from dashboard with a freshly-computed baseAssets value.
           if (baseAssets <= 0 && !hasInitializedGdpProgress(state)) {
             return {
               baseAssets: 0,
@@ -407,8 +404,6 @@ export const useStudyModeStore = create<StudyModeState>()(
               ? [...state.gdpHistory.slice(-6), { label: 'Now', value: Math.round(displayGDP) }]
               : buildFlatHistory(displayGDP)
 
-          // If GDP is being set to a positive value, activate hasSsaExchange
-          // This ensures GDP from essays and other sources is properly displayed
           const shouldActivateExchange = displayGDP > 0 && !state.hasSsaExchange
 
           return {
@@ -544,16 +539,12 @@ export const useStudyModeStore = create<StudyModeState>()(
         const state = get()
         const storedUserId = state.lastUserId
 
-        // 如果当前用户 ID 与存储的不同，说明用户切换了
         if (storedUserId && currentUserId && storedUserId !== currentUserId) {
-          // 重置所有数据
           get().resetForUserSwitch()
-          // 设置新的用户 ID
           set({ lastUserId: currentUserId })
           return true
         }
 
-        // 如果是首次登录或者用户 ID 相同，更新存储的用户 ID
         if (currentUserId && currentUserId !== storedUserId) {
           set({ lastUserId: currentUserId })
         }
@@ -569,7 +560,6 @@ export const useStudyModeStore = create<StudyModeState>()(
         const state = persistedState as Partial<StudyModeState> | undefined
         if (!state) return persistedState as StudyModeState
 
-        // Ensure selectedWordTier has a valid value (database constraint: must be 'core' or 'full')
         const validTier = state.selectedWordTier === 'core' || state.selectedWordTier === 'full' ? state.selectedWordTier : 'core'
 
         if (!hasInitializedGdpProgress({ hasSsaExchange: state.hasSsaExchange, sessionGains: state.sessionGains })) {
@@ -626,13 +616,5 @@ export const useStudyModeStore = create<StudyModeState>()(
     }
   )
 )
-
-
-
-
-
-
-
-
 
 

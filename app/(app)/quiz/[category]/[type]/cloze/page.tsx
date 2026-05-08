@@ -36,12 +36,12 @@ export default function ClozePage() {
   const archiveId = searchParams.get('archiveId')
 
   const [question, setQuestion] = useState<ClozeQuestion | null>(null)
-  const [mode, setMode] = useState<'fill' | 'select'>('fill') // fill=整篇填空, select=逐题选择
-  const [answers, setAnswers] = useState<Record<number, string>>({}) // 26-35的答案
-  const [correctAnswers, setCorrectAnswers] = useState<Record<number, string>>({}) // 正确答案
-  const [selectedBlank, setSelectedBlank] = useState<number | null>(null) // 当前选中的空格
-  const [aiAnalysis, setAiAnalysis] = useState<Record<number, string>>({}) // AI解析
-  const [loadingAi, setLoadingAi] = useState<Record<number, boolean>>({}) // AI加载状态
+  const [mode, setMode] = useState<'fill' | 'select'>('fill')
+  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [correctAnswers, setCorrectAnswers] = useState<Record<number, string>>({})
+  const [selectedBlank, setSelectedBlank] = useState<number | null>(null)
+  const [aiAnalysis, setAiAnalysis] = useState<Record<number, string>>({})
+  const [loadingAi, setLoadingAi] = useState<Record<number, boolean>>({})
   const [showResult, setShowResult] = useState(false)
   const [loading, setLoading] = useState(true)
   const [generating, setGenerating] = useState(false)
@@ -63,11 +63,9 @@ export default function ClozePage() {
           const clozeQ = data.find(q => q.type === 'cloze')
           if (clozeQ) {
             setQuestion(clozeQ)
-            // 收集所有空格的正确答案 - 从explanation字段提取实际的空格号
             const allCloze = data.filter(q => q.type === 'cloze' && q.correctAnswer && q.explanation)
             const answerMap: Record<number, string> = {}
             allCloze.forEach(q => {
-              // 从explanation中提取空格号，格式如 "27.【解析】"
               const match = q.explanation?.match(/^(\d+)\.【解析】/)
               if (match) {
                 const blankNum = parseInt(match[1])
@@ -109,21 +107,18 @@ export default function ClozePage() {
             .limit(10)
           if (data && data.length > 0) {
             let passage = data.find(q => q.passage)?.passage || ''
-            // Ensure passage has exactly 10 [blank] markers
             if (passage) {
               const existingBlanks = (passage.match(/\[blank\]/gi) || []).length
               if (existingBlanks < 10) {
-                // Split into words and insert blanks at evenly spaced positions
                 const words = passage.split(' ')
                 const needed = 10 - existingBlanks
-                // Find positions that are not adjacent to existing blanks
                 const step = Math.floor(words.length / (needed + 1))
                 let inserted = 0
                 for (let i = step; i < words.length && inserted < needed; i += step) {
                   if (!words[i].includes('[blank]') && !words[i - 1]?.includes('[blank]')) {
                     words.splice(i, 0, '[blank]')
                     inserted++
-                    i++ // account for inserted word
+                    i++
                   }
                 }
                 passage = words.join(' ')
@@ -249,26 +244,21 @@ export default function ClozePage() {
   const wordBank = question.wordBank || []
   const blanks = [26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
 
-  // 渲染文章，将 [blank]/(26)/(27)等 替换为可填空的输入框
   function renderPassage() {
     if (!question) return ''
     let blankIndex = 0
-    // 支持 [blank]、(26)~(35)、裸露的26~35、____、\n\n 等多种标记
-    // 先处理带数字的标记，然后处理 \n\n
     let text = question.question.replace(/\[blank\]|\(([23][0-9])\)|\b([23][0-9])\b|_{3,}/gi, (match, numStr1, numStr2) => {
       const num = numStr1 ? parseInt(numStr1) : numStr2 ? parseInt(numStr2) : 26 + blankIndex
       blankIndex++
       return `__BLANK_${num}__`
     })
 
-    // 处理剩余的 \n\n 作为后续空格（从 blankIndex 继续编号）
     text = text.replace(/\n\n/g, () => {
       const num = 26 + blankIndex
       blankIndex++
       return `__BLANK_${num}__`
     })
 
-    // 将所有 __BLANK_N__ 替换为实际的 HTML
     return text.replace(/__BLANK_(\d+)__/g, (match, numStr) => {
       const num = parseInt(numStr)
       const answer = answers[num] || ''
@@ -309,7 +299,7 @@ export default function ClozePage() {
         </div>
       </div>
 
-      {/* 文章段落 */}
+      {/}
       <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
         {mode === 'fill' && (
           <div className="mb-3 text-xs font-semibold" style={{ color: selectedBlank ? '#22d3ee' : '#64748b' }}>
@@ -330,7 +320,7 @@ export default function ClozePage() {
         />
       </div>
 
-      {/* 词库 */}
+      {/}
       <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="mb-4 text-sm font-bold" style={{ color: '#94a3b8' }}>词库 Word Bank</div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
@@ -366,7 +356,7 @@ export default function ClozePage() {
         </div>
       </div>
 
-      {/* 逐题选择模式 */}
+      {/}
       {mode === 'select' && (
         <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mb-4 text-sm font-bold" style={{ color: '#94a3b8' }}>选择答案</div>
@@ -397,7 +387,7 @@ export default function ClozePage() {
         </div>
       )}
 
-      {/* 提交按钮 */}
+      {/}
       {!showResult && (
         <button
           onClick={handleSubmit}
@@ -408,7 +398,7 @@ export default function ClozePage() {
         </button>
       )}
 
-      {/* 结果显示 */}
+      {/}
       {showResult && (
         <div className="space-y-4">
           <div className="glass rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>

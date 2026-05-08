@@ -1,4 +1,3 @@
-// 场景类型定义
 export interface Scenario {
   id: string
   title: string
@@ -11,14 +10,13 @@ export interface Scenario {
   practiceTips: string[]
 }
 
-// 对话消息类型
 export interface ChatMessage {
   id: string
   role: 'user' | 'assistant' | 'system'
   content: string
   timestamp: Date
-  audioBase64?: string // 用户消息的音频数据
-  ttsUrl?: string // AI 消息的 TTS 音频
+  audioBase64?: string
+  ttsUrl?: string
   grammarErrors?: Array<{
     original: string
     corrected: string
@@ -26,20 +24,17 @@ export interface ChatMessage {
   }>
 }
 
-// 有道 AI 对话历史格式
 export interface YoudaoDialogHistory {
   speaker: 'System' | 'User'
   content: string
 }
 
-// 有道 AI 对话会话状态
 export interface YoudaoChatSession {
   taskId: string
   scene: string
   history: YoudaoDialogHistory[]
 }
 
-// 场景配置
 export const SCENARIOS: Scenario[] = [
   {
     id: 'technical-interview',

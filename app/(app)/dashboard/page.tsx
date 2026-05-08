@@ -123,15 +123,14 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!_hasHydrated) return
     if (!user || !_hasHydrated) return
-    if (searchParams.get('onboarding') === '1') {
+    if (searchParams.get('onboarding') === '1' && !hasSeenBriefing) {
       setShowBriefing(true)
     }
-  }, [user, _hasHydrated, searchParams])
+  }, [user, _hasHydrated, searchParams, hasSeenBriefing])
 
   useEffect(() => {
     if (!_hasHydrated) return
     async function load() {
-      // 获取 session
       const sessionRes = await fetch('/api/auth/session')
       if (!sessionRes.ok) {
         setUser(null)
@@ -206,7 +205,6 @@ export default function DashboardPage() {
         const learningCount = assets.filter((a) => a.status === 'learning').length
         const hasSsaData = knownCount > 0 || learningCount > 0
         if (hasSsaData) {
-          // Only count words you've actually studied (learning/known), not untouched 'new' words
           const activeAssets = assets.filter((a) => a.status !== 'new')
           const baseGDP = Math.round(activeAssets.reduce((total, a) => total + 100 * a.difficultyWeight * (0.35 + a.masteryLevel * 0.65), 0))
           syncVocabularyGDP(baseGDP)
@@ -223,7 +221,6 @@ export default function DashboardPage() {
           updateReviewDeficit(learningCount * 3 + dailyDeficit)
           syncGdpMapping({ targetGDP: wordsMeta.length, currentGDP: knownCount })
 
-          // Persist GDP to database after recalculation
           const { saveStudyModeProfile } = await import('@/lib/studyModePersistence')
           await saveStudyModeProfile(sessionUser.id).catch(err => console.error('Failed to persist GDP:', err))
         }
@@ -239,14 +236,10 @@ export default function DashboardPage() {
       setLawRoi(analyticsData.lawRoi)
     }
     void load()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExam, selectedWordTier, dailyWordTarget])
 
   const lawCount = useMemo(() => Object.values(laws ?? {}).filter(Boolean).length, [laws])
 
-  // ── Hydration guard: render skeleton until Zustand has rehydrated from localStorage ──
-  // Without this, persisted values (vocabularyGDP, laws, etc.) would flash
-  // as zeros on the first paint, causing a visible layout jump.
   if (!_hasHydrated) {
     return (
       <div className="space-y-4 animate-pulse">
@@ -586,17 +579,5 @@ export default function DashboardPage() {
     </div>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

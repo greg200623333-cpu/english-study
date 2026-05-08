@@ -38,7 +38,6 @@ export default function LoginPage() {
         return
       }
 
-      // Save username to localStorage for future logins
       localStorage.setItem('last_username', username)
 
       /**
@@ -46,7 +45,6 @@ export default function LoginPage() {
        * 用途：标记需要检查用户切换（预留标志，当前未使用，待未来集成）
        * 采纳率：约10%（参考了状态数据穿透的排查思路）
        */
-      // 标记需要检查用户切换
       sessionStorage.setItem('force-reset-store', 'true')
       router.push('/dashboard')
     } catch (err) {
