@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 type Props = {
   open: boolean
@@ -17,7 +17,15 @@ const briefingSteps = [
 export function OnboardingBriefingModal({ open, onComplete }: Props) {
   const [stepIndex, setStepIndex] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const isMountedRef = useRef(true)
   const activeStep = briefingSteps[stepIndex]
+
+  useEffect(() => {
+    isMountedRef.current = true
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
 
   async function handleComplete() {
     if (isSubmitting) return
@@ -25,7 +33,9 @@ export function OnboardingBriefingModal({ open, onComplete }: Props) {
     try {
       await Promise.resolve(onComplete())
     } finally {
-      setIsSubmitting(false)
+      if (isMountedRef.current) {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -41,7 +51,7 @@ export function OnboardingBriefingModal({ open, onComplete }: Props) {
         className="glass-strong relative flex w-full max-w-4xl flex-col overflow-hidden rounded-t-[2rem] border border-cyan-400/20 sm:rounded-[2rem]"
         style={{ height: '92dvh', maxHeight: '92dvh' }}
       >
-        {/}
+        
         <div className="shrink-0 flex items-center justify-between border-b border-white/10 px-5 py-4 md:px-8 md:py-5">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Mission Briefing</p>
@@ -53,7 +63,7 @@ export function OnboardingBriefingModal({ open, onComplete }: Props) {
           </div>
         </div>
 
-        {/}
+        
         <div className="min-h-0 flex-1 overflow-y-auto">
           <div className="grid gap-5 px-5 py-5 md:px-8 md:py-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="flex flex-col justify-between gap-6">
@@ -73,7 +83,7 @@ export function OnboardingBriefingModal({ open, onComplete }: Props) {
                   <p className="text-base leading-7 text-slate-300 md:text-lg md:leading-8">{activeStep.body}</p>
                 </motion.div>
               </AnimatePresence>
-              {/}
+              
               <div className="flex items-center gap-3">
                 {briefingSteps.map((item, index) => (
                   <div
@@ -85,7 +95,7 @@ export function OnboardingBriefingModal({ open, onComplete }: Props) {
               </div>
             </div>
 
-            {/}
+            
             <div className="glass rounded-[1.75rem] border border-white/10 p-4 md:p-6">
               <div className="grid grid-cols-2 gap-3 text-sm text-slate-300 lg:grid-cols-1">
                 <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-3 md:p-4">
@@ -109,7 +119,7 @@ export function OnboardingBriefingModal({ open, onComplete }: Props) {
           </div>
         </div>
 
-        {/}
+        
         <div className="shrink-0 flex items-center justify-between border-t border-white/10 px-5 py-4 md:px-8 md:py-5">
           <button
             type="button"

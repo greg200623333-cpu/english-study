@@ -5,6 +5,26 @@ import { fetchWithTimeout } from '@/lib/apiClient'
 
 export const dynamic = 'force-dynamic'
 
+type CheckImageResponse = {
+  score: number
+  grammarErrors: Array<{
+    type: string
+    original: string
+    corrected: string
+    position: number
+    explanation: string
+  }>
+  improvedVersion: string
+  strategicAdvice: string
+  dimensions: {
+    grammar: number
+    vocabulary: number
+    structure: number
+    content: number
+  }
+  rawYoudaoResult?: any
+}
+
 function getAppKey(): string {
   const key = process.env.YOUDAO_APP_KEY
   if (!key) throw new Error('YOUDAO_APP_KEY is not configured')
@@ -156,7 +176,7 @@ ${result.essayReport?.grammarErrorAdvice?.advice || '建议继续保持练习。
 
     const totalScore = result.totalScore || majorScore.grammarScore || 0
 
-    return NextResponse.json({
+    const responseData: CheckImageResponse = {
       score: Math.round(totalScore),
       grammarErrors,
       improvedVersion: improvedVersion || result.rawEssay || '',
@@ -166,9 +186,14 @@ ${result.essayReport?.grammarErrorAdvice?.advice || '建议继续保持练习。
         vocabulary: Math.round(majorScore.wordScore || 0),
         structure: Math.round(majorScore.structureScore || 0),
         content: Math.round(majorScore.topicScore || 0)
-      },
-      rawYoudaoResult: result
-    })
+      }
+    }
+
+    if (process.env.NODE_ENV === 'development') {
+      responseData.rawYoudaoResult = result
+    }
+
+    return NextResponse.json(responseData)
   } catch (error) {
     console.error('[check-image] Error:', error)
     const err = error as Error

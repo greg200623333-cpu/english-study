@@ -46,7 +46,7 @@ export default function WelcomeScreen({ onSelectWorkspace }: Props) {
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{ background: '#0d0e1a' }}>
 
-      {/}
+      
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-10"
           style={{ background: 'radial-gradient(circle, #6366f1, transparent)' }} />
@@ -54,7 +54,7 @@ export default function WelcomeScreen({ onSelectWorkspace }: Props) {
           style={{ background: 'radial-gradient(circle, #f59e0b, transparent)' }} />
       </div>
 
-      {/}
+      
       <div className="absolute top-6 left-6 right-6 z-20 flex items-center justify-between">
         <Link href="/"
           className="flex items-center gap-2 text-sm transition-colors"
@@ -71,7 +71,7 @@ export default function WelcomeScreen({ onSelectWorkspace }: Props) {
         </Link>
       </div>
 
-      {/}
+      
       <motion.div
         className="text-center mb-16 z-10"
         initial={{ opacity: 0, y: -30 }}
@@ -85,7 +85,7 @@ export default function WelcomeScreen({ onSelectWorkspace }: Props) {
         <p style={{ color: '#94a3b8' }} className="text-lg">选择你的专业沉浸式工作区</p>
       </motion.div>
 
-      {/}
+      
       <motion.div
         className="flex gap-10 z-10 flex-wrap justify-center px-6"
         variants={containerVariants}

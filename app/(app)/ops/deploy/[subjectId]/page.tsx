@@ -91,7 +91,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
   return (
     <div className="mx-auto max-w-2xl space-y-6">
 
-      {/}
+      
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -99,7 +99,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         className="relative overflow-hidden rounded-[2rem] border bg-slate-900 p-6 md:p-8"
         style={{ borderColor: `${accent}40`, boxShadow: `0 0 60px ${accent}14` }}
       >
-        {/}
+        
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-40 rounded-t-[2rem]"
           style={{ background: `linear-gradient(to bottom, ${accent}18, transparent)` }}
@@ -113,7 +113,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
             {mission.subjectTitle}
           </h1>
 
-          {/}
+          
           <div className="mt-4 flex flex-wrap gap-2">
             {isAi ? (
               <span className="flex items-center gap-1.5 rounded-full border border-purple-500/30 bg-purple-500/12 px-3 py-1 text-xs font-bold text-purple-300">
@@ -139,7 +139,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         </div>
       </motion.section>
 
-      {/}
+      
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -156,7 +156,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         </div>
       </motion.section>
 
-      {/}
+      
       {isAi && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -174,7 +174,7 @@ export default function DeployPage({ params }: { params: { subjectId: string } }
         </motion.div>
       )}
 
-      {/}
+      
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}

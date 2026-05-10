@@ -33,7 +33,7 @@ export default function ScenarioCard({ scenario, onSelect, isSelected }: Props) 
         }
       `}
     >
-      {/}
+      
       <div className={`
         mb-3 sm:mb-4 inline-flex rounded-xl p-2.5 sm:p-3 transition-colors
         ${isSelected ? 'bg-purple-500/20' : 'bg-white/5'}
@@ -41,7 +41,7 @@ export default function ScenarioCard({ scenario, onSelect, isSelected }: Props) 
         <IconComponent className={`h-5 w-5 sm:h-6 sm:w-6 ${isSelected ? 'text-purple-400' : 'text-slate-400'}`} />
       </div>
 
-      {/}
+      
       <h3 className="mb-1 text-base sm:text-lg font-bold text-white">
         {scenario.title}
       </h3>
@@ -49,12 +49,12 @@ export default function ScenarioCard({ scenario, onSelect, isSelected }: Props) 
         {scenario.subtitle}
       </p>
 
-      {/}
+      
       <p className="text-xs sm:text-sm leading-relaxed text-slate-400">
         {scenario.description}
       </p>
 
-      {/}
+      
       {isSelected && (
         <motion.div
           layoutId="selected-indicator"

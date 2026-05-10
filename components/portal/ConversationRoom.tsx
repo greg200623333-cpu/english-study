@@ -326,7 +326,7 @@ export default function ConversationRoom({ scenario }: Props) {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e]">
-      {/}
+      
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
@@ -334,7 +334,7 @@ export default function ConversationRoom({ scenario }: Props) {
         />
       )}
 
-      {/}
+      
       <motion.aside
         initial={false}
         animate={{
@@ -342,7 +342,7 @@ export default function ConversationRoom({ scenario }: Props) {
         }}
         className="fixed lg:static inset-y-0 left-0 z-50 w-80 bg-[#0a0a0f]/95 backdrop-blur-xl border-r border-white/10 flex flex-col"
       >
-        {/}
+        
         <div className="p-4 sm:p-6 border-b border-white/10">
           <button
             onClick={() => {
@@ -359,7 +359,7 @@ export default function ConversationRoom({ scenario }: Props) {
             <span className="text-sm font-medium">切换情景</span>
           </button>
 
-          {/}
+          
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden absolute top-4 right-4 p-2 text-slate-400 hover:text-white transition-colors"
@@ -368,7 +368,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </button>
         </div>
 
-        {/}
+        
         <div className="p-4 sm:p-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
             <div className="flex items-start gap-4">
@@ -381,7 +381,7 @@ export default function ConversationRoom({ scenario }: Props) {
               </div>
             </div>
 
-            {/}
+            
             <div className="mt-4 pt-4 border-t border-white/10">
               <label className="block text-xs font-medium text-slate-400 mb-2">
                 AI 音色
@@ -400,7 +400,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </div>
         </div>
 
-        {/}
+        
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-white flex items-center gap-2">
@@ -417,7 +417,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </div>
         </div>
 
-        {/}
+        
         <div className="p-4 sm:p-6 border-t border-white/10">
           <button
             onClick={handleFinishPractice}
@@ -430,12 +430,12 @@ export default function ConversationRoom({ scenario }: Props) {
         </div>
       </motion.aside>
 
-      {/}
+      
       <div className="flex-1 flex flex-col min-w-0">
-        {/}
+        
         <div className="border-b border-white/10 p-4 sm:p-6 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            {/}
+            
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors flex-shrink-0"
@@ -443,7 +443,7 @@ export default function ConversationRoom({ scenario }: Props) {
               <Menu className="w-5 h-5" />
             </button>
 
-            {/}
+            
             <div className="bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-1.5 flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
               <span className="text-xs sm:text-sm text-purple-400 font-medium truncate">
@@ -452,7 +452,7 @@ export default function ConversationRoom({ scenario }: Props) {
             </div>
           </div>
 
-          {/}
+          
           <button
             onClick={() => setVoiceOutputEnabled(!voiceOutputEnabled)}
             className={`
@@ -477,7 +477,7 @@ export default function ConversationRoom({ scenario }: Props) {
           </button>
         </div>
 
-        {/}
+        
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4">
             <AnimatePresence>
@@ -512,7 +512,7 @@ export default function ConversationRoom({ scenario }: Props) {
                     </p>
                   </div>
 
-                  {/}
+                  
                   {message.role === 'user' && message.grammarErrors && message.grammarErrors.length > 0 && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
@@ -542,7 +542,7 @@ export default function ConversationRoom({ scenario }: Props) {
               ))}
             </AnimatePresence>
 
-            {/}
+            
             {isLoading && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -559,7 +559,7 @@ export default function ConversationRoom({ scenario }: Props) {
               </motion.div>
             )}
 
-            {/}
+            
             {isSpeaking && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -577,11 +577,11 @@ export default function ConversationRoom({ scenario }: Props) {
           </div>
         </div>
 
-        {/}
+        
         <div className="border-t border-white/10 p-3 sm:p-4 bg-[#0a0a0f]">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-2 sm:gap-3">
-              {/}
+              
               <button
                 onClick={handleVoiceButtonClick}
                 disabled={isLoading || recordingState === 'processing'}
@@ -600,7 +600,7 @@ export default function ConversationRoom({ scenario }: Props) {
                 <Mic className="h-5 w-5" />
               </button>
 
-              {/}
+              
               <input
                 type="text"
                 value={input}
@@ -617,7 +617,7 @@ export default function ConversationRoom({ scenario }: Props) {
                 "
               />
 
-              {/}
+              
               <button
                 onClick={handleSendMessage}
                 disabled={!input.trim() || isLoading}
@@ -633,7 +633,7 @@ export default function ConversationRoom({ scenario }: Props) {
               </button>
             </div>
 
-            {/}
+            
             {recordingState === 'recording' && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -656,7 +656,7 @@ export default function ConversationRoom({ scenario }: Props) {
         </div>
       </div>
 
-      {/}
+      
       <ScoreModal
         isOpen={showScoreModal}
         onClose={() => setShowScoreModal(false)}

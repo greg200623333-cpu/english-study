@@ -299,7 +299,7 @@ export default function ClozePage() {
         </div>
       </div>
 
-      {/}
+      
       <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
         {mode === 'fill' && (
           <div className="mb-3 text-xs font-semibold" style={{ color: selectedBlank ? '#22d3ee' : '#64748b' }}>
@@ -320,7 +320,7 @@ export default function ClozePage() {
         />
       </div>
 
-      {/}
+      
       <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="mb-4 text-sm font-bold" style={{ color: '#94a3b8' }}>词库 Word Bank</div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
@@ -356,7 +356,7 @@ export default function ClozePage() {
         </div>
       </div>
 
-      {/}
+      
       {mode === 'select' && (
         <div className="glass mb-6 rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mb-4 text-sm font-bold" style={{ color: '#94a3b8' }}>选择答案</div>
@@ -387,7 +387,7 @@ export default function ClozePage() {
         </div>
       )}
 
-      {/}
+      
       {!showResult && (
         <button
           onClick={handleSubmit}
@@ -398,7 +398,7 @@ export default function ClozePage() {
         </button>
       )}
 
-      {/}
+      
       {showResult && (
         <div className="space-y-4">
           <div className="glass rounded-2xl p-6" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>

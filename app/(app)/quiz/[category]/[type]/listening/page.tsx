@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useYoudaoTTS } from '@/lib/useYoudaoTTS'
 import { useWarRoomSync } from '@/hooks/useWarRoomSync'
@@ -83,19 +83,29 @@ export default function ListeningPage() {
   const { syncQuizAttempt } = useWarRoomSync()
   const { activeMission } = useMissionStore()
 
-  useEffect(() => {
-    if (activeMission?.isAiMode && !archiveId && passages.length === 0) {
-      generate()
+  const generate = useCallback(async () => {
+    setLoading(true)
+    setPassages([])
+    setAnswers({})
+    setSubmitted(false)
+    setShowText(false)
+    setPassageIndex(0)
+    try {
+      const res = await fetch('/api/generate/listening', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category, type, count: 2 }),
+      })
+      const data = await res.json()
+      setPassages(data.passages ?? [])
+    } catch {
+      alert('生成失败，请重试')
+    } finally {
+      setLoading(false)
     }
-  }, [activeMission])
+  }, [category, type])
 
-  useEffect(() => {
-    if (archiveId) {
-      loadArchive()
-    }
-  }, [archiveId])
-
-  async function loadArchive() {
+  const loadArchive = useCallback(async () => {
     setLoading(true)
     try {
       const fileId = archiveId!.replace('.', '-')
@@ -138,36 +148,19 @@ export default function ListeningPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [archiveId, category, type])
 
   useEffect(() => {
-    return () => {
-      stop()
-      setPlayingIdx(null)
+    if (activeMission?.isAiMode && !archiveId && passages.length === 0) {
+      generate()
     }
-  }, [passageIndex, stop])
+  }, [activeMission, archiveId, passages.length, generate])
 
-  async function generate() {
-    setLoading(true)
-    setPassages([])
-    setAnswers({})
-    setSubmitted(false)
-    setShowText(false)
-    setPassageIndex(0)
-    try {
-      const res = await fetch('/api/generate/listening', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, type, count: 2 }),
-      })
-      const data = await res.json()
-      setPassages(data.passages ?? [])
-    } catch {
-      alert('生成失败，请重试')
-    } finally {
-      setLoading(false)
+  useEffect(() => {
+    if (archiveId) {
+      loadArchive()
     }
-  }
+  }, [archiveId, loadArchive])
 
   function handlePlay(idx: number) {
     if (playingIdx === idx && speaking) {

@@ -290,9 +290,9 @@ export default function StrategicEssayInput() {
 
   return (
     <div className="grid grid-cols-12 gap-6">
-      {/}
+      
       <div className="col-span-9 flex flex-col">
-        {/}
+        
         <div className="mb-4 flex gap-4">
           <button
             onClick={() => setMode('text')}
@@ -320,7 +320,7 @@ export default function StrategicEssayInput() {
           </button>
         </div>
 
-        {/}
+        
         <div
           className={`border border-cyan-500/30 bg-[#0a0a0c] p-4 backdrop-blur-md transition-all duration-300 ${
             showPulse ? 'border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]' : ''
@@ -364,12 +364,12 @@ export default function StrategicEssayInput() {
           )}
         </div>
 
-        {/}
+        
         <div className="h-4" />
 
-        {/}
+        
         <div className="relative flex-1 overflow-hidden border border-cyan-500/30 bg-slate-950/90 backdrop-blur-md" style={{ borderRadius: 0, minHeight: '50vh' }}>
-          {/}
+          
           <div
             className="pointer-events-none absolute inset-0 opacity-10"
             style={{
@@ -378,13 +378,13 @@ export default function StrategicEssayInput() {
             }}
           />
 
-          {/}
+          
           <div className="pointer-events-none absolute left-0 top-0 h-8 w-8 border-l-2 border-t-2 border-cyan-400" />
           <div className="pointer-events-none absolute right-0 top-0 h-8 w-8 border-r-2 border-t-2 border-cyan-400" />
           <div className="pointer-events-none absolute bottom-0 left-0 h-8 w-8 border-b-2 border-l-2 border-cyan-400" />
           <div className="pointer-events-none absolute bottom-0 right-0 h-8 w-8 border-b-2 border-r-2 border-cyan-400" />
 
-          {/}
+          
           {analyzing && (
             <motion.div
               className="absolute left-0 right-0 top-0 z-20 h-0.5 bg-cyan-400 shadow-[0_0_10px_#00E5FF]"
@@ -395,7 +395,7 @@ export default function StrategicEssayInput() {
 
           <div className="relative z-10 flex h-full min-h-[50vh] flex-col p-6">
 
-          {/}
+          
           {mode === 'text' && (
             <div className="flex flex-1 flex-col">
               <textarea
@@ -407,7 +407,7 @@ export default function StrategicEssayInput() {
                 disabled={analyzing}
               />
 
-              {/}
+              
               <div className="mt-4 flex justify-end">
                 <div className={`font-mono text-xs ${wordCount >= 50 ? 'text-cyan-400' : 'text-slate-500'}`}>
                   {wordCount} / 50 词
@@ -416,7 +416,7 @@ export default function StrategicEssayInput() {
             </div>
           )}
 
-          {/}
+          
           {mode === 'image' && (
             <div className="flex flex-1 flex-col items-center justify-center">
               {!imagePreview ? (
@@ -462,9 +462,9 @@ export default function StrategicEssayInput() {
         </div>
       </div>
 
-        {/}
+        
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-        {/}
+        
         <div className="flex items-center gap-2">
           <Shield className="h-4 w-4 text-cyan-400" />
           <span className="font-mono text-xs text-slate-400">战略分级:</span>
@@ -487,7 +487,7 @@ export default function StrategicEssayInput() {
           </div>
         </div>
 
-        {/}
+        
         {mode === 'image' && (
           <div className="flex items-center gap-2 font-mono text-xs text-slate-400">
             <Zap className="h-4 w-4 text-yellow-400" />
@@ -495,7 +495,7 @@ export default function StrategicEssayInput() {
           </div>
         )}
 
-        {/}
+        
         <button
           onClick={handleAnalyze}
           disabled={!isReady || analyzing}
@@ -520,7 +520,7 @@ export default function StrategicEssayInput() {
         </button>
       </div>
 
-      {/}
+      
       <AnimatePresence>
         {error && (
           <motion.div
@@ -536,7 +536,7 @@ export default function StrategicEssayInput() {
         )}
       </AnimatePresence>
 
-      {/}
+      
       <AnimatePresence>
         {result && (
           <motion.div
@@ -545,7 +545,7 @@ export default function StrategicEssayInput() {
             exit={{ opacity: 0, y: 20 }}
             className="space-y-4"
           >
-            {/}
+            
             <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="flex items-center gap-2 font-mono text-lg font-bold text-white">
@@ -559,7 +559,7 @@ export default function StrategicEssayInput() {
                 </div>
               </div>
 
-              {/}
+              
               {result.dimensions && (
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                   {Object.entries(result.dimensions).map(([key, value]) => (
@@ -577,7 +577,7 @@ export default function StrategicEssayInput() {
               )}
             </div>
 
-            {/}
+            
             {result.grammarErrors && result.grammarErrors.length > 0 && (
               <div className="border border-yellow-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
                 <h3 className="mb-4 flex items-center gap-2 font-mono text-lg font-bold text-white">
@@ -600,7 +600,7 @@ export default function StrategicEssayInput() {
               </div>
             )}
 
-            {/}
+            
             <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
               <h3 className="mb-4 flex items-center gap-2 font-mono text-lg font-bold text-white">
                 <FileText className="h-5 w-5 text-cyan-400" />
@@ -611,7 +611,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/}
+            
             {result.improvedVersion && (
               <div className="border border-green-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
                 <h3 className="mb-4 flex items-center gap-2 font-mono text-lg font-bold text-white">
@@ -628,9 +628,9 @@ export default function StrategicEssayInput() {
       </AnimatePresence>
       </div>
 
-      {/}
+      
       <div className="col-span-3 flex flex-col gap-4">
-        {/}
+        
         <div className="border border-cyan-900/50 bg-black/40 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
           <div className="mb-3 flex items-center gap-2">
             <div className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
@@ -661,14 +661,14 @@ export default function StrategicEssayInput() {
           </div>
         </div>
 
-        {/}
+        
         <div className="border border-cyan-900/50 bg-black/40 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
           <div className="mb-3 flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-yellow-400" />
             <h3 className="font-mono text-xs font-bold text-yellow-400">指令参数分析</h3>
           </div>
           <div className="space-y-3 text-xs">
-            {/}
+            
             <div>
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-500">题目</span>
@@ -684,7 +684,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/}
+            
             <div>
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-500">内容</span>
@@ -700,7 +700,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/}
+            
             <div>
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-500">分级</span>
@@ -711,7 +711,7 @@ export default function StrategicEssayInput() {
               </div>
             </div>
 
-            {/}
+            
             <div className="border-t border-cyan-900/50 pt-2">
               <div className="mb-1 flex justify-between font-mono">
                 <span className="text-slate-400">综合完整度</span>
@@ -721,7 +721,7 @@ export default function StrategicEssayInput() {
           </div>
         </div>
 
-        {/}
+        
         <div className="border border-cyan-900/50 bg-black/40 p-4 backdrop-blur-md" style={{ borderRadius: 0 }}>
           <div className="mb-3 flex items-center gap-2">
             <div className={`h-2 w-2 rounded-full ${isReady ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />

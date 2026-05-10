@@ -217,7 +217,13 @@ export default function AlgorithmWorkspace() {
       setTooltipCode(data.codeDemo)
     } catch {
       setTooltipExplanation('该术语通常指算法题中的关键逻辑节点，需要结合上下文理解其在状态转移或数据结构维护中的具体作用。')
-      setTooltipCode(`int demo_${term.replace(/\s+/g, '_').toLowerCase()}(void) {\n  /\n  return 0;\n}`)
+      const sanitizedTerm = term
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/gi, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '')
+      const identifier = /^\d/.test(sanitizedTerm) ? `_${sanitizedTerm}` : sanitizedTerm
+      setTooltipCode(`int demo_${identifier}(void) {\n  // demo\n  return 0;\n}`)
     } finally {
       setTooltipLoading(false)
     }

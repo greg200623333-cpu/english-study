@@ -27,16 +27,16 @@ export function NoticeModal() {
             transition={{ duration: 0.35, ease: [0.2, 1, 0.32, 1] }}
             className="relative w-full max-w-2xl rounded-[2rem] border border-indigo-500/30 bg-slate-900 shadow-[0_0_80px_rgba(99,102,241,0.18),0_0_0_1px_rgba(99,102,241,0.12)]"
           >
-            {/}
+            
             <div className="pointer-events-none absolute inset-x-0 top-0 h-32 rounded-t-[2rem] bg-[linear-gradient(to_bottom,rgba(99,102,241,0.18),transparent)]" />
 
-            {/}
+            
             <div className="relative border-b border-indigo-500/20 px-8 py-6">
               <div className="text-[10px] uppercase tracking-[0.4em] text-indigo-400/80">System Broadcast</div>
               <h2 className="mt-2 text-xl font-black text-slate-50">📡 最高指挥部：系统架构升级简报</h2>
             </div>
 
-            {/}
+            
             <div className="max-h-[60vh] overflow-y-auto px-8 py-6 text-sm leading-7 text-slate-300" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(99,102,241,0.4) transparent' }}>
               <div className="space-y-5">
                 <div className="rounded-[1.25rem] border border-indigo-500/20 bg-indigo-500/10 p-5">
@@ -73,7 +73,7 @@ export function NoticeModal() {
               </div>
             </div>
 
-            {/}
+            
             <div className="border-t border-indigo-500/20 px-8 py-5">
               <button
                 onClick={closeNotice}

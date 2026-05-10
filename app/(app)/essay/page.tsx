@@ -161,7 +161,7 @@ export default function EssayPage() {
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0b0f' }}>
-      {/}
+      
       <div className="glass mb-6 border-b border-cyan-500/20 p-4 md:p-6">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded border border-cyan-500/30 bg-cyan-500/10">
@@ -173,7 +173,7 @@ export default function EssayPage() {
           </div>
         </div>
 
-        {/}
+        
         <div className="mt-6 flex gap-2">
           <button
             onClick={() => setActiveTab('write')}
@@ -205,7 +205,7 @@ export default function EssayPage() {
         </div>
       </div>
 
-      {/}
+      
       {activeTab === 'write' && (
         <div className="space-y-4">
           {generatingTopic && (
@@ -217,11 +217,11 @@ export default function EssayPage() {
               <div className="mt-2 text-xs text-slate-500">GENERATING ESSAY TOPIC...</div>
             </div>
           )}
-          {/}
+          
           <StrategicEssayInput />
         </div>
       )}
-      {/}
+      
       {activeTab === 'history' && !selected && (
         <div className="space-y-3">
           {essays.length === 0 && (
@@ -260,7 +260,7 @@ export default function EssayPage() {
         </div>
       )}
 
-      {/}
+      
       {activeTab === 'history' && selected && (
         <div>
           <button
@@ -300,10 +300,10 @@ export default function EssayPage() {
         </div>
       )}
 
-      {/}
+      
       {activeTab === 'exercises' && (
         <div className="space-y-6">
-          {/}
+          
           {decryptingPrompt && (
             <div className="border border-cyan-500/30 bg-slate-950/80 p-8 text-center backdrop-blur-md" style={{ borderRadius: 0 }}>
               <div className="mb-4 text-cyan-400">
@@ -316,7 +316,7 @@ export default function EssayPage() {
 
           {!decryptingPrompt && (
             <>
-              {/}
+              
               <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
                 <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
                   <Activity className="h-5 w-5 text-cyan-400" />
@@ -324,7 +324,7 @@ export default function EssayPage() {
                 </h2>
 
                 <div className="grid gap-4 md:grid-cols-3">
-                  {/}
+                  
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-300">年份 (Year)</label>
                     <select
@@ -344,7 +344,7 @@ export default function EssayPage() {
                     </select>
                   </div>
 
-                  {/}
+                  
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-300">季度 (Season)</label>
                     <select
@@ -364,7 +364,7 @@ export default function EssayPage() {
                     </select>
                   </div>
 
-                  {/}
+                  
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-300">套卷 (Set)</label>
                     <select
@@ -383,7 +383,7 @@ export default function EssayPage() {
                 </div>
               </div>
 
-              {/}
+              
               <div className="grid gap-4 md:grid-cols-2">
                 {filteredPrompts.map(prompt => (
                   <div
@@ -423,7 +423,7 @@ export default function EssayPage() {
                 </div>
               )}
 
-              {/}
+              
               {selectedPrompt && showModelEssay && (
                 <div className="border border-cyan-500/30 bg-slate-950/80 p-6 backdrop-blur-md" style={{ borderRadius: 0 }}>
                   <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">

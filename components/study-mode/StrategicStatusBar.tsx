@@ -100,7 +100,6 @@ export function StrategicStatusBar({ words, currentWordId, healFlash = false }: 
       className={`border border-cyan-500/20 bg-slate-950/80 backdrop-blur-md transition-all duration-300 ${healFlash ? 'shadow-[0_0_32px_rgba(16,185,129,0.6)] border-emerald-400/40' : ''}`}
       style={{ borderRadius: 0 }}
     >
-      {/}
       <div className="flex items-center justify-between border-b border-cyan-500/15 px-4 py-2">
         <div className="flex items-center gap-2">
           <div className="text-[10px] uppercase tracking-[0.35em] text-cyan-300/60">Asset Structure</div>
@@ -125,7 +124,6 @@ export function StrategicStatusBar({ words, currentWordId, healFlash = false }: 
         </div>
       </div>
 
-      {/}
       <div className="flex h-3 w-full overflow-hidden">
         {total === 0
           ? <div className="h-full w-full bg-slate-900" />
@@ -142,7 +140,6 @@ export function StrategicStatusBar({ words, currentWordId, healFlash = false }: 
             })}
       </div>
 
-      {/}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2">
         {buckets.map((bucket) => {
           const pct = total > 0 ? ((bucket.count / total) * 100).toFixed(1) : '0.0'
@@ -164,7 +161,6 @@ export function StrategicStatusBar({ words, currentWordId, healFlash = false }: 
           )
         })}
 
-        {/}
         {currentWordId && (
           <div className="ml-auto flex items-center gap-1.5 text-xs text-cyan-400/70">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400" />

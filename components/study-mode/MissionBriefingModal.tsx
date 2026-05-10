@@ -222,13 +222,13 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
               maxHeight: '92dvh',
             }}
           >
-            {/}
+            
             <div
               className="pointer-events-none absolute inset-x-0 top-0 h-32 rounded-t-[2rem]"
               style={{ background: `linear-gradient(to bottom, ${accentColor}18, transparent)` }}
             />
 
-            {/}
+            
             <div className="relative shrink-0 border-b border-white/8 px-5 py-4 md:px-7 md:py-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -250,14 +250,14 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
               </div>
             </div>
 
-            {/}
+            
             <div
               className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-7 md:py-6"
               style={{ scrollbarWidth: 'thin', scrollbarColor: `${accentColor}40 transparent` }}
             >
               <div className="space-y-6">
 
-                {/}
+                
                 <div className="space-y-3">
                   <SectionLabel dim="DIM-A" label="推演模式 Simulation Protocol" />
                   <ModeToggle isAi={isAiMode} accentColor={accentColor} onChange={(v) => { setIsAiMode(v); setSelectedYear(null) }} />
@@ -285,7 +285,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
                   </AnimatePresence>
                 </div>
 
-                {/}
+                
                 <AnimatePresence>
                   {!isAiMode && (
                     <motion.div key="archive" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
@@ -307,7 +307,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
                   )}
                 </AnimatePresence>
 
-                {/}
+                
                 <AnimatePresence>
                   {isAiMode && (
                     <motion.div key="difficulty" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
@@ -336,7 +336,7 @@ export function MissionBriefingModal({ open, subjectId, subjectTitle, category, 
               </div>
             </div>
 
-            {/}
+            
             <div className="relative shrink-0 border-t border-white/8 px-5 py-4 md:px-7 md:py-5">
               <div className="flex items-center justify-between gap-4">
                 <div className="text-xs text-slate-500">

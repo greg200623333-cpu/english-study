@@ -57,7 +57,7 @@ export default function ArchitectureWorkspace({ onBack }: Props) {
 
   return (
     <div className="flex w-full h-screen" style={{ background: '#0d0e1a' }}>
-      {/}
+      
       <motion.aside
         className="flex-shrink-0 flex flex-col p-6 overflow-y-auto"
         style={{ width: 360, borderRight: '1px solid rgba(255,255,255,0.1)', background: '#0a0b14' }}
@@ -117,7 +117,7 @@ export default function ArchitectureWorkspace({ onBack }: Props) {
         </div>
       </motion.aside>
 
-      {/}
+      
       <motion.main
         className="flex-1 flex flex-col items-center justify-center p-8"
         initial={{ opacity: 0 }}
